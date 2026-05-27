@@ -4,18 +4,12 @@ package schema
 
 import (
 	"database/sql/driver"
-	"encoding/json"
-	"fmt"
-	"hash/fnv"
-	"sort"
-	"strings"
 	"sync"
 	"time"
 
 	u "github.com/araddon/gou"
 	"github.com/golang/protobuf/proto"
 
-	"github.com/araddon/qlbridge/expr"
 	"github.com/araddon/qlbridge/value"
 )
 
@@ -164,555 +158,241 @@ type (
 )
 
 // NewSchema create a new empty schema with given name.
-func NewSchema(schemaName string) *Schema {
-	return NewSchemaSource(schemaName, nil)
-}
+func NewSchema(schemaName string) *Schema { _ = "STUB: not implemented"; return nil }
 
 // NewInfoSchema create a new empty schema with given name.
-func NewInfoSchema(schemaName string, s *Schema) *Schema {
-	is := NewSchemaSource(schemaName, nil)
-	is.InfoSchema = is
-	is.SchemaRef = s
-	return is
-}
+func NewInfoSchema(schemaName string, s *Schema) *Schema { _ = "STUB: not implemented"; return nil }
 
 // NewSchemaSource create a new empty schema with given name and source.
-func NewSchemaSource(schemaName string, ds Source) *Schema {
-	m := &Schema{
-		Name:         strings.ToLower(schemaName),
-		schemas:      make(map[string]*Schema),
-		tableMap:     make(map[string]*Table),
-		tableSchemas: make(map[string]*Schema),
-		tableNames:   make([]string, 0),
-		DS:           ds,
-	}
-	return m
-}
+func NewSchemaSource(schemaName string, ds Source) *Schema { _ = "STUB: not implemented"; return nil }
 
 // Since Is this schema object been refreshed within time window described by @dur time ago ?
-func (m *Schema) Since(dur time.Duration) bool {
-	if m.lastRefreshed.IsZero() {
-		return false
-	}
-	if m.lastRefreshed.After(time.Now().Add(dur)) {
-		return true
-	}
-	return false
-}
+func (m *Schema) Since(dur time.Duration) bool { _ = "STUB: not implemented"; return false }
 
 // Current Is this schema up to date?
-func (m *Schema) Current() bool { return m.Since(SchemaRefreshInterval) }
+func (m *Schema) Current() bool { _ = "STUB: not implemented"; return false }
 
 // Tables gets list of all tables for this schema.
-func (m *Schema) Tables() []string { return m.tableNames }
+func (m *Schema) Tables() []string {
+	_ = "STUB: not implemented"
 
-// Table gets Table definition for given table name
-func (m *Schema) Table(tableIn string) (*Table, error) {
-
-	tableName := strings.ToLower(tableIn)
-
-	m.mu.RLock()
-	defer m.mu.RUnlock()
-
-	// u.Debugf("%p looking up %q", m, tableName)
-
-	tbl, ok := m.tableMap[tableName]
-	if ok && tbl != nil {
-		return tbl, nil
-	}
-
-	// Lets see if it is   `schema`.`table` format
-	_, tableName, ok = expr.LeftRight(tableName)
-	if ok {
-		tbl, ok = m.tableMap[tableName]
-		if ok && tbl != nil {
-			return tbl, nil
-		}
-	}
-
-	if m.SchemaRef != nil {
-		return m.SchemaRef.Table(tableIn)
-	}
-	return nil, fmt.Errorf("Could not find that table: %v", tableIn)
+	// Table gets Table definition for given table name
+	return nil
 }
+
+func (m *Schema) Table(tableIn string) (*Table, error) { _ = "STUB: not implemented"; return nil, nil }
+
+// u.Debugf("%p looking up %q", m, tableName)
+
+// Lets see if it is   `schema`.`table` format
 
 // OpenConn get a connection from this schema by table name.
 func (m *Schema) OpenConn(tableName string) (Conn, error) {
-	tableName = strings.ToLower(tableName)
-	m.mu.RLock()
-	defer m.mu.RUnlock()
-	sch, ok := m.tableSchemas[tableName]
-	if !ok || sch == nil || sch.DS == nil {
-		return nil, fmt.Errorf("Could not find a DataSource for that table %q", tableName)
-	}
-
-	conn, err := sch.DS.Open(tableName)
-	if err != nil {
-		return nil, err
-	}
-	if conn == nil {
-		return nil, fmt.Errorf("Could not establish a connection for %v", tableName)
-	}
-	return conn, nil
+	_ = "STUB: not implemented"
+	return *new(Conn), nil
 }
 
 // Schema Find a child Schema for given schema name,
 func (m *Schema) Schema(schemaName string) (*Schema, error) {
+	_ = "STUB: not implemented"
 	// We always lower-case schema names
-	schemaName = strings.ToLower(schemaName)
-	m.mu.RLock()
-	defer m.mu.RUnlock()
-	child, ok := m.schemas[schemaName]
-	if ok && child != nil && child.DS != nil {
-		return child, nil
-	}
-	return nil, fmt.Errorf("Could not find a Schema by that name %q", schemaName)
+	return nil, nil
 }
 
 // SchemaForTable Find a Schema for given Table
 func (m *Schema) SchemaForTable(tableName string) (*Schema, error) {
+	_ = "STUB: not implemented"
 
 	// We always lower-case table names
-	tableName = strings.ToLower(tableName)
-
-	if m.Name == "schema" {
-		return m, nil
-	}
-
-	m.mu.RLock()
-	ss, ok := m.tableSchemas[tableName]
-	m.mu.RUnlock()
-	if ok && ss != nil && ss.DS != nil {
-		return ss, nil
-	}
-
-	u.Warnf("%p schema.SchemaForTable: no source!!!! schema=%q table=%q", m, m.Name, tableName)
-
-	return nil, ErrNotFound
+	return nil, nil
 }
 
 // addChildSchema add a child schema to this one.  Schemas can be tree-in-nature
 // with schema of multiple backend datasources being combined into parent Schema, but each
 // child has their own unique defined schema.
-func (m *Schema) addChildSchema(child *Schema) {
-	m.mu.Lock()
-	defer m.mu.Unlock()
-	m.schemas[child.Name] = child
-	child.parent = m
-	child.mu.RLock()
-	defer child.mu.RUnlock()
-	for tableName, tbl := range child.tableMap {
-		m.tableSchemas[tableName] = child
-		m.tableMap[tableName] = tbl
-	}
-}
+func (m *Schema) addChildSchema(child *Schema) { _ = "STUB: not implemented"; return }
 
 /*
 // AddSchemaForTable add table.
-func (m *Schema) addSchemaForTable(tableName string, ss *Schema) {
-	m.mu.Lock()
-	defer m.mu.Unlock()
-	m.addschemaForTableUnlocked(tableName, ss)
-}
+
+	func (m *Schema) addSchemaForTable(tableName string, ss *Schema) {
+		m.mu.Lock()
+		defer m.mu.Unlock()
+		m.addschemaForTableUnlocked(tableName, ss)
+	}
 */
-func (m *Schema) refreshSchemaUnlocked() {
+func (m *Schema) refreshSchemaUnlocked() { _ = "STUB: not implemented"; return }
 
-	m.lastRefreshed = time.Now()
+//u.Debugf("%p:%s  DS T:%T table name %s", m, m.Name, m.DS, tableName)
 
-	if m.DS != nil {
-		for _, tableName := range m.DS.Tables() {
-			//u.Debugf("%p:%s  DS T:%T table name %s", m, m.Name, m.DS, tableName)
-			m.addschemaForTableUnlocked(tableName, m)
-		}
-	}
+//u.Infof("schema  %p:%s", ss, ss.Name)
 
-	for _, ss := range m.schemas {
-		//u.Infof("schema  %p:%s", ss, ss.Name)
-		ss.refreshSchemaUnlocked()
-		for _, tableName := range ss.Tables() {
-			//tbl := ss.tableMap[tableName]
-			//u.Debugf("s:%p ss:%p add table name %s  tbl:%#v", m, ss, tableName, tbl)
-			m.addschemaForTableUnlocked(tableName, ss)
-		}
-	}
-}
+//tbl := ss.tableMap[tableName]
+//u.Debugf("s:%p ss:%p add table name %s  tbl:%#v", m, ss, tableName, tbl)
 
 func (m *Schema) dropTable(tbl *Table) error {
+	_ = "STUB: not implemented"
 
 	// u.Warnf("%p drop %s %v", m, m.Name, m.Tables())
-	//u.Infof("infoschema %#v", m.InfoSchema)
-
-	tl := make([]string, 0, len(m.tableNames))
-	for _, tn := range m.tableNames {
-		if tbl.Name != tn {
-			tl = append(tl, tn)
-		}
-	}
-
-	ts := m.tableSchemas[tbl.Name]
-	if ts != nil {
-		if as, ok := ts.DS.(Alter); ok {
-			if err := as.DropTable(tbl.Name); err != nil {
-				u.Errorf("could not drop table %v err=%v", tbl.Name, err)
-				return err
-			}
-		}
-	}
-
-	delete(m.tableMap, tbl.Name)
-	delete(m.tableSchemas, tbl.Name)
-	m.tableNames = tl
-
-	if salter, ok := m.InfoSchema.DS.(Alter); ok {
-		err := salter.DropTable(tbl.Name)
-		if err != nil {
-			u.Warnf("err %v", err)
-			return err
-		}
-	}
-
+	// u.Infof("infoschema %#v", m.InfoSchema)
 	return nil
 }
 
 func (m *Schema) addTable(tbl *Table) error {
+	_ = "STUB: not implemented"
 
 	// u.Debugf("schema:%p AddTable %#v", m, tbl)
-
-	// create consistent-hash-id of this table name, and or table+schema
-	hash := fnv.New64()
-	hash.Write([]byte(tbl.Name))
-	tbl.tblID = hash.Sum64()
-
-	// Assign partitions
-	if m.Conf != nil && m.Conf.PartitionCt > 0 {
-		tbl.PartitionCt = uint32(m.Conf.PartitionCt)
-	} else if m.Conf != nil {
-		for _, pt := range m.Conf.Partitions {
-			if tbl.Name == pt.Table && tbl.Partition == nil {
-				tbl.Partition = pt
-			}
-		}
-	}
-
-	//u.Infof("add table: %v partitionct:%v conf:%+v", tbl.Name, tbl.PartitionCt, m.Conf)
-	tbl.init(m)
-
-	m.tableMap[tbl.Name] = tbl
-
-	m.addschemaForTableUnlocked(tbl.Name, tbl.Schema)
 	return nil
 }
+
+// create consistent-hash-id of this table name, and or table+schema
+
+// Assign partitions
+
+//u.Infof("add table: %v partitionct:%v conf:%+v", tbl.Name, tbl.PartitionCt, m.Conf)
 
 func (m *Schema) addschemaForTableUnlocked(tableName string, ss *Schema) {
-	found := false
-	for _, curTableName := range m.tableNames {
-		if tableName == curTableName {
-			found = true
-		}
-	}
-	if !found {
-		// u.Debugf("%p:%s Schema addschemaForTableUnlocked %q  ", m, m.Name, tableName)
-		m.tableNames = append(m.tableNames, tableName)
-		sort.Strings(m.tableNames)
-		tbl := ss.tableMap[tableName]
-		if tbl == nil {
-			if err := m.loadTable(tableName); err != nil {
-				switch tableName {
-				case "columns":
-					// ignoreable errors
-				default:
-					u.Debugf("could not load table %v", err)
-				}
-				return
-			} else {
-				tbl = ss.tableMap[tableName]
-			}
-		}
-		if _, ok := m.tableMap[tableName]; !ok {
-			m.tableSchemas[tableName] = ss
-			m.tableMap[tableName] = tbl
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
+// u.Debugf("%p:%s Schema addschemaForTableUnlocked %q  ", m, m.Name, tableName)
+
+// ignoreable errors
+
 func (m *Schema) loadTable(tableName string) error {
+	_ = "STUB: not implemented"
 
 	// u.Infof("%p schema.%v loadTable(%q)", m, m.Name, tableName)
-
-	if m.DS == nil {
-		return nil
-	}
-
-	tbl, err := m.DS.Table(tableName)
-	if err != nil {
-		if tableName == "tables" {
-			return err
-		}
-		return err
-	}
-	if tbl == nil {
-		return ErrNotFound
-	}
-	tbl.Schema = m
-
-	// Add partitions
-	if m.Conf != nil {
-		for _, tp := range m.Conf.Partitions {
-			if tp.Table == tableName {
-				tbl.Partition = tp
-			}
-		}
-	}
-
-	m.tableMap[tbl.Name] = tbl
-	m.tableSchemas[tbl.Name] = m
 	return nil
 }
 
+// Add partitions
+
 // NewTable create a new table for a schema.
-func NewTable(table string) *Table {
-	tpb := TablePb{
-		Name:         strings.ToLower(table),
-		NameOriginal: table,
-	}
-	t := &Table{
-		TablePb:  tpb,
-		Fields:   make([]*Field, 0),
-		FieldMap: make(map[string]*Field),
-	}
-	t.init(nil)
-	return t
-}
+func NewTable(table string) *Table { _ = "STUB: not implemented"; return nil }
+
 func (m *Table) init(s *Schema) {
 	m.Schema = s
 }
 
 // HasField does this table have given field/column?
-func (m *Table) HasField(name string) bool {
-	if _, ok := m.FieldMap[name]; ok {
-		return true
-	}
-	return false
-}
+func (m *Table) HasField(name string) bool { _ = "STUB: not implemented"; return false }
 
 // FieldsAsMessages get list of all fields as interface Message
 // used in schema as sql "describe table"
-func (m *Table) FieldsAsMessages() []Message {
-	msgs := make([]Message, len(m.Fields))
-	for i, f := range m.Fields {
-		msgs[i] = f
-	}
-	return msgs
-}
+func (m *Table) FieldsAsMessages() []Message { _ = "STUB: not implemented"; return nil }
 
 // Id satisifieds Message Interface
-func (m *Table) Id() uint64 { return m.tblID }
+func (m *Table) Id() uint64 {
+	_ = "STUB: not implemented"
 
-// Body satisifies Message Interface
-func (m *Table) Body() interface{} { return m }
-
-// AddField register a new field
-func (m *Table) AddField(fld *Field) {
-	found := false
-	for i, curFld := range m.Fields {
-		if curFld.Name == fld.Name {
-			found = true
-			m.Fields[i] = fld
-			break
-		}
-	}
-	if !found {
-		fld.idx = uint64(len(m.Fields))
-		m.Fields = append(m.Fields, fld)
-	}
-	m.FieldMap[fld.Name] = fld
+	// Body satisifies Message Interface
+	return 0
 }
+
+func (m *Table) Body() interface{} {
+	_ = "STUB: not implemented"
+
+	// AddField register a new field
+	return nil
+}
+
+func (m *Table) AddField(fld *Field) { _ = "STUB: not implemented"; return }
 
 // AddFieldType describe and register a new column
 func (m *Table) AddFieldType(name string, valType value.ValueType) {
-	m.AddField(&Field{FieldPb: FieldPb{Type: uint32(valType), Name: name}})
+	_ = "STUB: not implemented"
+	return
 }
 
 // Column get the Underlying data type.
 func (m *Table) Column(col string) (value.ValueType, bool) {
-	f, ok := m.FieldMap[col]
-	if ok {
-		return f.ValueType(), true
-	}
-	f, ok = m.FieldMap[strings.ToLower(col)]
-	if ok {
-		return f.ValueType(), true
-	}
-	return value.UnknownType, false
+	_ = "STUB: not implemented"
+	return *new(value.ValueType), false
 }
 
 // SetColumns Explicityly set column names.
-func (m *Table) SetColumns(cols []string) {
-	m.FieldPositions = make(map[string]int, len(cols))
-	for idx, col := range cols {
-		//col = strings.ToLower(col)
-		m.FieldPositions[col] = idx
-		cols[idx] = col
-	}
-	m.cols = cols
-}
+func (m *Table) SetColumns(cols []string) { _ = "STUB: not implemented"; return }
+
+//col = strings.ToLower(col)
 
 // SetColumnsFromFields Explicityly set column names from fields.
-func (m *Table) SetColumnsFromFields() {
-	m.FieldPositions = make(map[string]int, len(m.Fields))
-	cols := make([]string, len(m.Fields))
-	for idx, f := range m.Fields {
-		col := strings.ToLower(f.Name)
-		m.FieldPositions[col] = idx
-		cols[idx] = col
-	}
-	m.cols = cols
-}
+func (m *Table) SetColumnsFromFields() { _ = "STUB: not implemented"; return }
 
 // Columns list of all column names.
-func (m *Table) Columns() []string { return m.cols }
+func (m *Table) Columns() []string {
+	_ = "STUB: not implemented"
 
-// AsRows return all fields suiteable as list of values for Describe/Show statements.
-func (m *Table) AsRows() [][]driver.Value {
-	if len(m.rows) > 0 {
-		return m.rows
-	}
-	m.rows = make([][]driver.Value, len(m.Fields))
-	for i, f := range m.Fields {
-		m.rows[i] = f.AsRow()
-	}
-	return m.rows
+	// AsRows return all fields suiteable as list of values for Describe/Show statements.
+	return nil
 }
+
+func (m *Table) AsRows() [][]driver.Value { _ = "STUB: not implemented"; return nil }
 
 // SetRows set rows aka values for this table.  Used for schema/testing.
 func (m *Table) SetRows(rows [][]driver.Value) {
-	m.rows = rows
+	_ = "STUB: not implemented"
+
+	// FieldNamesPositions List of Field Names and ordinal position in Column list
+	return
 }
 
-// FieldNamesPositions List of Field Names and ordinal position in Column list
-func (m *Table) FieldNamesPositions() map[string]int { return m.FieldPositions }
+func (m *Table) FieldNamesPositions() map[string]int { _ = "STUB: not implemented"; return nil }
 
 // Current Is this schema object current?  ie, have we refreshed it from
 // source since refresh interval.
-func (m *Table) Current() bool { return m.Since(SchemaRefreshInterval) }
+func (m *Table) Current() bool { _ = "STUB: not implemented"; return false }
 
 // SetRefreshed update the refreshed date to now.
-func (m *Table) SetRefreshed() { m.lastRefreshed = time.Now() }
+func (m *Table) SetRefreshed() { _ = "STUB: not implemented"; return }
 
 // Since Is this schema object within time window described by @dur time ago ?
-func (m *Table) Since(dur time.Duration) bool {
-	if m.lastRefreshed.IsZero() {
-		return false
-	}
-	if m.lastRefreshed.After(time.Now().Add(dur)) {
-		return true
-	}
-	return false
-}
+func (m *Table) Since(dur time.Duration) bool { _ = "STUB: not implemented"; return false }
 
 // AddContext add key/value pairs to context (settings, metatadata).
-func (m *Table) AddContext(key string, value interface{}) {
-	if len(m.Context) == 0 {
-		m.Context = make(map[string]interface{})
-	}
-	m.Context[key] = value
-}
+func (m *Table) AddContext(key string, value interface{}) { _ = "STUB: not implemented"; return }
 
-func (m *Table) Marshal() ([]byte, error) {
-	return proto.Marshal(&m.TablePb)
-}
+func (m *Table) Marshal() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
 
 func NewFieldBase(name string, valType value.ValueType, size int, desc string) *Field {
-	f := FieldPb{
-		Name:        name,
-		Description: desc,
-		Length:      uint32(size),
-		Type:        uint32(valType),
-		NativeType:  uint32(valType), // You need to over-ride this to change it
-	}
-	return &Field{FieldPb: f}
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// You need to over-ride this to change it
+
 func NewField(name string, valType value.ValueType, size int, allowNulls bool, defaultVal driver.Value, key, collation, description string) *Field {
-	jb, _ := json.Marshal(defaultVal)
-	f := FieldPb{
-		Name:        name,
-		Extra:       description,
-		Description: description,
-		Collation:   collation,
-		Length:      uint32(size),
-		Type:        uint32(valType),
-		NativeType:  uint32(valType),
-		NoNulls:     !allowNulls,
-		DefVal:      jb,
-		Key:         key,
-	}
-	return &Field{
-		FieldPb: f,
-	}
-}
-func (m *Field) ValueType() value.ValueType { return value.ValueType(m.Type) }
-func (m *Field) Id() uint64                 { return m.idx }
-func (m *Field) Body() interface{}          { return m }
-func (m *Field) AsRow() []driver.Value {
-	if len(m.row) > 0 {
-		return m.row
-	}
-	m.row = make([]driver.Value, len(DescribeFullCols))
-	// []string{"Field", "Type", "Collation", "Null", "Key", "Default", "Extra", "Privileges", "Comment"}
-	m.row[0] = m.Name
-	m.row[1] = value.ValueType(m.Type).String() // should we send this through a dialect-writer?  bc dialect specific?
-	m.row[2] = m.Collation
-	m.row[3] = ""
-	m.row[4] = ""
-	m.row[5] = ""
-	m.row[6] = m.Extra
-	m.row[7] = ""
-	m.row[8] = m.Description // should we put native type in here?
-	return m.row
-}
-func (m *Field) AddContext(key string, value interface{}) {
-	if len(m.Context) == 0 {
-		m.Context = make(map[string]interface{})
-	}
-	m.Context[key] = value
-}
-func (m *Field) String() string {
-	return fmt.Sprintf("%s type=%s", m.Name, value.ValueType(m.Type).String())
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func NewDescribeFullHeaders() []*Field {
-	fields := make([]*Field, 9)
-	//[]string{"Field", "Type", "Collation", "Null", "Key", "Default", "Extra", "Privileges", "Comment"}
-	fields[0] = NewFieldBase("Field", value.StringType, 255, "COLUMN_NAME")
-	fields[1] = NewFieldBase("Type", value.StringType, 32, "COLUMN_TYPE")
-	fields[2] = NewFieldBase("Collation", value.StringType, 32, "COLUMN_COLLATION")
-	fields[3] = NewFieldBase("Null", value.StringType, 4, "IS_NULLABLE")
-	fields[4] = NewFieldBase("Key", value.StringType, 64, "COLUMN_KEY")
-	fields[5] = NewFieldBase("Default", value.StringType, 32, "COLUMN_DEFAULT")
-	fields[6] = NewFieldBase("Extra", value.StringType, 255, "")
-	fields[7] = NewFieldBase("Privileges", value.StringType, 255, "")
-	fields[8] = NewFieldBase("Comment", value.StringType, 255, "")
-	return fields
+func (m *Field) ValueType() value.ValueType {
+	_ = "STUB: not implemented"
+	return *new(value.ValueType)
 }
-func NewDescribeHeaders() []*Field {
-	fields := make([]*Field, 6)
-	//[]string{"Field", "Type",  "Null", "Key", "Default", "Extra"}
-	fields[0] = NewFieldBase("Field", value.StringType, 255, "COLUMN_NAME")
-	fields[1] = NewFieldBase("Type", value.StringType, 32, "COLUMN_TYPE")
-	fields[2] = NewFieldBase("Null", value.StringType, 4, "IS_NULLABLE")
-	fields[3] = NewFieldBase("Key", value.StringType, 64, "COLUMN_KEY")
-	fields[4] = NewFieldBase("Default", value.StringType, 32, "COLUMN_DEFAULT")
-	fields[5] = NewFieldBase("Extra", value.StringType, 255, "")
-	return fields
-}
+func (m *Field) Id() uint64            { _ = "STUB: not implemented"; return 0 }
+func (m *Field) Body() interface{}     { _ = "STUB: not implemented"; return nil }
+func (m *Field) AsRow() []driver.Value { _ = "STUB: not implemented"; return nil }
 
-func NewSourceConfig(name, sourceType string) *ConfigSource {
-	return &ConfigSource{
-		Name:       name,
-		SourceType: sourceType,
-	}
-}
+// []string{"Field", "Type", "Collation", "Null", "Key", "Default", "Extra", "Privileges", "Comment"}
 
-func (m *ConfigSource) String() string {
-	return fmt.Sprintf(`<sourceconfig name=%q type=%q settings=%v/>`, m.Name, m.SourceType, m.Settings)
-}
+// should we send this through a dialect-writer?  bc dialect specific?
+
+// should we put native type in here?
+
+func (m *Field) AddContext(key string, value interface{}) { _ = "STUB: not implemented"; return }
+
+func (m *Field) String() string { _ = "STUB: not implemented"; return "" }
+
+func NewDescribeFullHeaders() []*Field { _ = "STUB: not implemented"; return nil }
+
+//[]string{"Field", "Type", "Collation", "Null", "Key", "Default", "Extra", "Privileges", "Comment"}
+
+func NewDescribeHeaders() []*Field { _ = "STUB: not implemented"; return nil }
+
+//[]string{"Field", "Type",  "Null", "Key", "Default", "Extra"}
+
+func NewSourceConfig(name, sourceType string) *ConfigSource { _ = "STUB: not implemented"; return nil }
+
+func (m *ConfigSource) String() string { _ = "STUB: not implemented"; return "" }

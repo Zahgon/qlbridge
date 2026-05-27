@@ -5,17 +5,11 @@ package files
 
 import (
 	"fmt"
-	"path"
-	"strings"
 	"time"
 
 	u "github.com/araddon/gou"
-	"github.com/dchest/siphash"
 	"github.com/lytics/cloudstorage"
-	"golang.org/x/net/context"
-	"google.golang.org/api/iterator"
 
-	"github.com/araddon/qlbridge/datasource"
 	"github.com/araddon/qlbridge/schema"
 )
 
@@ -45,21 +39,17 @@ type FileReaderIterator interface {
 
 type Partitioner func(uint64, *FileInfo) int
 
-func SipPartitioner(partitionCt uint64, fi *FileInfo) int {
-	hashU64 := siphash.Hash(0, 1, []byte(fi.Name))
-	return int(hashU64 % partitionCt)
-}
+func SipPartitioner(partitionCt uint64, fi *FileInfo) int { _ = "STUB: not implemented"; return 0 }
 
 // FileSource Source for reading files, and scanning them allowing
 // the contents to be treated as a database, like doing a full
 // table scan in mysql.  But, you can partition across files.
 //
-// - readers:      gcs, local-fs
-// - tablesource:  translate lists of files into tables.  Normally we would have
-//                 multiple files per table (ie partitioned, per-day, etc)
-// - scanners:     responsible for file-specific
-// - files table:  a "table" of all the files from this cloud source
-//
+//   - readers:      gcs, local-fs
+//   - tablesource:  translate lists of files into tables.  Normally we would have
+//     multiple files per table (ie partitioned, per-day, etc)
+//   - scanners:     responsible for file-specific
+//   - files table:  a "table" of all the files from this cloud source
 type FileSource struct {
 	ss             *schema.Schema
 	lastLoad       time.Time
@@ -83,52 +73,33 @@ type FileSource struct {
 // NewFileSource provides a singleton manager for a particular
 // Source Schema, and File-Handler to read/manage all files from
 // a source such as gcs folder x, s3 folder y
-func NewFileSource() *FileSource {
-	m := FileSource{
-		tableSchemas:  make(map[string]*schema.Table),
-		tables:        make(map[string]*FileTable),
-		tablenames:    make([]string, 0),
-		partitionFunc: SipPartitioner,
-	}
-	return &m
+func NewFileSource() *FileSource { _ = "STUB: not implemented"; return nil }
+
+func (m *FileSource) Init() {
+	_ = "STUB: not implemented"
+
+	// Setup the filesource with schema info
+	return
 }
 
-func (m *FileSource) Init() {}
-
-// Setup the filesource with schema info
-func (m *FileSource) Setup(ss *schema.Schema) error {
-	m.ss = ss
-	if err := m.init(); err != nil {
-		return err
-	}
-	if m.lastLoad.Before(time.Now().Add(-schemaRefreshInterval)) {
-		m.lastLoad = time.Now()
-	}
-	m.partitionCt = uint64(m.ss.Conf.PartitionCt)
-
-	m.partitionFunc = SipPartitioner
-	return nil
-}
+func (m *FileSource) Setup(ss *schema.Schema) error { _ = "STUB: not implemented"; return nil }
 
 // Open a connection to given table, partition of Source interface
 func (m *FileSource) Open(tableName string) (schema.Conn, error) {
+	_ = "STUB: not implemented"
 	//u.Debugf("Open(%q)", tableName)
-	if tableName == m.filesTable {
-		return m.fdb.Open(tableName)
-	}
-	pg, err := m.createPager(tableName, 0, 0)
-	if err != nil {
-		u.Errorf("could not get pager: %v", err)
-		return nil, err
-	}
-	return pg, nil
+	return *new(schema.Conn), nil
 }
 
 // Close this File Source manager
-func (m *FileSource) Close() error { return nil }
+func (m *FileSource) Close() error {
+	_ = "STUB: not implemented"
 
-// Tables for this file-source
-func (m *FileSource) Tables() []string { return m.tablenames }
+	// Tables for this file-source
+	return nil
+}
+
+func (m *FileSource) Tables() []string { _ = "STUB: not implemented"; return nil }
 func (m *FileSource) init() error {
 	if m.store == nil {
 
@@ -190,182 +161,60 @@ func (m *FileSource) init() error {
 	return nil
 }
 
-func (m *FileSource) File(o cloudstorage.Object) *FileInfo {
-	fi := m.fh.File(m.path, o)
-	if fi == nil {
-		// u.Debugf("ignoring file, path:%v  %q  is nil", m.path, o.Name())
-		return nil
-	}
-	if m.partitionCt > 0 {
-		fi.Partition = m.partitionFunc(m.partitionCt, fi)
-	}
-	//u.Debugf("File(%q)  path=%q", o.Name(), m.path)
-	return fi
-}
+func (m *FileSource) File(o cloudstorage.Object) *FileInfo { _ = "STUB: not implemented"; return nil }
+
+// u.Debugf("ignoring file, path:%v  %q  is nil", m.path, o.Name())
+
+//u.Debugf("File(%q)  path=%q", o.Name(), m.path)
 
 func (m *FileSource) findTables() error {
+	_ = "STUB: not implemented"
 
 	// FileHandlers may optionally provide their own
 	// list of files, as deciphering folder, file structure
 	// isn't always obvious
-	if th, ok := m.fh.(FileHandlerTables); ok {
-		tables := th.Tables()
-		for _, tbl := range tables {
-			m.tablenames = append(m.tablenames, tbl.Table)
-			m.tables[tbl.Table] = tbl
-		}
-		return nil
-	}
-
-	q := cloudstorage.Query{Delimiter: "/", Prefix: m.path}
-	q.Sorted()
-	folders, err := m.store.Folders(context.Background(), q)
-	if err != nil {
-		u.Errorf("could not read files %v", err)
-		return err
-	}
-	if len(folders) == 0 {
-		return m.findTablesFromFileNames()
-	}
-
-	// u.Debugf("from path=%q  folders: %v  err=%v", m.path, folders, err)
-	for _, table := range folders {
-		table = path.Base(table)
-		table = strings.ToLower(table)
-		m.tables[table] = &FileTable{Table: table, PartialPath: table}
-		m.tablenames = append(m.tablenames, table)
-	}
-
 	return nil
 }
 
-func (m *FileSource) findTablesFromFileNames() error {
+// u.Debugf("from path=%q  folders: %v  err=%v", m.path, folders, err)
 
-	q := cloudstorage.Query{Delimiter: "", Prefix: m.path}
-	q.Sorted()
-	ctx := context.Background()
-	iter, err := m.store.Objects(ctx, q)
-	if err != nil {
-		return err
-	}
+func (m *FileSource) findTablesFromFileNames() error { _ = "STUB: not implemented"; return nil }
 
-	u.Infof("findTablesFromFileNames  from path=%q", m.path)
+// If has been closed
 
-	tables := make(map[string]bool)
-
-	for {
-		select {
-		case <-ctx.Done():
-			// If has been closed
-			return ctx.Err()
-		default:
-			o, err := iter.Next()
-			if err == iterator.Done {
-				return nil
-			} else if err == context.Canceled || err == context.DeadlineExceeded {
-				return err
-			}
-
-			fi := m.fh.File(m.path, o)
-			if fi == nil || fi.Name == "" {
-				u.Warnf("no file?? %#v", o)
-				continue
-			}
-
-			// u.Debugf("File %s", fi)
-			if fi.Table != "" {
-				if _, exists := tables[fi.Table]; !exists {
-					tables[fi.Table] = true
-					u.Warnf("found new table path=%q table=%q pp=%q name=%q", m.path, fi.Table, fi.PartialPath, fi.Name)
-					m.tables[fi.Table] = &FileTable{Table: fi.Table, PartialPath: fi.PartialPath}
-					m.tablenames = append(m.tablenames, fi.Table)
-				}
-			}
-		}
-	}
-}
+// u.Debugf("File %s", fi)
 
 // Table satisfys SourceSchema interface to get table schema for given table
 func (m *FileSource) Table(tableName string) (*schema.Table, error) {
+	_ = "STUB: not implemented"
 
 	//u.Debugf("Table(%q) path:%v  %#v", tableName, m.path, m.ss.Conf)
 	// We have a special table that is the list of all files
-	if m.filesTable == tableName {
-		return m.fdb.Table(tableName)
-	}
-
-	// Check cache for this table
-	t, ok := m.tableSchemas[tableName]
-	if ok {
-		return t, nil
-	}
-
-	var err error
-	// Its possible that the file handle implements schema handling
-	if schemaSource, hasSchema := m.fh.(schema.SourceTableSchema); hasSchema {
-		t, err = schemaSource.Table(tableName)
-		if err != nil {
-			u.Errorf("could not get %T table %q %v", schemaSource, tableName, err)
-			return nil, err
-		}
-
-	} else {
-
-		// Source doesn't implement Schema Handling so we are going to get
-		//  a scanner and introspect some rows
-		t, err = m.buildTable(tableName)
-		if err != nil {
-			return nil, err
-		}
-
-	}
-
-	if t == nil {
-		return nil, fmt.Errorf("Missing table for %q", tableName)
-	}
-
-	m.tableSchemas[tableName] = t
-	//u.Debugf("%p Table(%q) cols=%v", m, tableName, t.Columns())
-	return t, nil
+	return nil, nil
 }
 
+// Check cache for this table
+
+// Its possible that the file handle implements schema handling
+
+// Source doesn't implement Schema Handling so we are going to get
+//  a scanner and introspect some rows
+
+//u.Debugf("%p Table(%q) cols=%v", m, tableName, t.Columns())
+
 func (m *FileSource) buildTable(tableName string) (*schema.Table, error) {
+	_ = "STUB: not implemented"
 
 	// Since we don't have a table schema, lets create one via introspection
 	//u.Debugf("introspecting file-table %q for schema type=%q path=%s", tableName, m.fileType, m.path)
-	pager, err := m.createPager(tableName, 0, 1)
-	if err != nil {
-		u.Errorf("could not find scanner for table %q table err:%v", tableName, err)
-		return nil, err
-	}
-
-	scanner, err := pager.NextScanner()
-	if err != nil {
-		u.Errorf("what, no scanner? table=%q  err=%v", tableName, err)
-		return nil, err
-	}
-
-	colScanner, hasColumns := scanner.(schema.ConnColumns)
-	if !hasColumns {
-		return nil, fmt.Errorf("Must have Columns to Introspect Tables")
-	}
-
-	t := schema.NewTable(tableName)
-	t.SetColumns(colScanner.Columns())
-
-	// we are going to look at ~10 rows to create schema for it
-	if err = datasource.IntrospectTable(t, scanner); err != nil {
-		u.Errorf("Could not introspect schema %v", err)
-		return nil, err
-	}
-	//u.Infof("built table %v %v", tableName, t.Columns())
-	return t, nil
+	return nil, nil
 }
 
-func (m *FileSource) createPager(tableName string, partition, limit int) (*FilePager, error) {
+// we are going to look at ~10 rows to create schema for it
 
-	pg := NewFilePager(tableName, m)
-	pg.Limit = limit
-	pg.RunFetcher()
-	return pg, nil
+//u.Infof("built table %v %v", tableName, t.Columns())
+
+func (m *FileSource) createPager(tableName string, partition, limit int) (*FilePager, error) {
+	_ = "STUB: not implemented"
+	return nil, nil
 }

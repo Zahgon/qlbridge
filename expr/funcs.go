@@ -1,7 +1,6 @@
 package expr
 
 import (
-	"strings"
 	"sync"
 
 	"github.com/araddon/qlbridge/value"
@@ -44,43 +43,22 @@ type (
 
 // EmptyEvalFunc a no-op evaluation function for use in
 func EmptyEvalFunc(ctx EvalContext, args []value.Value) (value.Value, bool) {
-	return value.NilValueVal, false
+	_ = "STUB: not implemented"
+	return *new(value.Value), false
 }
 
 // NewFuncRegistry create a new function registry. By default their is a
 // global one, but you can have local function registries as well.
-func NewFuncRegistry() *FuncRegistry {
-	return &FuncRegistry{
-		funcs: make(map[string]Func),
-		aggs:  make(map[string]struct{}),
-	}
-}
+func NewFuncRegistry() *FuncRegistry { _ = "STUB: not implemented"; return nil }
 
 // Add a name/function to registry
-func (m *FuncRegistry) Add(name string, fn CustomFunc) {
-	name = strings.ToLower(name)
-	newFunc := Func{Name: name, CustomFunc: fn}
-	m.mu.Lock()
-	defer m.mu.Unlock()
-	aggfn, hasAggFlag := fn.(AggFunc)
-	if hasAggFlag {
-		newFunc.Aggregate = aggfn.IsAgg()
-		if newFunc.Aggregate {
-			m.aggs[name] = struct{}{}
-		}
-	}
-	m.funcs[name] = newFunc
-}
+func (m *FuncRegistry) Add(name string, fn CustomFunc) { _ = "STUB: not implemented"; return }
 
 // FuncGet gets a function from registry if it exists.
 func (m *FuncRegistry) FuncGet(name string) (Func, bool) {
-	m.mu.RLock()
-	fn, ok := m.funcs[name]
-	m.mu.RUnlock()
-	return fn, ok
+	_ = "STUB: not implemented"
+	return *new(Func), false
 }
 
 // FuncAdd Global add Functions to the VM func registry occurs here.
-func FuncAdd(name string, fn CustomFunc) {
-	funcReg.Add(name, fn)
-}
+func FuncAdd(name string, fn CustomFunc) { _ = "STUB: not implemented"; return }

@@ -1,9 +1,5 @@
 package gentypes
 
-import (
-	"fmt"
-)
-
 // MissingFieldErrors are returned when a segment can't be evaluated due to a
 // referenced field missing from a schema.
 type MissingFieldError struct {
@@ -11,13 +7,9 @@ type MissingFieldError struct {
 }
 
 // MissingField creates a new MissingFieldError for the given field.
-func MissingField(field string) *MissingFieldError {
-	return &MissingFieldError{field}
-}
+func MissingField(field string) *MissingFieldError { _ = "STUB: not implemented"; return nil }
 
-func (m *MissingFieldError) Reason() string { return m.Error() }
-func (m *MissingFieldError) Status() int    { return 400 }
+func (m *MissingFieldError) Reason() string { _ = "STUB: not implemented"; return "" }
+func (m *MissingFieldError) Status() int    { _ = "STUB: not implemented"; return 0 }
 
-func (m *MissingFieldError) Error() string {
-	return fmt.Sprintf("missing field %s", m.Field)
-}
+func (m *MissingFieldError) Error() string { _ = "STUB: not implemented"; return "" }

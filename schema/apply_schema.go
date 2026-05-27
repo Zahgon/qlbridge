@@ -1,11 +1,5 @@
 package schema
 
-import (
-	"fmt"
-
-	u "github.com/araddon/gou"
-)
-
 type (
 	// Applyer takes schema writes and applies them.  This is used both as a database
 	// is being loaded, and schema is loaded by store as well as responsible for applying
@@ -34,115 +28,44 @@ type (
 
 // NewApplyer new in memory applyer.  For distributed db's we would need
 // a different applyer (Raft).
-func NewApplyer(sp SchemaSourceProvider) Applyer {
-	return &InMemApplyer{
-		schemaSource: sp,
-	}
-}
+func NewApplyer(sp SchemaSourceProvider) Applyer { _ = "STUB: not implemented"; return *new(Applyer) }
 
 // Init store the registry as part of in-mem applyer which needs it.
 func (m *InMemApplyer) Init(r *Registry) {
-	m.reg = r
+	_ = "STUB: not implemented"
+
+	// AddOrUpdateOnSchema we have a schema change to apply.  A schema change is
+	// a new table, index, or whole new schema being registered.  We provide the first
+	// argument which is which schema it is being applied to (ie, add table x to schema y).
+	return
 }
 
-// AddOrUpdateOnSchema we have a schema change to apply.  A schema change is
-// a new table, index, or whole new schema being registered.  We provide the first
-// argument which is which schema it is being applied to (ie, add table x to schema y).
 func (m *InMemApplyer) AddOrUpdateOnSchema(s *Schema, v interface{}) error {
+	_ = "STUB: not implemented"
 
 	// All Schemas must also have an info-schema
-	if s.InfoSchema == nil {
-		s.InfoSchema = NewInfoSchema("schema", s)
-	}
-
-	// The info-schema if new will need an actual store, the provider
-	// will add it to the schema.
-	if s.InfoSchema.DS == nil {
-		m.schemaSource(s)
-	}
-
-	// Find the type of operation being updated.
-	switch v := v.(type) {
-	case *Table:
-		u.Debugf("%p:%s InfoSchema P:%p  adding table %q", s, s.Name, s.InfoSchema, v.Name)
-		s.InfoSchema.DS.Init() // Wipe out cache, it is invalid
-		s.mu.Lock()
-		s.addTable(v)
-		s.mu.Unlock()
-		s.InfoSchema.refreshSchemaUnlocked()
-	case *Schema:
-
-		u.Debugf("%p:%s InfoSchema P:%p  adding schema %q s==v?%v", s, s.Name, s.InfoSchema, v.Name, s == v)
-		if s == v {
-			// s==v means schema has been updated
-			m.reg.mu.Lock()
-			_, exists := m.reg.schemas[s.Name]
-			if !exists {
-				m.reg.schemas[s.Name] = s
-				m.reg.schemaNames = append(m.reg.schemaNames, s.Name)
-			}
-			m.reg.mu.Unlock()
-
-			s.mu.Lock()
-			s.refreshSchemaUnlocked()
-			s.mu.Unlock()
-		} else {
-			// since s != v then this is a child schema
-			s.addChildSchema(v)
-			s.mu.Lock()
-			s.refreshSchemaUnlocked()
-			s.mu.Unlock()
-		}
-		if s.Name != "schema" {
-			s.InfoSchema.refreshSchemaUnlocked()
-		}
-	default:
-		u.Errorf("invalid type %T", v)
-		return fmt.Errorf("Could not find %T", v)
-	}
-
 	return nil
 }
+
+// The info-schema if new will need an actual store, the provider
+// will add it to the schema.
+
+// Find the type of operation being updated.
+
+// Wipe out cache, it is invalid
+
+// s==v means schema has been updated
+
+// since s != v then this is a child schema
 
 // Drop we have a schema change to apply.
 func (m *InMemApplyer) Drop(s *Schema, v interface{}) error {
+	_ = "STUB: not implemented"
 
 	// Find the type of operation being updated.
-	switch v := v.(type) {
-	case *Table:
-		u.Debugf("%p:%s InfoSchema P:%p  dropping table %q from %v", s, s.Name, s.InfoSchema, v.Name, s.Tables())
-		// s==v means schema is being dropped
-		m.reg.mu.Lock()
-		s.mu.Lock()
-		s.dropTable(v)
-		m.reg.schemas[s.Name] = s
-		s.refreshSchemaUnlocked()
-		s.mu.Unlock()
-		m.reg.mu.Unlock()
-	case *Schema:
-
-		u.Debugf("%p:%s InfoSchema P:%p  dropping schema %q s==v?%v", s, s.Name, s.InfoSchema, v.Name, s == v)
-		// s==v means schema is being dropped
-		m.reg.mu.Lock()
-		s.mu.Lock()
-
-		delete(m.reg.schemas, s.Name)
-		names := make([]string, 0, len(m.reg.schemaNames))
-		for _, n := range m.reg.schemaNames {
-			if s.Name != n {
-				names = append(names, n)
-			}
-		}
-		m.reg.schemaNames = names
-
-		s.refreshSchemaUnlocked()
-		s.mu.Unlock()
-		m.reg.mu.Unlock()
-
-	default:
-		u.Errorf("invalid type %T", v)
-		return fmt.Errorf("Could not find %T", v)
-	}
-
 	return nil
 }
+
+// s==v means schema is being dropped
+
+// s==v means schema is being dropped

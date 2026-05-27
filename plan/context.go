@@ -24,9 +24,7 @@ func init() {
 	NextId = mathRandId
 }
 
-func mathRandId() uint64 {
-	return uint64(rs.Int63())
-}
+func mathRandId() uint64 { _ = "STUB: not implemented"; return 0 }
 
 // Context for plan of a Relational task has info about the query
 // projection, schema, function resolvers necessary to plan this statement.
@@ -60,19 +58,13 @@ type Context struct {
 }
 
 // NewContext plan context
-func NewContext(query string) *Context {
-	return &Context{Raw: query}
-}
-func NewContextFromPb(pb *ContextPb) *Context {
-	return &Context{id: pb.Id, fingerprint: pb.Fingerprint, SchemaName: pb.Schema}
-}
+func NewContext(query string) *Context { _ = "STUB: not implemented"; return nil }
+
+func NewContextFromPb(pb *ContextPb) *Context { _ = "STUB: not implemented"; return nil }
 
 // called by go routines/tasks to ensure any recovery panics are captured
-func (m *Context) Recover() {
-	if m == nil {
-		return
-	}
-}
+func (m *Context) Recover() { _ = "STUB: not implemented"; return }
+
 func (m *Context) init() {
 	if m.id == 0 {
 		if m.Schema != nil {
@@ -86,35 +78,6 @@ func (m *Context) init() {
 }
 
 // called by go routines/tasks to ensure any recovery panics are captured
-func (m *Context) ToPB() *ContextPb {
-	m.init()
-	pb := &ContextPb{}
-	pb.Schema = m.SchemaName
-	pb.Fingerprint = m.fingerprint
-	pb.Id = m.id
-	return pb
-}
+func (m *Context) ToPB() *ContextPb { _ = "STUB: not implemented"; return nil }
 
-func (m *Context) Equal(c *Context) bool {
-	if m == nil && c == nil {
-		return true
-	}
-	if m == nil && c != nil {
-		return false
-	}
-	if m != nil && c == nil {
-		return false
-	}
-	m.init()
-	c.init()
-	if m.id != c.id {
-		return false
-	}
-	if m.fingerprint != c.fingerprint {
-		return false
-	}
-	if m.SchemaName != c.SchemaName {
-		return false
-	}
-	return true
-}
+func (m *Context) Equal(c *Context) bool { _ = "STUB: not implemented"; return false }

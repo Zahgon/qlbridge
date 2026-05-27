@@ -39,11 +39,7 @@ type KeyUint struct {
 }
 
 // NewKeyUint simple new uint64 key
-func NewKeyUint(key uint64) *KeyUint {
-	return &KeyUint{key}
-}
+func NewKeyUint(key uint64) *KeyUint { _ = "STUB: not implemented"; return nil }
 
 // Key is key interface
-func (m *KeyUint) Key() driver.Value {
-	return driver.Value(m.ID)
-}
+func (m *KeyUint) Key() driver.Value { _ = "STUB: not implemented"; return *new(driver.Value) }

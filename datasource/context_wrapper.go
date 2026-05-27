@@ -6,10 +6,7 @@ package datasource
 import (
 	"fmt"
 	"reflect"
-	"strings"
 	"time"
-
-	u "github.com/araddon/gou"
 
 	"github.com/araddon/qlbridge/expr"
 	"github.com/araddon/qlbridge/value"
@@ -20,44 +17,22 @@ type ContextWrapper struct {
 	s   *state
 }
 
-func NewContextWrapper(val interface{}) *ContextWrapper {
-	s := state{}
-	return &ContextWrapper{reflect.ValueOf(val), &s}
-}
+func NewContextWrapper(val interface{}) *ContextWrapper { _ = "STUB: not implemented"; return nil }
+
 func (m *ContextWrapper) Get(key string) (value.Value, bool) {
-	defer func() { recover() }()
-	keyParts := strings.Split(key, ".")
-	dot := m.val
-	var final reflect.Value
-	ident := expr.NewIdentityNodeVal(key)
-	// Now if it's a method, it gets the arguments.
-	final = m.s.evalFieldChain(dot, dot, ident, keyParts, nil, final)
-	if final == zero {
-		return nil, false
-	}
-	if m.s.err != nil {
-		return nil, false
-	}
-	val := value.NewValue(final.Interface())
-	if val == nil {
-		return nil, false
-	}
-	return val, true
+	_ = "STUB: not implemented"
+	return *new(value.Value), false
 }
-func (m *ContextWrapper) Row() map[string]value.Value { return nil }
-func (m *ContextWrapper) Ts() time.Time               { return time.Time{} }
+
+// Now if it's a method, it gets the arguments.
+
+func (m *ContextWrapper) Row() map[string]value.Value { _ = "STUB: not implemented"; return nil }
+func (m *ContextWrapper) Ts() time.Time               { _ = "STUB: not implemented"; return *new(time.Time) }
 
 // unwind pointers, etc to find either the value or flag indicating was nil
 func findValue(v reflect.Value) (reflect.Value, bool) {
-	for ; v.Kind() == reflect.Ptr || v.Kind() == reflect.Interface; v = v.Elem() {
-		if v.IsNil() {
-			return v, true
-		}
-		if v.Kind() == reflect.Interface && v.NumMethod() > 0 {
-			break
-		}
-	}
-	return v, false
+	_ = "STUB: not implemented"
+	return *new(reflect.Value), false
 }
 
 var zero reflect.Value
@@ -68,7 +43,8 @@ type state struct {
 }
 
 // our stack vars that have come from strings in vm eval engine
-//    such as "user.Name" will try to find struct value with .Name
+//
+//	such as "user.Name" will try to find struct value with .Name
 type namedvar struct {
 	name  string
 	value reflect.Value
@@ -80,21 +56,19 @@ var (
 )
 
 func (s *state) errorf(format string, args ...interface{}) reflect.Value {
-	s.err = fmt.Errorf(format, args...)
-	return zero
+	_ = "STUB: not implemented"
+	return *new(reflect.Value)
 }
 
 // evalFieldChain evaluates .X.Y.Z possibly followed by arguments.
 // dot is the environment in which to evaluate arguments, while
 // receiver is the value being walked along the chain.
 func (s *state) evalFieldChain(dot, receiver reflect.Value, node *expr.IdentityNode, ident []string, args []expr.Node, final reflect.Value) reflect.Value {
-	n := len(ident)
-	for i := 0; i < n-1; i++ {
-		receiver = s.evalField(dot, ident[i], node, nil, zero, receiver)
-	}
-	// Now if it's a method, it gets the arguments.
-	return s.evalField(dot, ident[n-1], node, args, final, receiver)
+	_ = "STUB: not implemented"
+	return *new(reflect.Value)
 }
+
+// Now if it's a method, it gets the arguments.
 
 // func (s *state) evalFunction(dot reflect.Value, node *expr.IdentityNode, cmd expr.Node, args []expr.Node, final reflect.Value) reflect.Value {
 // 	name := node.Text
@@ -105,121 +79,67 @@ func (s *state) evalFieldChain(dot, receiver reflect.Value, node *expr.IdentityN
 // 	return s.evalCall(dot, function, cmd, name, args, final)
 // }
 
-func lowerFieldMatch(fieldName string) func(string) bool {
-	lowerField := strings.ToLower(fieldName)
-	return func(field string) bool {
-		//u.Debugf("check: %s == %s ?", field, lowerField)
-		return strings.ToLower(field) == lowerField
-	}
-}
+func lowerFieldMatch(fieldName string) func(string) bool { _ = "STUB: not implemented"; return nil }
+
+//u.Debugf("check: %s == %s ?", field, lowerField)
 
 // evalField evaluates an expression like (.Field) or (.Field arg1 arg2).
 // The 'final' argument represents the return value from the preceding
 // value of the pipeline, if any.
 func (s *state) evalField(dot reflect.Value, fieldName string, node expr.Node, args []expr.Node, final, receiver reflect.Value) reflect.Value {
+	_ = "STUB: not implemented"
 
 	//u.Debugf("evalField: valid?%v", receiver.IsValid())
-	if !receiver.IsValid() {
-		//u.Warnf("bailing")
-		return zero
-	}
-	typ := receiver.Type()
-	receiver, _ = findValue(receiver)
-	// Unless it's an interface, need to get to a value of type *T to guarantee
-	// we see all methods of T and *T.
-	ptr := receiver
-	if ptr.Kind() != reflect.Interface && ptr.CanAddr() {
-		ptr = ptr.Addr()
-	}
-	if method := ptr.MethodByName(fieldName); method.IsValid() {
-		//u.Warnf("unimplemented method: %v", fieldName)
-		return s.evalCall(dot, method, node, fieldName, args, final)
-	}
-	hasArgs := len(args) > 1 || final.IsValid()
-	// It's not a method; must be a field of a struct or an element of a map. The receiver must not be nil.
-	receiver, isNil := findValue(receiver)
-	//u.Debugf("fld:%s  receiver kind():%v  val: %v", fieldName, receiver.Kind(), receiver)
-	if isNil {
-		return zero
-	}
-	switch receiver.Kind() {
-	case reflect.Struct:
-		tField, ok := receiver.Type().FieldByName(fieldName)
-		if !ok {
-			tField, ok = receiver.Type().FieldByNameFunc(lowerFieldMatch(fieldName))
-			if !ok {
-				tagName := strings.ToLower(fieldName)
-				// Wow, this is pretty bruttaly expensive
-				// Iterate over all available fields and read the tag value
-				for i := 0; i < receiver.NumField(); i++ {
-					// Get the field, returns https://golang.org/pkg/reflect/#StructField
-					field := receiver.Type().Field(i)
-
-					// Get the field tag value
-					tag := field.Tag.Get("json")
-					if tag == tagName {
-						tField = field
-						ok = true
-						break
-					}
-				}
-			}
-		}
-		//u.Infof("got field? %v", fieldName, tField)
-		if ok {
-			field := receiver.FieldByIndex(tField.Index)
-			if tField.PkgPath != "" { // field is unexported
-				return s.errorf("%s is an unexported field of struct type %s", fieldName, typ)
-			}
-			// If it's a function, we must call it.
-			if hasArgs {
-				return s.errorf("%s has arguments but cannot be invoked as function", fieldName)
-			}
-			return field
-		}
-		//context reader doesn't care about empty values
-		return zero
-	case reflect.Map:
-		// If it's a map, attempt to use the field name as a key.
-		nameVal := reflect.ValueOf(fieldName)
-		if nameVal.Type().AssignableTo(receiver.Type().Key()) {
-			if hasArgs {
-				return s.errorf("%s is not a method but has arguments", fieldName)
-			}
-			result := receiver.MapIndex(nameVal)
-			if !result.IsValid() {
-				u.Errorf("could not evaluate %v", nameVal)
-				// switch s.tmpl.option.missingKey {
-				// case mapInvalid:
-				// 	// Just use the invalid value.
-				// case mapZeroValue:
-				// 	result = reflect.Zero(receiver.Type().Elem())
-				// case mapError:
-				// 	s.errorf("map has no entry for key %q", fieldName)
-				// }
-			}
-			return result
-		}
-	}
-	s.errorf("can't evaluate field %s in type %s", fieldName, typ)
-	panic("not reached")
+	return *new(reflect.Value)
 }
+
+//u.Warnf("bailing")
+
+// Unless it's an interface, need to get to a value of type *T to guarantee
+// we see all methods of T and *T.
+
+//u.Warnf("unimplemented method: %v", fieldName)
+
+// It's not a method; must be a field of a struct or an element of a map. The receiver must not be nil.
+
+//u.Debugf("fld:%s  receiver kind():%v  val: %v", fieldName, receiver.Kind(), receiver)
+
+// Wow, this is pretty bruttaly expensive
+// Iterate over all available fields and read the tag value
+
+// Get the field, returns https://golang.org/pkg/reflect/#StructField
+
+// Get the field tag value
+
+//u.Infof("got field? %v", fieldName, tField)
+
+// field is unexported
+
+// If it's a function, we must call it.
+
+//context reader doesn't care about empty values
+
+// If it's a map, attempt to use the field name as a key.
+
+// switch s.tmpl.option.missingKey {
+// case mapInvalid:
+// 	// Just use the invalid value.
+// case mapZeroValue:
+// 	result = reflect.Zero(receiver.Type().Elem())
+// case mapError:
+// 	s.errorf("map has no entry for key %q", fieldName)
+// }
 
 func (s *state) evalCall(dot, fun reflect.Value, node expr.Node, name string, args []expr.Node, final reflect.Value) reflect.Value {
-	typ := fun.Type()
-	if !goodFunc(typ) {
-		// TODO: This could still be a confusing error; maybe goodFunc should provide info.
-		return s.errorf("can't call method/function %q with %d results", name, typ.NumOut())
-	}
-	// Build the arg list.
-	argv := make([]reflect.Value, 0)
-	result := fun.Call(argv)
-	// If we have an error that is not nil, stop execution and return that error to the caller.
-	if len(result) == 2 && !result[1].IsNil() {
-		return s.errorf("error calling %s: %s", name, result[1].Interface().(error))
-	}
-	return result[0]
+	_ = "STUB: not implemented"
+	return *new(reflect.Value)
 }
+
+// TODO: This could still be a confusing error; maybe goodFunc should provide info.
+
+// Build the arg list.
+
+// If we have an error that is not nil, stop execution and return that error to the caller.
 
 /*
 // evalCall executes a function or method call. If it's a method, fun already has the receiver bound, so
@@ -289,12 +209,7 @@ func (s *state) evalCall(dot, fun reflect.Value, node expr.Node, name string, ar
 
 // goodFunc checks that the function or method has the right result signature.
 func goodFunc(typ reflect.Type) bool {
+	_ = "STUB: not implemented"
 	// We allow functions with 1 result or 2 results where the second is an error.
-	switch {
-	case typ.NumOut() == 1:
-		return true
-	case typ.NumOut() == 2 && typ.Out(1) == errorType:
-		return true
-	}
 	return false
 }

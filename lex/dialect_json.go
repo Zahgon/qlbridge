@@ -1,9 +1,7 @@
 package lex
 
 // NewJsonLexer Creates a new json dialect lexer for the input string.
-func NewJsonLexer(input string) *Lexer {
-	return NewLexer(input, JsonDialect)
-}
+func NewJsonLexer(input string) *Lexer { _ = "STUB: not implemented"; return nil }
 
 var (
 	jsonDialectStatement = []*Clause{

@@ -1,7 +1,6 @@
 package files
 
 import (
-	u "github.com/araddon/gou"
 	"github.com/lytics/cloudstorage"
 
 	"github.com/araddon/qlbridge/datasource"
@@ -31,31 +30,32 @@ type jsonHandlerTables struct {
 // NewJsonHandler creates a json file handler for paging new-line
 // delimited rows of json file
 func NewJsonHandler(lh datasource.FileLineHandler) FileHandler {
-	return &jsonHandler{lh}
+	_ = "STUB: not implemented"
+	return *
+
+	// NewJsonHandler creates a json file handler for paging new-line
+	// delimited rows of json file
+	new(FileHandler)
 }
 
-// NewJsonHandler creates a json file handler for paging new-line
-// delimited rows of json file
 func NewJsonHandlerTables(lh datasource.FileLineHandler, tables []string) FileHandler {
-	return &jsonHandlerTables{
-		FileHandler: &jsonHandler{lh},
-		tables:      tables,
-	}
+	_ = "STUB: not implemented"
+	return *new(FileHandler)
 }
 
-func (m *jsonHandler) Init(store FileStore, ss *schema.Schema) error { return nil }
-func (m *jsonHandler) FileAppendColumns() []string                   { return nil }
+func (m *jsonHandler) Init(store FileStore, ss *schema.Schema) error {
+	_ = "STUB: not implemented"
+	return nil
+}
+func (m *jsonHandler) FileAppendColumns() []string { _ = "STUB: not implemented"; return nil }
 func (m *jsonHandler) File(path string, obj cloudstorage.Object) *FileInfo {
-	return FileInfoFromCloudObject(path, obj)
+	_ = "STUB: not implemented"
+	return nil
 }
+
 func (m *jsonHandler) Scanner(store cloudstorage.StoreReader, fr *FileReader) (schema.ConnScanner, error) {
-	js, err := datasource.NewJsonSource(fr.Table, fr.F, fr.Exit, m.parser)
-	if err != nil {
-		u.Errorf("Could not open file for json reading %v", err)
-		return nil, err
-	}
-	return js, nil
+	_ = "STUB: not implemented"
+	return *new(schema.ConnScanner), nil
 }
-func (m *jsonHandlerTables) Tables() []string {
-	return m.tables
-}
+
+func (m *jsonHandlerTables) Tables() []string { _ = "STUB: not implemented"; return nil }

@@ -1,7 +1,6 @@
 package lex
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -36,29 +35,14 @@ type (
 )
 
 // Init Dialects have one time load-setup.
-func (m *Dialect) Init() {
-	if m.inited {
-		return
-	}
-	m.inited = true
-	for _, s := range m.Statements {
-		s.init()
-	}
-}
+func (m *Dialect) Init() { _ = "STUB: not implemented"; return }
 
 // MatchesKeyword
 func (c *Clause) MatchesKeyword(peekWord string, l *Lexer) bool {
-	if c.KeywordMatcher != nil {
-		return c.KeywordMatcher(c, peekWord, l)
-	} else if c.keyword == peekWord && !c.multiWord {
-		return true
-	} else if c.multiWord {
-		if strings.ToLower(l.PeekX(len(c.fullWord))) == c.fullWord {
-			return true
-		}
-	}
+	_ = "STUB: not implemented"
 	return false
 }
+
 func (c *Clause) init() {
 	if c.KeywordMatcher == nil {
 		// Find the Keyword, MultiWord options
@@ -77,9 +61,4 @@ func (c *Clause) init() {
 		}
 	}
 }
-func (c *Clause) String() string {
-	if c.parent != nil {
-		return fmt.Sprintf(`<clause %p %q kw=%q fullword=%q multiword?%v clausesct=%d parentKw=%q />`, c, c.Name, c.keyword, c.fullWord, c.multiWord, len(c.Clauses), c.parent.keyword)
-	}
-	return fmt.Sprintf(`<clause %p %q kw=%q full=%q multiword?%v clausesct=%d />`, c, c.Name, c.keyword, c.fullWord, c.multiWord, len(c.Clauses))
-}
+func (c *Clause) String() string { _ = "STUB: not implemented"; return "" }

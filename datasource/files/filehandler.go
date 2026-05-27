@@ -5,7 +5,6 @@
 package files
 
 import (
-	"strings"
 	"sync"
 
 	"github.com/lytics/cloudstorage"
@@ -23,9 +22,9 @@ var (
 // to allow these custom file-types to be queried with SQL.
 //
 // Features of Filehandler
-// - File() Converts a cloudstorage object to a FileInfo that describes the File.
-// - Scanner() create a file-scanner, will allow the scanner to implement any
-//   custom file-type reading (csv, protobuf, json, enrcyption).
+//   - File() Converts a cloudstorage object to a FileInfo that describes the File.
+//   - Scanner() create a file-scanner, will allow the scanner to implement any
+//     custom file-type reading (csv, protobuf, json, enrcyption).
 //
 // The File Reading, Opening, Listing is a separate layer, see FileSource
 // for the Cloudstorage layer.
@@ -63,24 +62,11 @@ type FileHandlerSchema interface {
 }
 
 // RegisterFileHandler Register a FileHandler available by the provided @scannerType
-func RegisterFileHandler(scannerType string, fh FileHandler) {
-	if fh == nil {
-		panic("File scanners must not be nil")
-	}
-	scannerType = strings.ToLower(scannerType)
-	// u.Debugf("global FileHandler register: %v %T FileHandler:%p", scannerType, fh, fh)
-	registryMu.Lock()
-	defer registryMu.Unlock()
-	if _, dupe := scanners[scannerType]; dupe {
-		panic("Register called twice for FileHandler type " + scannerType)
-	}
-	scanners[scannerType] = fh
-}
+func RegisterFileHandler(scannerType string, fh FileHandler) { _ = "STUB: not implemented"; return }
+
+// u.Debugf("global FileHandler register: %v %T FileHandler:%p", scannerType, fh, fh)
 
 func scannerGet(scannerType string) (FileHandler, bool) {
-	registryMu.Lock()
-	defer registryMu.Unlock()
-	scannerType = strings.ToLower(scannerType)
-	scanner, ok := scanners[scannerType]
-	return scanner, ok
+	_ = "STUB: not implemented"
+	return *new(FileHandler), false
 }

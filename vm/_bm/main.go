@@ -10,21 +10,15 @@ import (
 	"github.com/araddon/qlbridge/datasource"
 	"github.com/araddon/qlbridge/expr"
 	"github.com/araddon/qlbridge/expr/builtins"
-	"github.com/araddon/qlbridge/rel"
 	"github.com/araddon/qlbridge/value"
-	"github.com/araddon/qlbridge/vm"
 )
 
 /*
-
 go build && time ./_bm --command=parse --cpuprofile=cpu.prof
 go tool pprof _bm cpu.prof
 
-
 go build && time ./_bm --command=vm --cpuprofile=cpu.prof
 go tool pprof _bm cpu.prof
-
-
 */
 var (
 	cpuProfileFile string
@@ -75,32 +69,13 @@ func main() {
 }
 
 func runParse(repeat int, sql string, readContext expr.ContextReader) {
-	for i := 0; i < repeat; i++ {
-		sel, err := rel.ParseSqlSelect(sql)
-		if err != nil {
-			panic(err.Error())
-		}
-		writeContext := datasource.NewContextSimple()
-		_, err = vm.EvalSql(sel, writeContext, readContext)
-		if err != nil {
-			panic(err.Error())
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 func runVm(repeat int, sql string, readContext expr.ContextReader) {
-	sel, err := rel.ParseSqlSelect(sql)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	for i := 0; i < repeat; i++ {
-
-		writeContext := datasource.NewContextSimple()
-		_, err = vm.EvalSql(sel, writeContext, readContext)
-		//log.Println(writeContext.All())
-		if err != nil {
-			panic(err.Error())
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }
+
+//log.Println(writeContext.All())

@@ -2,7 +2,6 @@ package esgen
 
 import (
 	"encoding/json"
-	"strings"
 
 	u "github.com/araddon/gou"
 
@@ -10,8 +9,8 @@ import (
 )
 
 /*
-	Native go data types that map to the Elasticsearch
-	Search DSL
+Native go data types that map to the Elasticsearch
+Search DSL
 */
 var _ = u.EMPTY
 var _ = json.Marshal
@@ -27,9 +26,9 @@ type BoolOccurrence struct {
 	MustNot interface{}   `json:"must_not,omitempty"`
 }
 
-func AndFilter(v []interface{}) *BoolFilter { return &BoolFilter{Occurs: BoolOccurrence{Filter: v}} }
-func OrFilter(v []interface{}) *BoolFilter  { return &BoolFilter{Occurs: BoolOccurrence{Should: v}} }
-func NotFilter(v interface{}) *BoolFilter   { return &BoolFilter{Occurs: BoolOccurrence{MustNot: v}} }
+func AndFilter(v []interface{}) *BoolFilter { _ = "STUB: not implemented"; return nil }
+func OrFilter(v []interface{}) *BoolFilter  { _ = "STUB: not implemented"; return nil }
+func NotFilter(v interface{}) *BoolFilter   { _ = "STUB: not implemented"; return nil }
 
 // Filter structs
 
@@ -39,30 +38,27 @@ type exists struct {
 
 // Exists creates a new Elasticsearch filter {"exists": {"field": field}}
 func Exists(field *gentypes.FieldType) interface{} {
-	//u.Debugf("exists?  nested?%v  for %s", field.Nested(), field.String())
-	if field.Nested() {
-		/*
-			"nested": {
-				"query": {
-				    "term": {
-				        "map_actioncounts.k": "Web hit"
-				    }
-				},
-				"path": "map_actioncounts"
-			}
-		*/
-		return &nested{&NestedQuery{
-			Query: Term(field.Path+".k", field.Field),
-			Path:  field.Path,
-		}}
-		//Nested(field.Path, &term{map[string][]string{"k": field.Field}})
-	}
-	return &exists{map[string]string{"field": field.Field}}
+	_ = "STUB: not implemented"
+	// u.Debugf("exists?  nested?%v  for %s", field.Nested(), field.String())
+	return nil
 }
 
-// type and struct {
-// 	Filters []interface{} `json:"and"`
-// }
+/*
+	"nested": {
+		"query": {
+		    "term": {
+		        "map_actioncounts.k": "Web hit"
+		    }
+		},
+		"path": "map_actioncounts"
+	}
+*/
+
+//Nested(field.Path, &term{map[string][]string{"k": field.Field}})
+
+//	type and struct {
+//		Filters []interface{} `json:"and"`
+//	}
 type boolean struct {
 	Bool interface{} `json:"bool"`
 }
@@ -78,60 +74,43 @@ type in struct {
 //
 // {"terms": {field: values}}
 //
-// { "nested": {
-//      "query": {
-//         "bool" : {
-//            "must" :[
-//               {"term": { "k":fieldName}},
-//               filter,
-//            ]
-//      } ,
-//      "path":"path_to_obj"
-//  }}
+//	{ "nested": {
+//	     "query": {
+//	        "bool" : {
+//	           "must" :[
+//	              {"term": { "k":fieldName}},
+//	              filter,
+//	           ]
+//	     } ,
+//	     "path":"path_to_obj"
+//	 }}
 func In(field *gentypes.FieldType, values []interface{}) interface{} {
-	if field.Nested() {
-		return &nested{&NestedQuery{
-			Query: &boolean{
-				&must{
-					Filters: []interface{}{
-						&in{map[string][]interface{}{field.PathAndPrefix(""): values}},
-						Term(field.Path+".k", field.Field),
-					},
-				},
-			},
-			Path: field.Path,
-		}}
-	}
-	return &in{map[string][]interface{}{field.Field: values}}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Nested creates a new Elasticsearch nested filter
-// { "nested": {
-//      "query": {
-//         "bool" : {
-//            "must" :[
-//               {"term": { "k":fieldName}},
-//               filter,
-//            ]
-//      } ,
-//      "path":"path_to_obj"
-//  }}
+//
+//	{ "nested": {
+//	     "query": {
+//	        "bool" : {
+//	           "must" :[
+//	              {"term": { "k":fieldName}},
+//	              filter,
+//	           ]
+//	     } ,
+//	     "path":"path_to_obj"
+//	 }}
 func Nested(field *gentypes.FieldType, filter interface{}) *nested {
+	_ = "STUB: not implemented"
 
 	// Hm.  Elasticsearch doc seems to insinuate we don't need
 	// this path + ".k" but unit tests say otherwise
-	fl := []interface{}{
-		Term(field.Path+".k", field.Field),
-		filter,
-	}
-	n := nested{&NestedQuery{
-		Query: &boolean{&must{fl}},
-		Path:  field.Path,
-	}}
-	// by, _ := json.MarshalIndent(n, "", "  ")
-	// u.Infof("NESTED4:  \n%s", string(by))
-	return &n
+	return nil
 }
+
+// by, _ := json.MarshalIndent(n, "", "  ")
+// u.Infof("NESTED4:  \n%s", string(by))
 
 type nested struct {
 	Nested *NestedQuery `json:"nested,omitempty"`
@@ -158,9 +137,7 @@ type term struct {
 }
 
 // Term creates a new Elasticsearch term filter {"term": {field: value}}
-func Term(fieldName string, value interface{}) *term {
-	return &term{map[string]interface{}{fieldName: value}}
-}
+func Term(fieldName string, value interface{}) *term { _ = "STUB: not implemented"; return nil }
 
 type matchall struct {
 	MatchAll *struct{} `json:"match_all"`
@@ -176,34 +153,19 @@ type wildcard struct {
 	Wildcard map[string]string `json:"wildcard"`
 }
 
-func wcFunc(val string) string {
-	if len(val) < 1 {
-		return val
-	}
-	if val[0] == '*' || val[len(val)-1] == '*' {
-		return val
-	}
-	if !strings.HasPrefix(val, "*") {
-		val = "*" + val
-	}
-	if !strings.HasSuffix(val, "*") {
-		val = val + "*"
-	}
-	return val
-}
+func wcFunc(val string) string { _ = "STUB: not implemented"; return "" }
 
 // Wilcard creates a new Elasticserach wildcard query
 //
-//    {"wildcard": {field: value}}
+//	{"wildcard": {field: value}}
 //
 // nested
-//  {"nested": {
-//     "filter" : { "and" : [
-//             {"wildcard": {"v": value}},
-//             {"term":{"k": field_key}}
-//     "path": path
-//    }
-//  }
-func Wildcard(field, value string) *wildcard {
-	return &wildcard{Wildcard: map[string]string{field: wcFunc(value)}}
-}
+//
+//	{"nested": {
+//	   "filter" : { "and" : [
+//	           {"wildcard": {"v": value}},
+//	           {"term":{"k": field_key}}
+//	   "path": path
+//	  }
+//	}
+func Wildcard(field, value string) *wildcard { _ = "STUB: not implemented"; return nil }

@@ -1,10 +1,5 @@
 package lex
 
-import (
-	"fmt"
-	"strings"
-)
-
 // TokenType identifies the type of lexical tokens.
 type TokenType uint16
 
@@ -28,36 +23,30 @@ type Token struct {
 }
 
 // convert to human readable string
-func (t Token) String() string {
-	return fmt.Sprintf(`Token{ %s Type:"%v" Line:%d Col:%d Q:%s Pos:%d}`,
-		t.V, t.T.String(), t.Line, t.Column, string(t.Quote), t.Pos)
-}
-func (t Token) Err(l *Lexer) error { return t.ErrMsg(l, "") }
-func (t Token) ErrMsg(l *Lexer, msg string) error {
-	return l.ErrMsg(t, msg)
-}
+func (t Token) String() string { _ = "STUB: not implemented"; return "" }
+
+func (t Token) Err(l *Lexer) error                { _ = "STUB: not implemented"; return nil }
+func (t Token) ErrMsg(l *Lexer, msg string) error { _ = "STUB: not implemented"; return nil }
 
 /*
-
-	// List of datatypes from MySql, implement them as tokens?   or leave as Identity during
-	// DDL create/alter statements?
-	BOOL	TINYINT
-	BOOLEAN	TINYINT
-	CHARACTER VARYING(M)	VARCHAR(M)
-	FIXED	DECIMAL
-	FLOAT4	FLOAT
-	FLOAT8	DOUBLE
-	INT1	TINYINT
-	INT2	SMALLINT
-	INT3	MEDIUMINT
-	INT4	INT
-	INT8	BIGINT
-	LONG VARBINARY	MEDIUMBLOB
-	LONG VARCHAR	MEDIUMTEXT
-	LONG	MEDIUMTEXT
-	MIDDLEINT	MEDIUMINT
-	NUMERIC	DECIMAL
-
+// List of datatypes from MySql, implement them as tokens?   or leave as Identity during
+// DDL create/alter statements?
+BOOL	TINYINT
+BOOLEAN	TINYINT
+CHARACTER VARYING(M)	VARCHAR(M)
+FIXED	DECIMAL
+FLOAT4	FLOAT
+FLOAT8	DOUBLE
+INT1	TINYINT
+INT2	SMALLINT
+INT3	MEDIUMINT
+INT4	INT
+INT8	BIGINT
+LONG VARBINARY	MEDIUMBLOB
+LONG VARCHAR	MEDIUMTEXT
+LONG	MEDIUMTEXT
+MIDDLEINT	MEDIUMINT
+NUMERIC	DECIMAL
 */
 const (
 	// List of all TokenTypes Note we do NOT use IOTA because it is evil
@@ -440,58 +429,19 @@ func init() {
 }
 
 // LoadTokenInfo load the token info into global map
-func LoadTokenInfo() {
-	for tok, ti := range TokenNameMap {
-		ti.T = tok
-		if ti.Kw == "" {
-			ti.Kw = ti.Description
-		}
-		TokenToOp[ti.Kw] = tok
-		if strings.Contains(ti.Kw, " ") {
-			parts := strings.Split(ti.Kw, " ")
-			ti.firstWord = parts[0]
-			ti.HasSpaces = true
-		}
-	}
-}
+func LoadTokenInfo() { _ = "STUB: not implemented"; return }
 
 // TokenFromOp get token from operation string
-func TokenFromOp(op string) Token {
-	tt, ok := TokenToOp[op]
-	if ok {
-		return Token{T: tt, V: op}
-	}
-	return Token{T: TokenNil}
-}
+func TokenFromOp(op string) Token { _ = "STUB: not implemented"; return *new(Token) }
 
 // String convert to human readable string
-func (typ TokenType) String() string {
-	s, ok := TokenNameMap[typ]
-	if ok {
-		return s.Kw
-	}
-	return "not implemented"
-}
+func (typ TokenType) String() string { _ = "STUB: not implemented"; return "" }
 
 // MatchString which keyword should we look for, either full keyword
 // OR in case of spaces such as "group by" look for group
-func (typ TokenType) MatchString() string {
-	tokInfo, ok := TokenNameMap[typ]
-	//u.Debugf("matchstring: '%v' '%v'  '%v'", tokInfo.T, tokInfo.Kw, tokInfo.Description)
-	if ok {
-		if tokInfo.HasSpaces {
-			return tokInfo.firstWord
-		}
-		return tokInfo.Kw
-	}
-	return "not implemented"
-}
+func (typ TokenType) MatchString() string { _ = "STUB: not implemented"; return "" }
+
+//u.Debugf("matchstring: '%v' '%v'  '%v'", tokInfo.T, tokInfo.Kw, tokInfo.Description)
 
 // MultiWord is this a word such as "Group by" with multiple words?
-func (typ TokenType) MultiWord() bool {
-	tokInfo, ok := TokenNameMap[typ]
-	if ok {
-		return tokInfo.HasSpaces
-	}
-	return false
-}
+func (typ TokenType) MultiWord() bool { _ = "STUB: not implemented"; return false }

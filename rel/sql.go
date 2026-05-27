@@ -3,16 +3,7 @@
 package rel
 
 import (
-	"bytes"
-	"encoding/json"
-	"fmt"
-	"hash/fnv"
-	"io"
-	"sort"
-	"strings"
-
 	u "github.com/araddon/gou"
-	"github.com/gogo/protobuf/proto"
 
 	"github.com/araddon/qlbridge/expr"
 	"github.com/araddon/qlbridge/lex"
@@ -315,1800 +306,481 @@ type (
 	}
 )
 
-func NewSqlDialect() expr.DialectWriter {
-	return expr.NewKeywordDialect(SqlKeywords)
-}
-func NewProjection() *Projection {
-	return &Projection{Columns: make(ResultColumns, 0), colNames: make(map[string]struct{})}
-}
+func NewSqlDialect() expr.DialectWriter { _ = "STUB: not implemented"; return *new(expr.DialectWriter) }
+
+func NewProjection() *Projection { _ = "STUB: not implemented"; return nil }
+
 func NewResultColumn(as string, ordinal int, col *Column, valtype value.ValueType) *ResultColumn {
-	rc := ResultColumn{Name: as, As: as, ColPos: ordinal, Col: col, Type: valtype}
-	if col != nil {
-		rc.Name = col.SourceField
-	}
-	return &rc
+	_ = "STUB: not implemented"
+	return nil
 }
-func NewSqlSelect() *SqlSelect {
-	req := &SqlSelect{}
-	req.Columns = make(Columns, 0)
-	return req
-}
-func NewSqlInsert() *SqlInsert {
-	req := &SqlInsert{}
-	req.Columns = make(Columns, 0)
-	return req
-}
-func NewSqlUpdate() *SqlUpdate {
-	req := &SqlUpdate{}
-	return req
-}
-func NewSqlUpsert() *SqlUpsert {
-	req := &SqlUpsert{}
-	return req
-}
-func NewSqlDelete() *SqlDelete {
-	return &SqlDelete{}
-}
-func NewPreparedStatement() *PreparedStatement {
-	return &PreparedStatement{}
-}
-func NewSqlCreate() *SqlCreate {
-	req := &SqlCreate{}
-	return req
-}
-func NewSqlDrop() *SqlDrop {
-	req := &SqlDrop{}
-	return req
-}
-func NewSqlInto(table string) *SqlInto {
-	return &SqlInto{Table: table}
-}
-func NewSqlSource(table string) *SqlSource {
-	return &SqlSource{Name: table}
-}
-func NewSqlWhere(where expr.Node) *SqlWhere {
-	return &SqlWhere{Expr: where}
-}
-func NewColumnFromToken(tok lex.Token) *Column {
-	_, r, _ := expr.LeftRight(tok.V)
-	v := tok.V
-	if tok.Quote != 0 {
-		//v = expr.IdentityMaybeQuote(tok.Quote, v)
-	}
-	return &Column{
-		As:              tok.V,
-		sourceQuoteByte: tok.Quote,
-		asQuoteByte:     tok.Quote,
-		SourceField:     r,
-		SourceOriginal:  v,
-	}
-}
-func NewColumnValue(tok lex.Token) *Column {
-	return &Column{
-		sourceQuoteByte: tok.Quote,
-		asQuoteByte:     tok.Quote,
-	}
-}
-func NewColumn(col string) *Column {
-	return &Column{
-		As:          col,
-		SourceField: col,
-		Expr:        &expr.IdentityNode{Text: col},
-	}
-}
+
+func NewSqlSelect() *SqlSelect { _ = "STUB: not implemented"; return nil }
+
+func NewSqlInsert() *SqlInsert { _ = "STUB: not implemented"; return nil }
+
+func NewSqlUpdate() *SqlUpdate { _ = "STUB: not implemented"; return nil }
+
+func NewSqlUpsert() *SqlUpsert { _ = "STUB: not implemented"; return nil }
+
+func NewSqlDelete() *SqlDelete { _ = "STUB: not implemented"; return nil }
+
+func NewPreparedStatement() *PreparedStatement { _ = "STUB: not implemented"; return nil }
+
+func NewSqlCreate() *SqlCreate { _ = "STUB: not implemented"; return nil }
+
+func NewSqlDrop() *SqlDrop { _ = "STUB: not implemented"; return nil }
+
+func NewSqlInto(table string) *SqlInto { _ = "STUB: not implemented"; return nil }
+
+func NewSqlSource(table string) *SqlSource { _ = "STUB: not implemented"; return nil }
+
+func NewSqlWhere(where expr.Node) *SqlWhere { _ = "STUB: not implemented"; return nil }
+
+func NewColumnFromToken(tok lex.Token) *Column { _ = "STUB: not implemented"; return nil }
+
+//v = expr.IdentityMaybeQuote(tok.Quote, v)
+
+func NewColumnValue(tok lex.Token) *Column { _ = "STUB: not implemented"; return nil }
+
+func NewColumn(col string) *Column { _ = "STUB: not implemented"; return nil }
 
 // The source column name
-func (m *ResultColumn) SourceName() string {
-	if m.Col != nil && m.Col.SourceField != "" {
-		return m.Col.SourceField
-	}
-	return m.Name
-}
-func (m *ResultColumn) Equal(s *ResultColumn) bool {
-	if m == nil && s == nil {
-		return true
-	}
-	if m == nil && s != nil {
-		return false
-	}
-	if m != nil && s == nil {
-		return false
-	}
-	if m.Final != s.Final {
-		return false
-	}
-	if m.Name != s.Name {
-		return false
-	}
-	if m.ColPos != s.ColPos {
-		return false
-	}
-	if m.Star != s.Star {
-		return false
-	}
-	if m.As != s.As {
-		return false
-	}
-	if m.Type != s.Type {
-		return false
-	}
-	if m.Col != nil && !m.Col.Equal(s.Col) {
-		//u.Warnf("Not Equal?   %T  vs %T", m.Col, s.Col)
-		//u.Warnf("t!=t:   \n\t%#v\n\t%#v", m.Col, s.Col)
-		return false
-	}
-	return true
-}
-func resultColumnFromPb(pb *ResultColumnPb) *ResultColumn {
-	s := ResultColumn{}
-	s.Final = pb.GetFinal()
-	s.Name = pb.GetName()
-	s.ColPos = int(pb.GetColPos())
-	if pb.Column != nil {
-		s.Col = columnFromPb(pb.Column)
-	}
-	s.Star = pb.GetStar()
-	s.As = pb.GetAs()
-	s.Type = value.ValueType(pb.GetValueType())
-	return &s
-}
-func resultColumnToPb(m *ResultColumn) *ResultColumnPb {
-	s := &ResultColumnPb{}
-	if m.Col != nil {
-		s.Column = m.Col.ToPB()
-	}
-	if m.Final {
-		s.Final = &m.Final
-	}
-	if m.Star {
-		s.Star = &m.Star
-	}
-	s.Name = m.Name
-	s.ColPos = int32(m.ColPos)
-	s.As = m.As
-	s.ValueType = int32(m.Type)
-	return s
-}
+func (m *ResultColumn) SourceName() string { _ = "STUB: not implemented"; return "" }
+
+func (m *ResultColumn) Equal(s *ResultColumn) bool { _ = "STUB: not implemented"; return false }
+
+//u.Warnf("Not Equal?   %T  vs %T", m.Col, s.Col)
+//u.Warnf("t!=t:   \n\t%#v\n\t%#v", m.Col, s.Col)
+
+func resultColumnFromPb(pb *ResultColumnPb) *ResultColumn { _ = "STUB: not implemented"; return nil }
+
+func resultColumnToPb(m *ResultColumn) *ResultColumnPb { _ = "STUB: not implemented"; return nil }
 
 func (m *Projection) AddColumnShort(colName string, vt value.ValueType) {
+	_ = "STUB: not implemented"
 	//colName = strings.ToLower(colName)
 	// if _, exists := m.colNames[colName]; exists {
 	// 	return
 	// }
 	//u.Infof("adding column %s to %v", colName, m.colNames)
 	//m.colNames[colName] = struct{}{}
-	m.Columns = append(m.Columns, NewResultColumn(colName, len(m.Columns), nil, vt))
+	return
 }
+
 func (m *Projection) AddColumn(col *Column, vt value.ValueType) {
-	//colName := strings.ToLower(col.As)
-	// if _, exists := m.colNames[colName]; exists {
-	// 	return
-	// }
-	//m.colNames[colName] = struct{}{}
-	m.Columns = append(m.Columns, NewResultColumn(col.As, len(m.Columns), col, vt))
-}
-func (m *Projection) Equal(s *Projection) bool {
-	if m == nil && s == nil {
-		return true
-	}
-	if m == nil && s != nil {
-		return false
-	}
-	if m != nil && s == nil {
-		return false
-	}
-	if m.Distinct != s.Distinct {
-		return false
-	}
-	if len(m.colNames) != len(s.colNames) {
-		return false
-	}
-	for name := range m.colNames {
-		_, hasSameName := s.colNames[name]
-		if !hasSameName {
-			return false
-		}
-	}
-	if len(m.Columns) != len(s.Columns) {
-		return false
-	}
-	for i, c := range m.Columns {
-		if !c.Equal(s.Columns[i]) {
-			//u.Warnf("Not Equal?   %T  vs %T", c, s.Columns[i])
-			//u.Warnf("t!=t:   \n\t%#v \n\t!= %#v", c, s.Columns[i])
-			return false
-		}
-	}
-	return true
-}
-func (m *Projection) FromPB(pb *ProjectionPb) *Projection {
-	return ProjectionFromPb(pb)
-}
-func (m *Projection) ToPB() *ProjectionPb {
-	if m.pb == nil {
-		m.pb = projectionToPb(m)
-	}
-	return m.pb
-}
-func ProjectionFromPb(pb *ProjectionPb) *Projection {
-	s := Projection{}
-	s.Distinct = pb.GetDistinct()
-	s.colNames = make(map[string]struct{}, len(pb.ColNames))
-	for _, name := range pb.ColNames {
-		s.colNames[name] = struct{}{}
-	}
-	s.Columns = make(ResultColumns, len(pb.Columns))
-	for i, pbc := range pb.Columns {
-		s.Columns[i] = resultColumnFromPb(pbc)
-	}
-	return &s
-}
-func projectionToPb(m *Projection) *ProjectionPb {
-	s := &ProjectionPb{}
-	s.Distinct = m.Distinct
-	if len(m.colNames) > 0 {
-		s.ColNames = make([]string, 0, len(m.colNames))
-		for name := range m.colNames {
-			s.ColNames = append(s.ColNames, name)
-		}
-	}
-	if len(m.Columns) > 0 {
-		s.Columns = make([]*ResultColumnPb, len(m.Columns))
-		for i, c := range m.Columns {
-			s.Columns[i] = resultColumnToPb(c)
-		}
-	}
-	return s
+	_ = "STUB: not implemented"
+	// colName := strings.ToLower(col.As)
+	//
+	//	if _, exists := m.colNames[colName]; exists {
+	//		return
+	//	}
+	//
+	// m.colNames[colName] = struct{}{}
+	return
 }
 
-func (m *Columns) WriteDialect(w expr.DialectWriter) {
-	colCt := len(*m)
-	if colCt == 1 {
-		(*m)[0].WriteDialect(w)
-		return
-	} else if colCt == 0 {
-		return
-	}
-	for i, col := range *m {
-		if i != 0 {
-			io.WriteString(w, ", ")
-		}
-		col.WriteDialect(w)
-	}
-}
-func (m *Columns) String() string {
-	w := expr.NewDefaultWriter()
-	m.WriteDialect(w)
-	return w.String()
-}
-func (m *Columns) FieldNames() []string {
-	names := make([]string, len(*m))
-	for i, col := range *m {
-		names[i] = col.Key()
-	}
-	return names
-}
-func (m *Columns) UnAliasedFieldNames() []string {
-	names := make([]string, len(*m))
-	for i, col := range *m {
-		_, right, _ := col.LeftRight()
-		names[i] = right
-	}
-	return names
-}
-func (m *Columns) AliasedFieldNames() []string {
-	names := make([]string, len(*m))
-	for i, col := range *m {
-		names[i] = col.As
-	}
-	return names
-}
+func (m *Projection) Equal(s *Projection) bool { _ = "STUB: not implemented"; return false }
+
+//u.Warnf("Not Equal?   %T  vs %T", c, s.Columns[i])
+//u.Warnf("t!=t:   \n\t%#v \n\t!= %#v", c, s.Columns[i])
+
+func (m *Projection) FromPB(pb *ProjectionPb) *Projection { _ = "STUB: not implemented"; return nil }
+
+func (m *Projection) ToPB() *ProjectionPb { _ = "STUB: not implemented"; return nil }
+
+func ProjectionFromPb(pb *ProjectionPb) *Projection { _ = "STUB: not implemented"; return nil }
+
+func projectionToPb(m *Projection) *ProjectionPb { _ = "STUB: not implemented"; return nil }
+
+func (m *Columns) WriteDialect(w expr.DialectWriter) { _ = "STUB: not implemented"; return }
+
+func (m *Columns) String() string { _ = "STUB: not implemented"; return "" }
+
+func (m *Columns) FieldNames() []string { _ = "STUB: not implemented"; return nil }
+
+func (m *Columns) UnAliasedFieldNames() []string { _ = "STUB: not implemented"; return nil }
+
+func (m *Columns) AliasedFieldNames() []string { _ = "STUB: not implemented"; return nil }
+
 func (m *Columns) ByName(name string) (*Column, bool) {
-	for _, col := range *m {
-		//u.Debugf("col.SourceField='%s' key()='%s' As='%s' ", col.SourceField, col.Key(), col.As)
-		if col.SourceField == name || col.Key() == name {
-			return col, true
-		}
-	}
-	return nil, false
-}
-func (m *Columns) ByAs(as string) (*Column, bool) {
-	for _, col := range *m {
-		if col.As == as {
-			return col, true
-		}
-	}
-	return nil, false
-}
-func (m Columns) Equal(cols Columns) bool {
-	if len(m) != len(cols) {
-		return false
-	}
-	for i, c := range m {
-		if !c.Equal(cols[i]) {
-			return false
-		}
-	}
-	return true
+	_ = "STUB: not implemented"
+	return nil,
+
+		// u.Debugf("col.SourceField='%s' key()='%s' As='%s' ", col.SourceField, col.Key(), col.As)
+		false
 }
 
-func (m *Column) Key() string {
-	if m.left != "" {
-		return m.right
-	}
-	return m.As
-}
-func (m *Column) String() string {
-	w := expr.NewDefaultWriter()
-	m.WriteDialect(w)
-	return w.String()
-}
-func (m *Column) WriteDialect(w expr.DialectWriter) {
-	if m.Star {
-		io.WriteString(w, "*")
-		return
-	}
-	exprStr := ""
-	if m.Expr != nil {
-		start := w.Len()
-		m.Expr.WriteDialect(w)
-		if w.Len() > start {
-			exprStr = w.String()[start:]
-		}
-	}
+func (m *Columns) ByAs(as string) (*Column, bool) { _ = "STUB: not implemented"; return nil, false }
 
-	if m.asQuoteByte != 0 && m.originalAs != "" {
-		io.WriteString(w, " AS ")
-		w.WriteIdentity(m.As)
-	} else if m.originalAs != "" && exprStr != m.originalAs {
-		io.WriteString(w, " AS ")
-		w.WriteIdentity(m.originalAs)
-	} else if m.Expr == nil {
-		w.WriteIdentity(m.As)
-	}
-	if m.Guard != nil {
-		io.WriteString(w, " IF ")
-		m.Guard.WriteDialect(w)
-	}
-	if m.Order != "" {
-		io.WriteString(w, " ")
-		io.WriteString(w, m.Order)
-	}
-}
+func (m Columns) Equal(cols Columns) bool { _ = "STUB: not implemented"; return false }
+
+func (m *Column) Key() string { _ = "STUB: not implemented"; return "" }
+
+func (m *Column) String() string { _ = "STUB: not implemented"; return "" }
+
+func (m *Column) WriteDialect(w expr.DialectWriter) { _ = "STUB: not implemented"; return }
 
 // Is this a select count(*) column
-func (m *Column) CountStar() bool {
-	if m.Expr == nil {
-		return false
-	}
-	if fn, ok := m.Expr.(*expr.FuncNode); ok {
-		if len(fn.Args) != 1 {
-			return false
-		}
-		return strings.ToLower(fn.Name) == "count" && fn.Args[0].String() == `*`
-	}
-	return false
-}
-func (m *Column) InFinalProjection() bool {
-	return m.ParentIndex >= 0
-}
-func (m *Column) IsLiteral() bool {
-	if m.Expr == nil {
-		return false
-	}
-	switch n := m.Expr.(type) {
-	case *expr.FuncNode:
-		// count(*)
-		// now()
-		// tolower(field_name)
-		idents := expr.FindAllIdentityField(n)
-		if len(idents) > 0 {
-			return false
-		}
-		if m.Agg && m.CountStar() {
-			return true
-		}
-	case *expr.IdentityNode:
-		if n.IsBooleanIdentity() {
-			return true
-		}
-		return false
-	case *expr.StringNode, *expr.NumberNode, *expr.ValueNode:
-		return true
-	default:
-		u.Warnf("Unknown Node column type? %T", n)
-	}
-	return false
-}
+func (m *Column) CountStar() bool { _ = "STUB: not implemented"; return false }
 
-func (m *Column) IsLiteralOrFunc() bool {
-	if m.Expr == nil {
-		return false
-	}
-	switch n := m.Expr.(type) {
-	case *expr.FuncNode:
-		// count(*)
-		// now()
-		// tolower(field_name)
-		return true
-	case *expr.IdentityNode:
-		// What about NULL?
-		if n.IsBooleanIdentity() {
-			return true
-		}
-		return false
-	case *expr.StringNode, *expr.NumberNode, *expr.ValueNode:
-		return true
-	}
-	return false
-}
+func (m *Column) InFinalProjection() bool { _ = "STUB: not implemented"; return false }
 
-func (m *Column) Asc() bool {
-	return strings.ToLower(m.Order) == "asc"
-}
-func (m *Column) Equal(c *Column) bool {
-	if m == nil && c == nil {
-		return true
-	}
-	if m == nil && c != nil {
-		return false
-	}
-	if m != nil && c == nil {
-		return false
-	}
-	if m.sourceQuoteByte != c.sourceQuoteByte {
-		return false
-	}
-	if m.asQuoteByte != c.asQuoteByte {
-		return false
-	}
-	if m.originalAs != c.originalAs {
-		return false
-	}
-	if m.left != c.left {
-		return false
-	}
-	if m.right != c.right {
-		return false
-	}
-	if m.ParentIndex != c.ParentIndex {
-		return false
-	}
-	if m.Index != c.Index {
-		return false
-	}
-	if m.SourceIndex != c.SourceIndex {
-		return false
-	}
-	if m.SourceField != c.SourceField {
-		return false
-	}
-	if m.As != c.As {
-		return false
-	}
-	if m.Comment != c.Comment {
-		return false
-	}
-	if m.Order != c.Order {
-		return false
-	}
-	if m.Star != c.Star {
-		return false
-	}
-	if m.Expr != nil {
-		if !m.Expr.Equal(c.Expr) {
-			return false
-		}
-	}
-	if m.Guard != nil {
-		if !m.Guard.Equal(c.Guard) {
-			return false
-		}
-	}
-	return true
-}
+func (m *Column) IsLiteral() bool { _ = "STUB: not implemented"; return false }
+
+// count(*)
+// now()
+// tolower(field_name)
+
+func (m *Column) IsLiteralOrFunc() bool { _ = "STUB: not implemented"; return false }
+
+// count(*)
+// now()
+// tolower(field_name)
+
+// What about NULL?
+
+func (m *Column) Asc() bool { _ = "STUB: not implemented"; return false }
+
+func (m *Column) Equal(c *Column) bool { _ = "STUB: not implemented"; return false }
 
 // CopyRewrite Create a new copy of this column for rewrite purposes removing alias
-func (m *Column) CopyRewrite(alias string) *Column {
-	left, right, _ := m.LeftRight()
-	newCol := m.Copy()
-	//u.Warnf("in rewrite:  Alias:'%s'  '%s'.'%s'  sourcefield:'%v'", alias, left, right, m.SourceField)
-	if left == alias {
-		newCol.SourceField = right
-		newCol.right = right
-	}
-	if newCol.Expr != nil {
-		_, right, _ := expr.LeftRight(newCol.Expr.String())
-		if right == m.SourceField {
-			newCol.Expr = &expr.IdentityNode{Text: right}
-		}
-	}
-	return newCol
-}
+func (m *Column) CopyRewrite(alias string) *Column { _ = "STUB: not implemented"; return nil }
+
+//u.Warnf("in rewrite:  Alias:'%s'  '%s'.'%s'  sourcefield:'%v'", alias, left, right, m.SourceField)
 
 // Copy - deep copy, shared nothing
-func (m *Column) Copy() *Column {
-	return &Column{
-		sourceQuoteByte: m.sourceQuoteByte,
-		asQuoteByte:     m.asQuoteByte,
-		originalAs:      m.originalAs,
-		ParentIndex:     m.ParentIndex,
-		Index:           m.Index,
-		SourceField:     m.SourceField,
-		As:              m.right,
-		Comment:         m.Comment,
-		Order:           m.Order,
-		Star:            m.Star,
-		Expr:            m.Expr,
-		Guard:           m.Guard,
-	}
-}
-func (m *Column) ToPB() *ColumnPb {
-	n := ColumnPb{}
-	n.SourceQuote = []byte{m.sourceQuoteByte}
-	n.AsQuoteByte = []byte{m.asQuoteByte}
-	if len(m.originalAs) > 0 {
-		n.OriginalAs = &m.originalAs
-	}
-	if len(m.left) > 0 {
-		n.Left = &m.left
-	}
-	if len(m.right) > 0 {
-		n.Right = &m.right
-	}
-	n.ParentIndex = int32(m.ParentIndex)
-	n.Index = int32(m.Index)
-	n.SourceIndex = int32(m.SourceIndex)
-	if len(m.SourceField) > 0 {
-		n.SourceField = &m.SourceField
-	}
-	n.As = m.As
-	if len(m.Comment) > 0 {
-		n.Comment = &m.Comment
-	}
-	if len(m.Order) > 0 {
-		n.Order = &m.Order
-	}
-	if m.Star {
-		n.Star = &m.Star
-	}
-	if m.Expr != nil {
-		n.Expr = m.Expr.NodePb()
-	}
-	if m.Guard != nil {
-		n.Guard = m.Guard.NodePb()
-	}
-	return &n
-}
-func columnFromPb(c *ColumnPb) *Column {
-	return &Column{
-		sourceQuoteByte: optionalByte(c.GetSourceQuote()),
-		asQuoteByte:     optionalByte(c.GetAsQuoteByte()),
-		originalAs:      c.GetOriginalAs(),
-		left:            c.GetLeft(),
-		right:           c.GetRight(),
-		ParentIndex:     int(c.GetParentIndex()),
-		Index:           int(c.GetIndex()),
-		SourceIndex:     int(c.GetSourceIndex()),
-		SourceField:     c.GetSourceField(),
-		As:              c.GetAs(),
-		Order:           c.GetOrder(),
-		Star:            c.GetStar(),
-		Expr:            expr.NodeFromNodePb(c.GetExpr()),
-		Guard:           expr.NodeFromNodePb(c.GetGuard()),
-	}
-}
+func (m *Column) Copy() *Column { _ = "STUB: not implemented"; return nil }
+
+func (m *Column) ToPB() *ColumnPb { _ = "STUB: not implemented"; return nil }
+
+func columnFromPb(c *ColumnPb) *Column { _ = "STUB: not implemented"; return nil }
 
 // Return left, right values if is of form   `table.column` and
 // also return true/false for if it even has left/right
 func (m *Column) LeftRight() (string, string, bool) {
-	if m.right == "" {
-		m.left, m.right, _ = expr.LeftRight(m.As)
-	}
-	return m.left, m.right, m.left != ""
+	_ = "STUB: not implemented"
+	return "", "", false
 }
 
-func (m *PreparedStatement) Keyword() lex.TokenType { return lex.TokenPrepare }
-func (m *PreparedStatement) String() string {
-	w := expr.NewDefaultWriter()
-	m.WriteDialect(w)
-	return w.String()
+func (m *PreparedStatement) Keyword() lex.TokenType {
+	_ = "STUB: not implemented"
+	return *new(lex.TokenType)
 }
-func (m *PreparedStatement) WriteDialect(w expr.DialectWriter) {
-	io.WriteString(w, "PREPARE ")
-	w.WriteIdentity(m.Alias)
-	io.WriteString(w, " FROM ")
-	m.Statement.WriteDialect(w)
-}
+func (m *PreparedStatement) String() string { _ = "STUB: not implemented"; return "" }
 
-func (m *SqlSelect) Keyword() lex.TokenType { return lex.TokenSelect }
-func (m *SqlSelect) SystemQry() bool        { return len(m.From) == 0 && m.schemaqry }
-func (m *SqlSelect) SetSystemQry()          { m.schemaqry = true }
-func (m *SqlSelect) IsLiteral() bool        { return len(m.From) == 0 }
-func (m *SqlSelect) FromPB(spb *SqlSelectPb) *SqlSelect {
-	return SqlSelectFromPb(spb)
-}
-func (m *SqlSelect) ToPbStatement() *SqlStatementPb {
-	if m.pb == nil {
-		m.pb = &SqlStatementPb{Select: SqlSelectToPb(m)}
-	}
-	return m.pb
-}
-func (m *SqlSelect) ToPB() *SqlSelectPb {
-	return m.ToPbStatement().Select
-}
-func (m *SqlSelect) Copy() *SqlSelect {
-	pb := m.ToPB()
-	selCopy := SqlSelectFromPb(pb)
-	return selCopy
-}
+func (m *PreparedStatement) WriteDialect(w expr.DialectWriter) { _ = "STUB: not implemented"; return }
+
+func (m *SqlSelect) Keyword() lex.TokenType             { _ = "STUB: not implemented"; return *new(lex.TokenType) }
+func (m *SqlSelect) SystemQry() bool                    { _ = "STUB: not implemented"; return false }
+func (m *SqlSelect) SetSystemQry()                      { _ = "STUB: not implemented"; return }
+func (m *SqlSelect) IsLiteral() bool                    { _ = "STUB: not implemented"; return false }
+func (m *SqlSelect) FromPB(spb *SqlSelectPb) *SqlSelect { _ = "STUB: not implemented"; return nil }
+
+func (m *SqlSelect) ToPbStatement() *SqlStatementPb { _ = "STUB: not implemented"; return nil }
+
+func (m *SqlSelect) ToPB() *SqlSelectPb { _ = "STUB: not implemented"; return nil }
+
+func (m *SqlSelect) Copy() *SqlSelect { _ = "STUB: not implemented"; return nil }
 
 // SqlSelectToPb Given a select statement lets convert it into a PB statement
-func SqlSelectToPb(m *SqlSelect) *SqlSelectPb {
-	return sqlSelectToPbDepth(m, 0)
-}
-func sqlSelectToPbDepth(m *SqlSelect, depth int) *SqlSelectPb {
-	//u.Debugf("SqlSelectToPb %d? %p", depth, m)
-	s := SqlSelectPb{}
-	s.Db = m.Db
-	s.Raw = m.Raw
-	s.Star = m.Star
-	s.Distinct = m.Distinct
-	s.Limit = int32(m.Limit)
-	s.Offset = int32(m.Offset)
-	s.IsAgg = m.isAgg
-	s.Finalized = m.finalized
-	s.Schemaqry = m.schemaqry
-	if len(m.Alias) > 0 {
-		s.Alias = &m.Alias
-	}
-	if m.Where != nil {
-		s.Where = SqlWhereToPb(m.Where)
-	}
-	if m.proj != nil {
-		s.Projection = projectionToPb(m.proj)
-	}
-	if m.Having != nil {
-		s.Having = m.Having.NodePb()
-	}
-	if len(m.Columns) > 0 {
-		s.Columns = ColumnsToPb(m.Columns)
-	}
-	if len(m.GroupBy) > 0 {
-		s.GroupBy = ColumnsToPb(m.GroupBy)
-	}
-	if len(m.OrderBy) > 0 {
-		s.OrderBy = ColumnsToPb(m.OrderBy)
-	}
-	if len(m.From) > 0 && depth == 0 {
-		s.From = make([]*SqlSourcePb, len(m.From))
-		for i, from := range m.From {
-			s.From[i] = from.ToPB()
-		}
-	}
-	if len(m.With) > 0 {
-		by, err := json.Marshal(m.With)
-		if err != nil {
-			u.Errorf("unhandled error json with? %v", err)
-		} else {
-			s.With = by
-		}
-	}
-	if m.Into != nil {
-		s.Into = &m.Into.Table
-	}
-	return &s
-}
-func (m *SqlSelect) Equal(ss SqlStatement) bool {
-	s, ok := ss.(*SqlSelect)
-	if !ok {
-		return false
-	}
-	if m == nil && s == nil {
-		return true
-	}
-	if m == nil && s != nil {
-		return false
-	}
-	if m != nil && s == nil {
-		return false
-	}
-	if m.Db != s.Db {
-		return false
-	}
-	if m.Raw != s.Raw {
-		return false
-	}
-	if m.Star != s.Star {
-		return false
-	}
-	if m.Distinct != s.Distinct {
-		return false
-	}
-	if m.Limit != s.Limit {
-		return false
-	}
-	if m.Offset != s.Offset {
-		return false
-	}
-	if m.Alias != s.Alias {
-		return false
-	}
-	if m.isAgg != s.isAgg {
-		return false
-	}
-	if m.finalized != s.finalized {
-		return false
-	}
-	if m.schemaqry != s.schemaqry {
-		return false
-	}
-	if !m.Into.Equal(s.Into) {
-		return false
-	}
-	if m.Where != nil && !m.Where.Equal(s.Where) {
-		return false
-	}
-	if m.Having != nil && !m.Having.Equal(s.Having) {
-		return false
-	}
+func SqlSelectToPb(m *SqlSelect) *SqlSelectPb { _ = "STUB: not implemented"; return nil }
 
-	if len(m.Columns) != len(s.Columns) {
-		return false
-	}
-	for i, c := range m.Columns {
-		if !c.Equal(s.Columns[i]) {
-			return false
-		}
-	}
-	if len(m.From) != len(s.From) {
-		return false
-	}
-	for i, c := range m.From {
-		if !c.Equal(s.From[i]) {
-			return false
-		}
-	}
-	if len(m.GroupBy) != len(s.GroupBy) {
-		return false
-	}
-	for i, c := range m.GroupBy {
-		if !c.Equal(s.GroupBy[i]) {
-			return false
-		}
-	}
-	if len(m.OrderBy) != len(s.OrderBy) {
-		return false
-	}
-	for i, c := range m.OrderBy {
-		if !c.Equal(s.OrderBy[i]) {
-			return false
-		}
-	}
-	if !m.proj.Equal(s.proj) {
-		return false
-	}
-	return true
+func sqlSelectToPbDepth(m *SqlSelect, depth int) *SqlSelectPb {
+	_ = "STUB: not implemented"
+	//u.Debugf("SqlSelectToPb %d? %p", depth, m)
+	return nil
 }
+
+func (m *SqlSelect) Equal(ss SqlStatement) bool { _ = "STUB: not implemented"; return false }
 
 // SqlSelectFromPb take a protobuf select struct and conver to SqlSelect
-func SqlSelectFromPb(pb *SqlSelectPb) *SqlSelect {
-	ss := SqlSelect{
-		Db:        pb.GetDb(),
-		Raw:       pb.GetRaw(),
-		Star:      pb.GetStar(),
-		Distinct:  pb.GetDistinct(),
-		Alias:     pb.GetAlias(),
-		Limit:     int(pb.GetLimit()),
-		Offset:    int(pb.GetOffset()),
-		isAgg:     pb.GetIsAgg(),
-		finalized: pb.GetFinalized(),
-		schemaqry: pb.GetSchemaqry(),
-	}
-	if pb.Into != nil {
-		ss.Into = &SqlInto{pb.GetInto()}
-	}
-	if pb.Where != nil {
-		ss.Where = SqlWhereFromPb(pb.GetWhere())
-	}
-	if pb.Having != nil {
-		ss.Having = expr.NodeFromNodePb(pb.GetHaving())
-	}
-	if pb.Projection != nil {
-		ss.proj = ProjectionFromPb(pb.GetProjection())
-	}
-	if len(pb.Columns) > 0 {
-		ss.Columns = ColumnsFromPb(pb.GetColumns())
-	}
-	if len(pb.GroupBy) > 0 {
-		ss.GroupBy = ColumnsFromPb(pb.GetGroupBy())
-	}
-	if len(pb.OrderBy) > 0 {
-		ss.OrderBy = ColumnsFromPb(pb.GetOrderBy())
-	}
-	if len(pb.From) > 0 {
-		ss.From = make([]*SqlSource, len(pb.From))
-		for i, fpb := range pb.From {
-			ss.From[i] = SqlSourceFromPb(fpb)
-		}
-	}
-	if len(pb.With) > 0 {
-		ss.With = make(u.JsonHelper)
-		json.Unmarshal(pb.With, &ss.With)
-	}
-	return &ss
-}
-func (m *SqlSelect) IsAggQuery() bool {
-	if m.isAgg || len(m.GroupBy) > 0 {
-		return true
-	}
-	return false
-}
-func (m *SqlSelect) String() string {
-	w := NewSqlDialect()
-	m.writeDialectDepth(0, w)
-	return w.String()
-}
-func (m *SqlSelect) writeDialectDepth(depth int, w expr.DialectWriter) {
+func SqlSelectFromPb(pb *SqlSelectPb) *SqlSelect { _ = "STUB: not implemented"; return nil }
 
-	io.WriteString(w, "SELECT ")
-	if m.Distinct {
-		io.WriteString(w, "DISTINCT ")
-	}
-	m.Columns.WriteDialect(w)
-	if m.Into != nil {
-		io.WriteString(w, " INTO ")
-		w.WriteIdentity(m.Into.Table)
-	}
-	if m.From != nil {
-		io.WriteString(w, " FROM")
-		for i, from := range m.From {
-			if i == 0 {
-				io.WriteString(w, " ")
-			} else {
-				if from.SubQuery != nil {
-					io.WriteString(w, "\n")
-					io.WriteString(w, strings.Repeat("\t", depth+1))
-				} else {
-					io.WriteString(w, "\n")
-					io.WriteString(w, strings.Repeat("\t", depth+1))
-				}
-			}
-			from.writeDialectDepth(depth+1, w)
-		}
-	}
-	if m.Where != nil {
-		io.WriteString(w, " WHERE ")
-		m.Where.writeDialectDepth(depth, w)
-	}
-	if len(m.GroupBy) > 0 {
-		io.WriteString(w, " GROUP BY ")
-		m.GroupBy.WriteDialect(w)
-	}
-	if m.Having != nil {
-		io.WriteString(w, " HAVING ")
-		m.Having.WriteDialect(w)
-	}
-	if len(m.OrderBy) > 0 {
-		io.WriteString(w, " ORDER BY ")
-		m.OrderBy.WriteDialect(w)
-	}
-	if m.Limit > 0 {
-		io.WriteString(w, fmt.Sprintf(" LIMIT %d", m.Limit))
-	}
-	if m.Offset > 0 {
-		io.WriteString(w, fmt.Sprintf(" OFFSET %d", m.Offset))
-	}
+func (m *SqlSelect) IsAggQuery() bool { _ = "STUB: not implemented"; return false }
+
+func (m *SqlSelect) String() string { _ = "STUB: not implemented"; return "" }
+
+func (m *SqlSelect) writeDialectDepth(depth int, w expr.DialectWriter) {
+	_ = "STUB: not implemented"
+	return
 }
-func (m *SqlSelect) FingerPrintID() int64 {
-	if m.fingerprintid == 0 {
-		h := fnv.New64()
-		w := expr.NewFingerPrinter()
-		m.WriteDialect(w)
-		h.Write([]byte(w.String()))
-		m.fingerprintid = int64(h.Sum64())
-	}
-	return m.fingerprintid
-}
-func (m *SqlSelect) WriteDialect(w expr.DialectWriter) {
-	m.writeDialectDepth(0, w)
-}
+
+func (m *SqlSelect) FingerPrintID() int64 { _ = "STUB: not implemented"; return 0 }
+
+func (m *SqlSelect) WriteDialect(w expr.DialectWriter) { _ = "STUB: not implemented"; return }
 
 // Finalize this Query plan by preparing sub-sources
-//  ie we need to rewrite some things into sub-statements
-//  - we need to share the join expression across sources
-func (m *SqlSelect) Finalize() error {
-	if m.finalized {
-		return nil
-	}
-	m.finalized = true
-	if len(m.From) == 0 {
-		return nil
-	}
-	for _, from := range m.From {
-		from.Finalize()
-	}
+//
+//	ie we need to rewrite some things into sub-statements
+//	- we need to share the join expression across sources
+func (m *SqlSelect) Finalize() error { _ = "STUB: not implemented"; return nil }
 
-	return nil
-}
+func (m *SqlSelect) UnAliasedColumns() map[string]*Column { _ = "STUB: not implemented"; return nil }
 
-func (m *SqlSelect) UnAliasedColumns() map[string]*Column {
-	cols := make(map[string]*Column, len(m.Columns))
-	for _, col := range m.Columns {
-		_, right, _ := col.LeftRight()
-		cols[right] = col
-	}
-	return cols
-}
-func (m *SqlSelect) AliasedColumns() map[string]*Column {
-	cols := make(map[string]*Column, len(m.Columns))
-	for _, col := range m.Columns {
-		//u.Debugf("aliasing: key():%-15q  As:%-15q   %-15q", col.Key(), col.As, col.String())
-		cols[col.Key()] = col
-	}
-	return cols
-}
-func (m *SqlSelect) ColIndexes() map[string]int {
-	cols := make(map[string]int, len(m.Columns))
-	for i, col := range m.Columns {
-		//u.Debugf("aliasing: key():%-15q  As:%-15q   %-15q", col.Key(), col.As, col.String())
-		cols[col.Key()] = i
-	}
-	return cols
-}
+func (m *SqlSelect) AliasedColumns() map[string]*Column { _ = "STUB: not implemented"; return nil }
 
-func (m *SqlSelect) AddColumn(colArg Column) error {
-	col := &colArg
-	col.Index = len(m.Columns)
-	m.Columns = append(m.Columns, col)
-	if col.Star {
-		m.Star = true
-	}
+//u.Debugf("aliasing: key():%-15q  As:%-15q   %-15q", col.Key(), col.As, col.String())
 
-	if col.As == "" && col.Expr == nil && !col.Star {
-		return fmt.Errorf("Must have *, Expression, or Identity to be a column %+v", col)
-	}
-	if col.Agg && !m.isAgg {
-		m.isAgg = true
-	}
-	return nil
-}
+func (m *SqlSelect) ColIndexes() map[string]int { _ = "STUB: not implemented"; return nil }
+
+//u.Debugf("aliasing: key():%-15q  As:%-15q   %-15q", col.Key(), col.As, col.String())
+
+func (m *SqlSelect) AddColumn(colArg Column) error { _ = "STUB: not implemented"; return nil }
 
 // Is this a select count(*) FROM ...   query?
-func (m *SqlSelect) CountStar() bool {
-	if len(m.Columns) != 1 {
-		return false
-	}
-	col := m.Columns[0]
-	if col.Expr == nil {
-		return false
-	}
-	if f, ok := col.Expr.(*expr.FuncNode); ok {
-		if strings.ToLower(f.Name) != "count" {
-			return false
-		}
-		if len(f.Args) == 1 && f.Args[0].String() == "*" {
-			return true
-		}
-	}
-	return false
-}
+func (m *SqlSelect) CountStar() bool { _ = "STUB: not implemented"; return false }
 
 // Rewrite take current SqlSelect statement and re-write it
-func (m *SqlSelect) Rewrite() {
-	for _, f := range m.From {
-		f.Rewrite(m)
-	}
-}
+func (m *SqlSelect) Rewrite() { _ = "STUB: not implemented"; return }
 
 // RewriteAsRawSelect We are removing Column Aliases "user_id as uid"
 // as well as functions - used when we are going to defer projection, aggs
-func (m *SqlSelect) RewriteAsRawSelect() {
-	RewriteSelect(m)
-}
+func (m *SqlSelect) RewriteAsRawSelect() { _ = "STUB: not implemented"; return }
 
-func (m *SqlSource) IsLiteral() bool        { return len(m.Name) == 0 }
-func (m *SqlSource) Keyword() lex.TokenType { return m.Op }
-func (m *SqlSource) SourceName() string {
-	if m == nil {
-		return ""
-	}
-	if m.SubQuery != nil {
-		if len(m.SubQuery.From) == 1 {
-			return m.SubQuery.From[0].Name
-		}
-		u.Warnf("could not find source name bc SubQuery had %d sources", len(m.SubQuery.From))
-		return ""
-	}
-	_, right, hasLeft := expr.LeftRight(m.Name)
-	if hasLeft {
-		return right
-	}
-	return right
-}
-func (m *SqlSource) String() string {
-	w := expr.NewDefaultWriter()
-	m.WriteDialect(w)
-	return w.String()
-}
-func (m *SqlSource) WriteDialect(w expr.DialectWriter) {
-	m.writeDialectDepth(0, w)
-}
+func (m *SqlSource) IsLiteral() bool        { _ = "STUB: not implemented"; return false }
+func (m *SqlSource) Keyword() lex.TokenType { _ = "STUB: not implemented"; return *new(lex.TokenType) }
+func (m *SqlSource) SourceName() string     { _ = "STUB: not implemented"; return "" }
+
+func (m *SqlSource) String() string { _ = "STUB: not implemented"; return "" }
+
+func (m *SqlSource) WriteDialect(w expr.DialectWriter) { _ = "STUB: not implemented"; return }
+
 func (m *SqlSource) writeDialectDepth(depth int, w expr.DialectWriter) {
-
-	if int(m.Op) == 0 && int(m.LeftOrRight) == 0 && int(m.JoinType) == 0 {
-		if m.Alias != "" {
-			w.WriteIdentity(m.Name)
-			io.WriteString(w, " AS ")
-			w.WriteIdentity(m.Alias)
-			return
-		}
-		if m.Schema == "" {
-			w.WriteIdentity(m.Name)
-		} else {
-			w.WriteIdentity(m.Schema)
-			io.WriteString(w, ".")
-			w.WriteIdentity(m.Name)
-		}
-		return
-	}
-
-	//   Jointype                Op
-	//  INNER JOIN orders AS o 	ON
-	if int(m.JoinType) != 0 {
-		io.WriteString(w, strings.ToTitle(m.JoinType.String())) // inner/outer
-		io.WriteString(w, " ")
-	}
-	io.WriteString(w, "JOIN ")
-
-	if m.SubQuery != nil {
-		io.WriteString(w, "(\n"+strings.Repeat("\t", depth+1))
-		m.SubQuery.writeDialectDepth(depth+1, w)
-		io.WriteString(w, "\n"+strings.Repeat("\t", depth)+")")
-	} else {
-		if m.Schema == "" {
-			w.WriteIdentity(m.Name)
-		} else {
-			w.WriteIdentity(m.Schema)
-			io.WriteString(w, ".")
-			w.WriteIdentity(m.Name)
-		}
-
-	}
-	if m.Alias != "" {
-		io.WriteString(w, " AS ")
-		w.WriteIdentity(m.Alias)
-	}
-
-	io.WriteString(w, " ")
-	io.WriteString(w, strings.ToTitle(m.Op.String()))
-
-	if m.JoinExpr != nil {
-		w.Write([]byte{' '})
-		m.JoinExpr.WriteDialect(w)
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
-func (m *SqlSource) BuildColIndex(colNames []string) error {
-	if len(m.colIndex) == 0 {
-		m.colIndex = make(map[string]int, len(colNames))
-	}
-	if len(colNames) == 0 {
-		u.LogTraceDf(u.WARN, 10, "No columns?")
-	}
-	starDelta := 0 // how many columns were added due to *
-	for _, col := range m.Source.Columns {
-		if col.Star {
-			starStart := len(m.colIndex)
-			for colIdx := range colNames {
-				m.colIndex[col.Key()] = colIdx + starStart
-			}
-			starDelta = len(colNames)
-		} else {
-			found := false
-			for colIdx, colName := range colNames {
-				_, colName, _ = expr.LeftRight(colName)
-				//u.Debugf("col.Key():%v  sourceField:%v  colName:%v", col.Key(), col.SourceField, colName)
-				if colName == col.Key() || col.SourceField == colName { //&&
-					//u.Debugf("build col:  idx=%d  key=%-15q as=%-15q col=%-15s sourcidx:%d", len(m.colIndex), col.Key(), col.As, col.String(), colIdx)
-					m.colIndex[col.Key()] = colIdx + starDelta
-					col.SourceIndex = colIdx + starDelta
-					found = true
-					break
-				}
-			}
-			if !found && !col.IsLiteralOrFunc() {
-				return fmt.Errorf("Missing Column in source: %q", col.String())
-			}
-		}
-	}
-	return nil
-}
+//   Jointype                Op
+//  INNER JOIN orders AS o 	ON
+
+// inner/outer
+
+func (m *SqlSource) BuildColIndex(colNames []string) error { _ = "STUB: not implemented"; return nil }
+
+// how many columns were added due to *
+
+//u.Debugf("col.Key():%v  sourceField:%v  colName:%v", col.Key(), col.SourceField, colName)
+//&&
+//u.Debugf("build col:  idx=%d  key=%-15q as=%-15q col=%-15s sourcidx:%d", len(m.colIndex), col.Key(), col.As, col.String(), colIdx)
 
 // Rewrite this Source to act as a stand-alone query to backend
 // @parentStmt = the parent statement that this a partial source to
 func (m *SqlSource) Rewrite(parentStmt *SqlSelect) *SqlSelect {
-	return RewriteSqlSource(m, parentStmt)
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func (m *SqlSource) findFromAliases() (string, string) {
-	from1, from2 := m.alias, ""
-	if m.JoinExpr != nil {
-		switch nt := m.JoinExpr.(type) {
-		case *expr.BinaryNode:
-			if in, ok := nt.Args[0].(*expr.IdentityNode); ok {
-				if left, _, ok := in.LeftRight(); ok {
-					from1 = left
-				}
-			}
-			if in, ok := nt.Args[1].(*expr.IdentityNode); ok {
-				if left, _, ok := in.LeftRight(); ok {
-					from2 = left
-				}
-			}
-		default:
-			u.Warnf("%T node types are not suppored yet for join rewrite", m.JoinExpr)
-		}
-	}
-	return from1, from2
-}
+func (m *SqlSource) findFromAliases() (string, string) { _ = "STUB: not implemented"; return "", "" }
 
 // Get a list of Un-Aliased Columns, ie columns with column
-//  names that have NOT yet been aliased
+//
+//	names that have NOT yet been aliased
 func (m *SqlSource) UnAliasedColumns() map[string]*Column {
-	//u.Warnf("un-aliased %d", len(m.Source.Columns))
-	if len(m.cols) > 0 || m.Source != nil && len(m.Source.Columns) == 0 {
-		return m.cols
-	}
-
-	cols := make(map[string]*Column, len(m.Source.Columns))
-	for _, col := range m.Source.Columns {
-		_, right, hasLeft := col.LeftRight()
-		//u.Debugf("aliasing: l:%q r:%q hasLeft?%v", left, right, hasLeft)
-		if hasLeft {
-			cols[right] = col
-		} else {
-			cols[right] = col
-		}
-	}
-	return cols
+	_ = "STUB: not implemented"
+	// u.Warnf("un-aliased %d", len(m.Source.Columns))
+	return nil
 }
+
+//u.Debugf("aliasing: l:%q r:%q hasLeft?%v", left, right, hasLeft)
 
 // Get a list of Column names to position
-func (m *SqlSource) ColumnPositions() map[string]int {
-	if len(m.colIndex) > 0 {
-		return m.colIndex
-	}
-	if m.Source == nil {
-		return nil
-	}
-	cols := make(map[string]int)
-	for idx, col := range m.Source.Columns {
-		left, right, ok := col.LeftRight()
-		//u.Debugf("aliasing: l:%v r:%v ok?%v", left, right, ok)
-		if ok {
-			cols[right] = idx
-		} else {
-			cols[left] = idx
-		}
-	}
-	m.colIndex = cols
-	return m.colIndex
-}
+func (m *SqlSource) ColumnPositions() map[string]int { _ = "STUB: not implemented"; return nil }
+
+//u.Debugf("aliasing: l:%v r:%v ok?%v", left, right, ok)
 
 // We need to be able to rewrite statements to convert a stmt such as:
 //
-//     FROM users AS u
-//         INNER JOIN orders AS o
-//         ON u.user_id = o.user_id
+//	FROM users AS u
+//	    INNER JOIN orders AS o
+//	    ON u.user_id = o.user_id
 //
 // So that we can evaluate the Join Key on left/right
 // in this case, it is simple, just
 //
-//    =>   user_id
+//	=>   user_id
 //
 // or this one:
 //
-//		FROM users AS u
-//			INNER JOIN orders AS o
-//			ON LOWER(u.email) = LOWER(o.email)
+//			FROM users AS u
+//				INNER JOIN orders AS o
+//				ON LOWER(u.email) = LOWER(o.email)
 //
-//    =>  LOWER(user_id)
-//
-func (m *SqlSource) JoinNodes() []expr.Node {
-	return m.joinNodes
-}
-func (m *SqlSource) Finalize() error {
-	if m.final {
-		return nil
-	}
-	m.alias = strings.ToLower(m.Alias)
-	if m.alias == "" {
-		m.alias = strings.ToLower(m.Name)
-	}
-	//u.Warnf("finalize sqlsource: %v", len(m.Columns))
-	m.final = true
-	return nil
-}
-func (m *SqlSource) FromPB(n *SqlSourcePb) *SqlSource {
-	return SqlSourceFromPb(n)
-}
-func (m *SqlSource) ToPB() *SqlSourcePb {
-	if m.pb == nil {
-		m.pb = sqlSourceToPb(m)
-	}
-	return m.pb
-}
-func (m *SqlSource) Equal(s *SqlSource) bool {
-	if m == nil && s == nil {
-		return true
-	}
-	if m == nil && s != nil {
-		return false
-	}
-	if m != nil && s == nil {
-		return false
-	}
+//	   =>  LOWER(user_id)
+func (m *SqlSource) JoinNodes() []expr.Node { _ = "STUB: not implemented"; return nil }
 
-	if m.final != s.final {
-		return false
-	}
-	if m.alias != s.alias {
-		return false
-	}
-	if m.Raw != s.Raw {
-		return false
-	}
-	if m.Name != s.Name {
-		return false
-	}
-	if m.Alias != s.Alias {
-		return false
-	}
-	if m.Op != s.Op {
-		return false
-	}
-	if m.LeftOrRight != s.LeftOrRight {
-		return false
-	}
-	if m.JoinType != s.JoinType {
-		return false
-	}
-	if m.Seekable != s.Seekable {
-		return false
-	}
-	if m.JoinExpr != nil && !m.JoinExpr.Equal(s.JoinExpr) {
-		return false
-	}
-	if len(m.cols) != len(s.cols) {
-		return false
-	}
-	for k, c := range m.cols {
-		sc, ok := s.cols[k]
-		if !ok {
-			return false
-		}
-		if !c.Equal(sc) {
-			return false
-		}
-	}
-	if len(m.colIndex) != len(s.colIndex) {
-		return false
-	}
-	for k, midx := range m.colIndex {
-		sidx, ok := s.colIndex[k]
-		if !ok {
-			return false
-		}
-		if midx != sidx {
-			return false
-		}
-	}
-	if len(m.joinNodes) != len(s.joinNodes) {
-		return false
-	}
-	for i, jn := range m.joinNodes {
-		if !jn.Equal(s.joinNodes[i]) {
-			return false
-		}
-	}
-	if !m.SubQuery.Equal(s.SubQuery) {
-		return false
-	}
-	return true
-}
-func sqlSourceToPb(m *SqlSource) *SqlSourcePb {
-	s := SqlSourcePb{}
-	cols := make([]*ColumnPb, 0, len(m.cols))
-	for k, col := range m.cols {
-		col.As = k
-		cols = append(cols, col.ToPB())
-	}
-	s.Columns = cols
-	s.Final = m.final
-	s.Seekable = m.Seekable
-	s.Raw = m.Raw
-	s.Name = m.Name
-	s.Alias = m.Alias
-	s.Op = int32(m.Op)
-	s.LeftOrRight = int32(m.LeftOrRight)
-	s.JoinType = int32(m.JoinType)
-	if len(m.alias) > 0 {
-		s.AliasInner = &m.alias
-	}
-	kvs := make([]KvInt, 0, len(m.colIndex))
-	for k, v := range m.colIndex {
-		kvs = append(kvs, KvInt{K: k, V: int32(v)})
-	}
-	s.ColIndex = kvs
-	if len(m.joinNodes) > 0 {
-		s.JoinNodes = expr.NodesPbFromNodes(m.joinNodes)
-	}
-	// We get into recursive hell if we don't bail
-	// but need to go stich in source?
-	if m.Source != nil {
-		//u.Warnf("about to descend? %p", m.Source)
-		s.Source = sqlSelectToPbDepth(m.Source, 1)
-	}
-	if m.SubQuery != nil {
-		s.SubQuery = SqlSelectToPb(m.SubQuery)
-	}
-	if m.JoinExpr != nil {
-		s.JoinExpr = m.JoinExpr.NodePb()
-	}
+func (m *SqlSource) Finalize() error { _ = "STUB: not implemented"; return nil }
 
-	return &s
-}
-func SqlSourceFromPb(pb *SqlSourcePb) *SqlSource {
-	s := SqlSource{
-		final:       pb.GetFinal(),
-		alias:       pb.GetAliasInner(),
-		colIndex:    MapIntFromPb(pb.GetColIndex()),
-		joinNodes:   expr.NodesFromNodesPbPtr(pb.GetJoinNodes()),
-		Raw:         pb.GetRaw(),
-		Name:        pb.GetName(),
-		Alias:       pb.GetAlias(),
-		Op:          lex.TokenType(pb.GetOp()),
-		LeftOrRight: lex.TokenType(pb.GetLeftOrRight()),
-		JoinType:    lex.TokenType(pb.GetJoinType()),
-		JoinExpr:    expr.NodeFromNodePb(pb.GetJoinExpr()),
-		Seekable:    pb.GetSeekable(),
-	}
-	if pb.Source != nil {
-		s.Source = SqlSelectFromPb(pb.Source)
-	} else {
-		//u.Debugf("no source for SqlSource? %+v", pb)
-	}
-	if pb.SubQuery != nil {
-		s.SubQuery = SqlSelectFromPb(pb.SubQuery)
-	}
-	if len(pb.Columns) > 0 {
-		s.cols = make(map[string]*Column, len(pb.Columns))
-		for _, pbc := range pb.Columns {
-			col := columnFromPb(pbc)
-			s.cols[col.As] = col
-		}
-	}
-	return &s
-}
+//u.Warnf("finalize sqlsource: %v", len(m.Columns))
 
-func (m *SqlWhere) Keyword() lex.TokenType { return m.Op }
+func (m *SqlSource) FromPB(n *SqlSourcePb) *SqlSource { _ = "STUB: not implemented"; return nil }
+
+func (m *SqlSource) ToPB() *SqlSourcePb { _ = "STUB: not implemented"; return nil }
+
+func (m *SqlSource) Equal(s *SqlSource) bool { _ = "STUB: not implemented"; return false }
+
+func sqlSourceToPb(m *SqlSource) *SqlSourcePb { _ = "STUB: not implemented"; return nil }
+
+// We get into recursive hell if we don't bail
+// but need to go stich in source?
+
+//u.Warnf("about to descend? %p", m.Source)
+
+func SqlSourceFromPb(pb *SqlSourcePb) *SqlSource { _ = "STUB: not implemented"; return nil }
+
+//u.Debugf("no source for SqlSource? %+v", pb)
+
+func (m *SqlWhere) Keyword() lex.TokenType { _ = "STUB: not implemented"; return *new(lex.TokenType) }
 func (m *SqlWhere) writeDialectDepth(depth int, w expr.DialectWriter) {
-	if int(m.Op) == 0 && m.Source == nil && m.Expr != nil {
-		m.Expr.WriteDialect(w)
-		return
-	}
-	// Op = subselect or in etc
-	//  SELECT ... WHERE IN (SELECT ...)
-	if int(m.Op) != 0 && m.Source != nil {
-		io.WriteString(w, m.Op.String())
-		io.WriteString(w, " (")
-		m.Source.writeDialectDepth(depth+1, w)
-		io.WriteString(w, ")")
-		return
-	}
-	u.Errorf("unrecognized SqlWhere statement? %#v", m)
-}
-func (m *SqlWhere) WriteDialect(w expr.DialectWriter) { m.writeDialectDepth(0, w) }
-func (m *SqlWhere) String() string {
-	w := expr.NewDefaultWriter()
-	m.WriteDialect(w)
-	return w.String()
-}
-func (m *SqlWhere) Equal(s *SqlWhere) bool {
-	if m == nil && s == nil {
-		return true
-	}
-	if m == nil && s != nil {
-		return false
-	}
-	if m != nil && s == nil {
-		return false
-	}
-	if m.Op != s.Op {
-		return false
-	}
-	if !m.Source.Equal(s.Source) {
-		return false
-	}
-	if (m.Expr != nil && s.Expr == nil) || (m.Expr == nil && s.Expr != nil) {
-		return false
-	}
-	if m.Expr != nil && !m.Expr.Equal(s.Expr) {
-		return false
-	}
-
-	return true
-}
-func SqlWhereToPb(m *SqlWhere) *SqlWherePb {
-	s := SqlWherePb{}
-	s.Op = int32(m.Op)
-	if m.Source != nil {
-		s.Source = SqlSelectToPb(m.Source)
-	}
-	if m.Expr != nil {
-		s.Expr = m.Expr.NodePb()
-	}
-	return &s
-}
-func SqlWhereFromPb(pb *SqlWherePb) *SqlWhere {
-	w := SqlWhere{
-		Op: lex.TokenType(pb.GetOp()),
-	}
-	if pb.Source != nil {
-		w.Source = SqlSelectFromPb(pb.Source)
-	}
-	if pb.Expr != nil {
-		w.Expr = expr.NodeFromNodePb(pb.GetExpr())
-	}
-	return &w
+	_ = "STUB: not implemented"
+	return
 }
 
-func (m *SqlInto) Keyword() lex.TokenType            { return lex.TokenInto }
-func (m *SqlInto) String() string                    { return fmt.Sprintf("%s", m.Table) }
-func (m *SqlInto) WriteDialect(w expr.DialectWriter) {}
-func (m *SqlInto) Equal(s *SqlInto) bool {
-	if m == nil && s == nil {
-		return true
-	}
-	if m == nil && s != nil {
-		return false
-	}
-	if m != nil && s == nil {
-		return false
-	}
-	if m.Table != s.Table {
-		return false
-	}
-	return true
-}
+// Op = subselect or in etc
+//  SELECT ... WHERE IN (SELECT ...)
 
-func (m *SqlInsert) Keyword() lex.TokenType { return m.kw }
-func (m *SqlInsert) WriteDialect(w expr.DialectWriter) {
+func (m *SqlWhere) WriteDialect(w expr.DialectWriter) { _ = "STUB: not implemented"; return }
+func (m *SqlWhere) String() string                    { _ = "STUB: not implemented"; return "" }
 
-	io.WriteString(w, "INSERT INTO ")
-	w.WriteIdentity(m.Table)
-	io.WriteString(w, " (")
+func (m *SqlWhere) Equal(s *SqlWhere) bool { _ = "STUB: not implemented"; return false }
 
-	for i, col := range m.Columns {
-		if i > 0 {
-			io.WriteString(w, ", ")
-		}
-		col.WriteDialect(w)
-	}
-	io.WriteString(w, ") VALUES")
-	for i, row := range m.Rows {
-		if i > 0 {
-			io.WriteString(w, "\n\t,")
-		}
-		io.WriteString(w, " (")
-		for vi, val := range row {
-			if vi > 0 {
-				io.WriteString(w, " ,")
-			}
-			if val.Expr != nil {
-				val.Expr.WriteDialect(w)
-			} else {
-				// Value is not nil
-				w.WriteValue(val.Value)
-			}
-		}
-		w.Write([]byte{')'})
-	}
-}
-func (m *SqlInsert) String() string {
-	w := expr.NewDefaultWriter()
-	m.WriteDialect(w)
-	return w.String()
-}
+func SqlWhereToPb(m *SqlWhere) *SqlWherePb { _ = "STUB: not implemented"; return nil }
+
+func SqlWhereFromPb(pb *SqlWherePb) *SqlWhere { _ = "STUB: not implemented"; return nil }
+
+func (m *SqlInto) Keyword() lex.TokenType            { _ = "STUB: not implemented"; return *new(lex.TokenType) }
+func (m *SqlInto) String() string                    { _ = "STUB: not implemented"; return "" }
+func (m *SqlInto) WriteDialect(w expr.DialectWriter) { _ = "STUB: not implemented"; return }
+func (m *SqlInto) Equal(s *SqlInto) bool             { _ = "STUB: not implemented"; return false }
+
+func (m *SqlInsert) Keyword() lex.TokenType            { _ = "STUB: not implemented"; return *new(lex.TokenType) }
+func (m *SqlInsert) WriteDialect(w expr.DialectWriter) { _ = "STUB: not implemented"; return }
+
+// Value is not nil
+
+func (m *SqlInsert) String() string { _ = "STUB: not implemented"; return "" }
 
 // RewriteAsPrepareable rewite the insert as a ? substituteable query
-//     INSERT INTO user (name) VALUES ("wonder-woman") ->
-//        INSERT INTO user (name) VALUES (?)
+//
+//	INSERT INTO user (name) VALUES ("wonder-woman") ->
+//	   INSERT INTO user (name) VALUES (?)
 func (m *SqlInsert) RewriteAsPrepareable(maxRows int, mark byte) string {
-	buf := bytes.Buffer{}
-	buf.WriteString(fmt.Sprintf("INSERT INTO %s (", m.Table))
-
-	for i, col := range m.Columns {
-		if i > 0 {
-			buf.WriteString(", ")
-		}
-		buf.WriteString(col.String())
-	}
-	buf.WriteString(") VALUES")
-	for i, row := range m.Rows {
-		if maxRows > 0 && i >= maxRows {
-			break
-		}
-		if i > 0 {
-			buf.WriteString("\n\t,")
-		}
-		buf.WriteString(" (")
-		for vi := range row {
-			if vi > 0 {
-				buf.WriteString(" ,")
-			}
-			buf.WriteByte(mark)
-		}
-		buf.WriteByte(')')
-	}
-	return buf.String()
-}
-func (m *SqlInsert) ColumnNames() []string {
-	cols := make([]string, 0)
-	for _, col := range m.Columns {
-		cols = append(cols, col.Key())
-	}
-	return cols
-}
-
-func (m *SqlUpsert) Keyword() lex.TokenType            { return lex.TokenUpsert }
-func (m *SqlUpsert) WriteDialect(w expr.DialectWriter) {}
-func (m *SqlUpsert) String() string                    { return fmt.Sprintf("%s ", m.Keyword()) }
-func (m *SqlUpsert) SqlSelect() *SqlSelect             { return sqlSelectFromWhere(m.Table, m.Where) }
-
-func (m *SqlUpdate) Keyword() lex.TokenType { return lex.TokenUpdate }
-func (m *SqlUpdate) WriteDialect(w expr.DialectWriter) {
-	io.WriteString(w, "UPDATE ")
-	w.WriteIdentity(m.Table)
-	io.WriteString(w, " SET ")
-	firstCol := true
-	for key, val := range m.Values {
-		if !firstCol {
-			w.Write([]byte{',', ' '})
-		}
-		firstCol = false
-		w.WriteIdentity(key)
-		w.WriteValue(val.Value)
-	}
-	if m.Where != nil {
-		io.WriteString(w, " WHERE ")
-		m.Where.WriteDialect(w)
-	}
-}
-func (m *SqlUpdate) String() string {
-	w := expr.NewDefaultWriter()
-	m.WriteDialect(w)
-	return w.String()
-}
-func (m *SqlUpdate) SqlSelect() *SqlSelect { return sqlSelectFromWhere(m.Table, m.Where) }
-
-func sqlSelectFromWhere(from string, where *SqlWhere) *SqlSelect {
-	req := NewSqlSelect()
-	req.From = []*SqlSource{NewSqlSource(from)}
-	switch {
-	case where.Expr != nil:
-		req.Where = NewSqlWhere(where.Expr)
-	default:
-		req.Where = where
-	}
-
-	req.Star = true
-	req.Columns = starCols
-	return req
-}
-
-func (m *SqlDelete) Keyword() lex.TokenType            { return lex.TokenDelete }
-func (m *SqlDelete) String() string                    { return fmt.Sprintf("%s ", m.Keyword()) }
-func (m *SqlDelete) WriteDialect(w expr.DialectWriter) {}
-
-func (m *SqlDelete) SqlSelect() *SqlSelect { return sqlSelectFromWhere(m.Table, m.Where) }
-
-func (m *SqlDescribe) Keyword() lex.TokenType            { return lex.TokenDescribe }
-func (m *SqlDescribe) String() string                    { return fmt.Sprintf("%s ", m.Keyword()) }
-func (m *SqlDescribe) WriteDialect(w expr.DialectWriter) {}
-
-func (m *SqlShow) Keyword() lex.TokenType            { return lex.TokenShow }
-func (m *SqlShow) String() string                    { return fmt.Sprintf("%s ", m.Keyword()) }
-func (m *SqlShow) WriteDialect(w expr.DialectWriter) {}
-
-func (m *CommandColumn) FingerPrint(r rune) string { return m.String() }
-func (m *CommandColumn) String() string {
-	if m.Expr != nil {
-		return m.Expr.String()
-	}
-	if len(m.Name) > 0 {
-		return m.Name
-	}
+	_ = "STUB: not implemented"
 	return ""
 }
-func (m *CommandColumn) WriteDialect(w expr.DialectWriter) {}
-func (m *CommandColumn) Key() string {
-	return m.Name
+
+func (m *SqlInsert) ColumnNames() []string { _ = "STUB: not implemented"; return nil }
+
+func (m *SqlUpsert) Keyword() lex.TokenType            { _ = "STUB: not implemented"; return *new(lex.TokenType) }
+func (m *SqlUpsert) WriteDialect(w expr.DialectWriter) { _ = "STUB: not implemented"; return }
+func (m *SqlUpsert) String() string                    { _ = "STUB: not implemented"; return "" }
+func (m *SqlUpsert) SqlSelect() *SqlSelect             { _ = "STUB: not implemented"; return nil }
+
+func (m *SqlUpdate) Keyword() lex.TokenType            { _ = "STUB: not implemented"; return *new(lex.TokenType) }
+func (m *SqlUpdate) WriteDialect(w expr.DialectWriter) { _ = "STUB: not implemented"; return }
+
+func (m *SqlUpdate) String() string { _ = "STUB: not implemented"; return "" }
+
+func (m *SqlUpdate) SqlSelect() *SqlSelect { _ = "STUB: not implemented"; return nil }
+
+func sqlSelectFromWhere(from string, where *SqlWhere) *SqlSelect {
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func (m *CommandColumns) WriteDialect(w expr.DialectWriter) {}
-func (m *CommandColumns) String() string {
-	colCt := len(*m)
-	if colCt == 1 {
-		return (*m)[0].String()
-	} else if colCt == 0 {
-		return ""
-	}
-	s := make([]string, len(*m))
-	for i, col := range *m {
-		s[i] = col.String()
-	}
-	return strings.Join(s, ", ")
+func (m *SqlDelete) Keyword() lex.TokenType            { _ = "STUB: not implemented"; return *new(lex.TokenType) }
+func (m *SqlDelete) String() string                    { _ = "STUB: not implemented"; return "" }
+func (m *SqlDelete) WriteDialect(w expr.DialectWriter) { _ = "STUB: not implemented"; return }
+
+func (m *SqlDelete) SqlSelect() *SqlSelect { _ = "STUB: not implemented"; return nil }
+
+func (m *SqlDescribe) Keyword() lex.TokenType {
+	_ = "STUB: not implemented"
+	return *new(lex.TokenType)
+}
+func (m *SqlDescribe) String() string                    { _ = "STUB: not implemented"; return "" }
+func (m *SqlDescribe) WriteDialect(w expr.DialectWriter) { _ = "STUB: not implemented"; return }
+
+func (m *SqlShow) Keyword() lex.TokenType            { _ = "STUB: not implemented"; return *new(lex.TokenType) }
+func (m *SqlShow) String() string                    { _ = "STUB: not implemented"; return "" }
+func (m *SqlShow) WriteDialect(w expr.DialectWriter) { _ = "STUB: not implemented"; return }
+
+func (m *CommandColumn) FingerPrint(r rune) string { _ = "STUB: not implemented"; return "" }
+func (m *CommandColumn) String() string            { _ = "STUB: not implemented"; return "" }
+
+func (m *CommandColumn) WriteDialect(w expr.DialectWriter) { _ = "STUB: not implemented"; return }
+func (m *CommandColumn) Key() string                       { _ = "STUB: not implemented"; return "" }
+
+func (m *CommandColumns) WriteDialect(w expr.DialectWriter) { _ = "STUB: not implemented"; return }
+func (m *CommandColumns) String() string                    { _ = "STUB: not implemented"; return "" }
+
+func (m *SqlCommand) Keyword() lex.TokenType            { _ = "STUB: not implemented"; return *new(lex.TokenType) }
+func (m *SqlCommand) FingerPrint(r rune) string         { _ = "STUB: not implemented"; return "" }
+func (m *SqlCommand) String() string                    { _ = "STUB: not implemented"; return "" }
+func (m *SqlCommand) WriteDialect(w expr.DialectWriter) { _ = "STUB: not implemented"; return }
+
+func (m *SqlCreate) Keyword() lex.TokenType            { _ = "STUB: not implemented"; return *new(lex.TokenType) }
+func (m *SqlCreate) FingerPrint(r rune) string         { _ = "STUB: not implemented"; return "" }
+func (m *SqlCreate) String() string                    { _ = "STUB: not implemented"; return "" }
+func (m *SqlCreate) WriteDialect(w expr.DialectWriter) { _ = "STUB: not implemented"; return }
+
+func (m *SqlDrop) Keyword() lex.TokenType            { _ = "STUB: not implemented"; return *new(lex.TokenType) }
+func (m *SqlDrop) FingerPrint(r rune) string         { _ = "STUB: not implemented"; return "" }
+func (m *SqlDrop) String() string                    { _ = "STUB: not implemented"; return "" }
+func (m *SqlDrop) WriteDialect(w expr.DialectWriter) { _ = "STUB: not implemented"; return }
+
+func (m *SqlAlter) Keyword() lex.TokenType    { _ = "STUB: not implemented"; return *new(lex.TokenType) }
+func (m *SqlAlter) FingerPrint(r rune) string { _ = "STUB: not implemented"; return "" }
+func (m *SqlAlter) String() string            { _ = "STUB: not implemented"; return "" }
+func (m *SqlAlter) WriteDialect(w expr.DialectWriter) {
+	_ = "STUB: not implemented"
+
+	// Node serialization helpers
+	return
 }
 
-func (m *SqlCommand) Keyword() lex.TokenType            { return m.kw }
-func (m *SqlCommand) FingerPrint(r rune) string         { return m.String() }
-func (m *SqlCommand) String() string                    { return fmt.Sprintf("%s %s", m.Keyword(), m.Columns.String()) }
-func (m *SqlCommand) WriteDialect(w expr.DialectWriter) {}
-
-func (m *SqlCreate) Keyword() lex.TokenType            { return lex.TokenCreate }
-func (m *SqlCreate) FingerPrint(r rune) string         { return m.String() }
-func (m *SqlCreate) String() string                    { return fmt.Sprintf("not-implemented") }
-func (m *SqlCreate) WriteDialect(w expr.DialectWriter) {}
-
-func (m *SqlDrop) Keyword() lex.TokenType            { return lex.TokenDrop }
-func (m *SqlDrop) FingerPrint(r rune) string         { return m.String() }
-func (m *SqlDrop) String() string                    { return fmt.Sprintf("DROP %s %v", m.Tok.T, m.Identity) }
-func (m *SqlDrop) WriteDialect(w expr.DialectWriter) {}
-
-func (m *SqlAlter) Keyword() lex.TokenType            { return lex.TokenAlter }
-func (m *SqlAlter) FingerPrint(r rune) string         { return m.String() }
-func (m *SqlAlter) String() string                    { return fmt.Sprintf("not-implemented") }
-func (m *SqlAlter) WriteDialect(w expr.DialectWriter) {}
-
-// Node serialization helpers
-func tokenFromInt(iv int32) lex.Token {
-	t, ok := lex.TokenNameMap[lex.TokenType(iv)]
-	if ok {
-		return lex.Token{T: t.T, V: t.Description}
-	}
-	return lex.Token{}
-}
+func tokenFromInt(iv int32) lex.Token { _ = "STUB: not implemented"; return *new(lex.Token) }
 
 // SqlFromPb Create a sql statement from pb
 func SqlFromPb(pb []byte) (SqlStatement, error) {
-	s := &SqlStatementPb{}
-	if err := proto.Unmarshal(pb, s); err != nil {
-		return nil, err
-	}
-	return statementFromPb(s), nil
+	_ = "STUB: not implemented"
+	return *new(SqlStatement), nil
 }
+
 func statementFromPb(s *SqlStatementPb) SqlStatement {
-	switch {
-	case s.Select != nil:
-		var ss *SqlSelect
-		return ss.FromPB(s.Select)
-	case s.Source != nil:
-		var ss *SqlSource
-		return ss.FromPB(s.Source)
-	}
-	return nil
-}
-func MapIntFromPb(kv []KvInt) map[string]int {
-	m := make(map[string]int, len(kv))
-	for _, kv := range kv {
-		m[kv.K] = int(kv.V)
-	}
-	return m
+	_ = "STUB: not implemented"
+	return *new(SqlStatement)
 }
 
-func ColumnsFromPb(c []*ColumnPb) Columns {
-	cols := make(Columns, len(c))
-	for i, col := range c {
-		cols[i] = columnFromPb(col)
-	}
-	return cols
-}
-func ColumnsToPb(c Columns) []*ColumnPb {
-	cols := make([]*ColumnPb, len(c))
-	for i, col := range c {
-		cols[i] = col.ToPB()
-	}
-	return cols
-}
+func MapIntFromPb(kv []KvInt) map[string]int { _ = "STUB: not implemented"; return nil }
 
-func optionalByte(b []byte) byte {
-	var out byte
-	if len(b) > 0 {
-		return b[0]
-	}
-	return out
-}
+func ColumnsFromPb(c []*ColumnPb) Columns { _ = "STUB: not implemented"; return *new(Columns) }
+
+func ColumnsToPb(c Columns) []*ColumnPb { _ = "STUB: not implemented"; return nil }
+
+func optionalByte(b []byte) byte { _ = "STUB: not implemented"; return 0 }
 
 // EqualWith compare two with helpers for equality.
-func EqualWith(l, r u.JsonHelper) bool {
-	if len(l) != len(r) {
-		return false
-	}
-	if len(l) == 0 && len(r) == 0 {
-		return true
-	}
-	for k, lv := range l {
-		rv, ok := r[k]
-		if !ok {
-			return false
-		}
-		switch lvt := lv.(type) {
-		case int, int64, int32, string, bool, float64:
-			if lv != rv {
-				return false
-			}
-		case u.JsonHelper:
-			rh, isHelper := rv.(u.JsonHelper)
-			if !isHelper {
-				return false
-			}
-			if !EqualWith(lvt, rh) {
-				return false
-			}
-		case map[string]interface{}:
-			rh, isHelper := rv.(u.JsonHelper)
-			if !isHelper {
-				return false
-			}
-			if !EqualWith(u.JsonHelper(lvt), rh) {
-				return false
-			}
-		default:
-			u.Warnf("unhandled type comparison: %T", lv)
-		}
-
-	}
-	return true
-}
+func EqualWith(l, r u.JsonHelper) bool { _ = "STUB: not implemented"; return false }
 
 // HelperString Convert a Helper into key/value string
 func HelperString(w expr.DialectWriter, jh u.JsonHelper) {
+	_ = "STUB: not implemented"
 
 	// isJson := false
-	// for k, v := range jh {
-	// 	switch lvt := lv.(type) {
-	// 	case int, int64, int32, string, bool, float64:
-	// 		//
-	// 	case []string, []int, []int32, []int64, []float64:
-	// 		//
-	// 	case u.JsonHelper, map[string]interface{}:
-	// 		isJson = true
-	// 		break
-	// 	default:
-	// 		u.Warnf("unhandled type comparison: %T", lv)
-	// 	}
-	// }
-	pos := 0
-	keys := jh.Keys()
-	sort.Strings(keys)
-
-	for _, k := range keys {
-		val := jh[k]
-		if pos > 0 {
-			io.WriteString(w, ", ")
-		}
-		w.WriteIdentity(k)
-		io.WriteString(w, " = ")
-		switch v := val.(type) {
-		case string:
-			w.WriteLiteral(v)
-		case int, int64, int32, bool, float64:
-			io.WriteString(w, fmt.Sprintf("%v", v))
-		default:
-			u.Warnf("unhandled type comparison: %T", val)
-		}
-		pos++
-	}
+	//
+	//	for k, v := range jh {
+	//		switch lvt := lv.(type) {
+	//		case int, int64, int32, string, bool, float64:
+	//			//
+	//		case []string, []int, []int32, []int64, []float64:
+	//			//
+	//		case u.JsonHelper, map[string]interface{}:
+	//			isJson = true
+	//			break
+	//		default:
+	//			u.Warnf("unhandled type comparison: %T", lv)
+	//		}
+	//	}
+	return
 }

@@ -1,16 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"github.com/araddon/qlbridge/lex"
-	"strings"
 )
 
 /*
-	This example is meant to show how to create a new
-	Dialect Language with a keyword"SUBSCRIBETO"
-	then Lex an example of this syntax
-
+This example is meant to show how to create a new
+Dialect Language with a keyword"SUBSCRIBETO"
+then Lex an example of this syntax
 */
 var (
 	// We need a token to recognize our "SUBSCRIBETO" keyword
@@ -40,40 +37,20 @@ func init() {
 	ourDialect.Init()
 }
 
-func verifyLexerTokens(l *lex.Lexer, tokens []lex.Token) {
-	for _, goodToken := range tokens {
-		tok := l.NextToken()
-		if tok.T != goodToken.T || tok.V != goodToken.V {
-			panic(fmt.Sprintf("bad token: %v but wanted %v\n", tok, goodToken))
-		} else {
-			fmt.Printf("Got good token: %v\n", tok)
-		}
-	}
-}
+func verifyLexerTokens(l *lex.Lexer, tokens []lex.Token) { _ = "STUB: not implemented"; return }
 
 // Custom lexer for our maybe hash function
 //
-//  SUBSCRIBE
-//       valuect(item) AS stuff
-//  FROM maybe(stuff)
-//  WHERE x = y
-//
-func LexMaybe(l *lex.Lexer) lex.StateFn {
+//	SUBSCRIBE
+//	     valuect(item) AS stuff
+//	FROM maybe(stuff)
+//	WHERE x = y
+func LexMaybe(l *lex.Lexer) lex.StateFn { _ = "STUB: not implemented"; return *new(lex.StateFn) }
 
-	l.SkipWhiteSpaces()
-
-	keyWord := strings.ToLower(l.PeekWord())
-
-	switch keyWord {
-	case "maybe":
-		l.ConsumeWord("maybe")
-		l.Emit(lex.TokenIdentity)
-		return lex.LexExpressionOrIdentity
-	}
-	return lex.LexExpressionOrIdentity
+func Tok(tok lex.TokenType, val string) lex.Token {
+	_ = "STUB: not implemented"
+	return *new(lex.Token)
 }
-
-func Tok(tok lex.TokenType, val string) lex.Token { return lex.Token{T: tok, V: val} }
 
 func main() {
 

@@ -1,14 +1,7 @@
 package exec
 
 import (
-	"encoding/json"
-	"fmt"
-
-	u "github.com/araddon/gou"
-
-	"github.com/araddon/qlbridge/lex"
 	"github.com/araddon/qlbridge/plan"
-	"github.com/araddon/qlbridge/schema"
 )
 
 var (
@@ -37,124 +30,42 @@ type (
 )
 
 // NewCreate creates new create exec task
-func NewCreate(ctx *plan.Context, p *plan.Create) *Create {
-	m := &Create{
-		TaskBase: NewTaskBase(ctx),
-		p:        p,
-	}
-	return m
-}
+func NewCreate(ctx *plan.Context, p *plan.Create) *Create { _ = "STUB: not implemented"; return nil }
 
 // Close Create
-func (m *Create) Close() error {
-	return m.TaskBase.Close()
-}
+func (m *Create) Close() error { _ = "STUB: not implemented"; return nil }
 
 // Run Create
-func (m *Create) Run() error {
-	defer close(m.msgOutCh)
+func (m *Create) Run() error { _ = "STUB: not implemented"; return nil }
 
-	cs := m.p.Stmt
-
-	switch cs.Tok.T {
-	case lex.TokenSource, lex.TokenSchema:
-
-		/*
-			// "sub_schema_name" will create a new child schema called "sub_schema_name"
-			// that is added to "existing_schema_name"
-			// of source type elasticsearch
-			CREATE source sub_schema_name WITH {
-			  "type":"elasticsearch",
-			  "schema":"existing_schema_name",
-			  "settings" : {
-			     "apikey":"GET_YOUR_API_KEY"
-			  }
-			};
-		*/
-		// If we specify a parent schema to add this child schema to
-		schemaName := cs.Identity
-		by, err := json.MarshalIndent(cs.With, "", "  ")
-		if err != nil {
-			u.Errorf("could not convert conf = %v ", cs.With)
-			return fmt.Errorf("could not convert conf %v", cs.With)
-		}
-
-		sourceConf := &schema.ConfigSource{}
-		err = json.Unmarshal(by, sourceConf)
-		if err != nil {
-			u.Errorf("could not convert conf = %v ", string(by))
-			return fmt.Errorf("could not convert conf %v", cs.With)
-		}
-		sourceConf.Name = schemaName
-
-		reg := schema.DefaultRegistry()
-
-		return reg.SchemaAddFromConfig(sourceConf)
-	default:
-		u.Warnf("unrecognized create/alter: kw=%v   stmt:%s", cs.Tok, m.p.Stmt)
-	}
-	return ErrNotImplemented
-}
+/*
+	// "sub_schema_name" will create a new child schema called "sub_schema_name"
+	// that is added to "existing_schema_name"
+	// of source type elasticsearch
+	CREATE source sub_schema_name WITH {
+	  "type":"elasticsearch",
+	  "schema":"existing_schema_name",
+	  "settings" : {
+	     "apikey":"GET_YOUR_API_KEY"
+	  }
+	};
+*/
+// If we specify a parent schema to add this child schema to
 
 // NewDrop creates new drop exec task.
-func NewDrop(ctx *plan.Context, p *plan.Drop) *Drop {
-	m := &Drop{
-		TaskBase: NewTaskBase(ctx),
-		p:        p,
-	}
-	return m
-}
+func NewDrop(ctx *plan.Context, p *plan.Drop) *Drop { _ = "STUB: not implemented"; return nil }
 
 // Close Drop
-func (m *Drop) Close() error {
-	return m.TaskBase.Close()
-}
+func (m *Drop) Close() error { _ = "STUB: not implemented"; return nil }
 
 // Run Drop
-func (m *Drop) Run() error {
-	defer close(m.msgOutCh)
-
-	cs := m.p.Stmt
-	s := m.Ctx.Schema
-	if s == nil {
-		return fmt.Errorf("must have schema")
-	}
-
-	switch cs.Tok.T {
-	case lex.TokenSource, lex.TokenSchema, lex.TokenTable:
-
-		reg := schema.DefaultRegistry()
-		return reg.SchemaDrop(s.Name, cs.Identity, cs.Tok.T)
-
-	default:
-		u.Warnf("unrecognized DROP: kw=%v   stmt:%s", cs.Tok, m.p.Stmt)
-	}
-	return ErrNotImplemented
-}
+func (m *Drop) Run() error { _ = "STUB: not implemented"; return nil }
 
 // NewAlter creates new ALTER exec task.
-func NewAlter(ctx *plan.Context, p *plan.Alter) *Alter {
-	m := &Alter{
-		TaskBase: NewTaskBase(ctx),
-		p:        p,
-	}
-	return m
-}
+func NewAlter(ctx *plan.Context, p *plan.Alter) *Alter { _ = "STUB: not implemented"; return nil }
 
 // Close Alter
-func (m *Alter) Close() error {
-	return m.TaskBase.Close()
-}
+func (m *Alter) Close() error { _ = "STUB: not implemented"; return nil }
 
 // Run Alter
-func (m *Alter) Run() error {
-	defer close(m.msgOutCh)
-
-	cs := m.p.Stmt
-
-	switch cs.Tok.T {
-	default:
-		u.Warnf("unrecognized ALTER: kw=%v   stmt:%s", cs.Tok, m.p.Stmt)
-	}
-	return ErrNotImplemented
-}
+func (m *Alter) Run() error { _ = "STUB: not implemented"; return nil }

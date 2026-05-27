@@ -1,11 +1,5 @@
 package plan
 
-import (
-	"fmt"
-
-	u "github.com/araddon/gou"
-)
-
 var (
 	// Ensure our default planner meets Planner interface.
 	_ Planner = (*PlannerDefault)(nil)
@@ -24,44 +18,22 @@ type PlannerDefault struct {
 }
 
 // NewPlanner creates a new default planner with context.
-func NewPlanner(ctx *Context) *PlannerDefault {
-	p := &PlannerDefault{
-		Ctx:      ctx,
-		children: make([]Task, 0),
-	}
-	p.Planner = p
-	return p
-}
+func NewPlanner(ctx *Context) *PlannerDefault { _ = "STUB: not implemented"; return nil }
 
 // WalkPreparedStatement not implemented
 func (m *PlannerDefault) WalkPreparedStatement(p *PreparedStatement) error {
-	u.Debugf("WalkPreparedStatement %+v", p.Stmt)
-	return ErrNotImplemented
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // WalkCommand walks the command statement
-func (m *PlannerDefault) WalkCommand(p *Command) error {
-	u.Debugf("WalkCommand %+v", p.Stmt)
-	return nil
-}
+func (m *PlannerDefault) WalkCommand(p *Command) error { _ = "STUB: not implemented"; return nil }
 
 // WalkDrop walks the draop statement
-func (m *PlannerDefault) WalkDrop(p *Drop) error {
-	u.Debugf("WalkDrop %+v", p.Stmt)
-	return nil
-}
+func (m *PlannerDefault) WalkDrop(p *Drop) error { _ = "STUB: not implemented"; return nil }
 
 // WalkCreate walk a Create Plan to create the dag of tasks for Create.
-func (m *PlannerDefault) WalkCreate(p *Create) error {
-	u.Debugf("WalkCreate %#v", p)
-	if len(p.Stmt.With) == 0 {
-		return fmt.Errorf("CREATE {SCHEMA|SOURCE|DATABASE}")
-	}
-	return nil
-}
+func (m *PlannerDefault) WalkCreate(p *Create) error { _ = "STUB: not implemented"; return nil }
 
 // WalkAlter walk a ALTER Plan to create the dag of tasks forAlter.
-func (m *PlannerDefault) WalkAlter(p *Alter) error {
-	u.Debugf("WalkAlter %#v", p)
-	return nil
-}
+func (m *PlannerDefault) WalkAlter(p *Alter) error { _ = "STUB: not implemented"; return nil }

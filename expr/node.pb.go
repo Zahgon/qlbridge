@@ -3,37 +3,40 @@
 // DO NOT EDIT!
 
 /*
-	Package expr is a generated protocol buffer package.
+Package expr is a generated protocol buffer package.
 
-	It is generated from these files:
-		node.proto
+It is generated from these files:
 
-	It has these top-level messages:
-		ExprPb
-		NodePb
-		BinaryNodePb
-		BooleanNodePb
-		IncludeNodePb
-		UnaryNodePb
-		FuncNodePb
-		TriNodePb
-		ArrayNodePb
-		StringNodePb
-		IdentityNodePb
-		NumberNodePb
-		ValueNodePb
-		NullNodePb
+	node.proto
+
+It has these top-level messages:
+
+	ExprPb
+	NodePb
+	BinaryNodePb
+	BooleanNodePb
+	IncludeNodePb
+	UnaryNodePb
+	FuncNodePb
+	TriNodePb
+	ArrayNodePb
+	StringNodePb
+	IdentityNodePb
+	NumberNodePb
+	ValueNodePb
+	NullNodePb
 */
 package expr
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
-import _ "github.com/gogo/protobuf/gogoproto"
+import (
+	fmt "fmt"
 
-import github_com_golang_protobuf_proto "github.com/golang/protobuf/proto"
+	proto "github.com/golang/protobuf/proto"
 
-import io "io"
+	math "math"
+
+	_ "github.com/gogo/protobuf/gogoproto"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -58,10 +61,10 @@ type ExprPb struct {
 	XXX_unrecognized []byte    `json:"-"`
 }
 
-func (m *ExprPb) Reset()                    { *m = ExprPb{} }
-func (m *ExprPb) String() string            { return proto.CompactTextString(m) }
-func (*ExprPb) ProtoMessage()               {}
-func (*ExprPb) Descriptor() ([]byte, []int) { return fileDescriptorNode, []int{0} }
+func (m *ExprPb) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *ExprPb) String() string            { _ = "STUB: not implemented"; return "" }
+func (*ExprPb) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*ExprPb) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
 // The generic Node, must be exactly one of these types
 type NodePb struct {
@@ -80,10 +83,10 @@ type NodePb struct {
 	XXX_unrecognized []byte          `json:"-"`
 }
 
-func (m *NodePb) Reset()                    { *m = NodePb{} }
-func (m *NodePb) String() string            { return proto.CompactTextString(m) }
-func (*NodePb) ProtoMessage()               {}
-func (*NodePb) Descriptor() ([]byte, []int) { return fileDescriptorNode, []int{1} }
+func (m *NodePb) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *NodePb) String() string            { _ = "STUB: not implemented"; return "" }
+func (*NodePb) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*NodePb) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
 // Binary Node, two child args
 type BinaryNodePb struct {
@@ -93,10 +96,10 @@ type BinaryNodePb struct {
 	XXX_unrecognized []byte   `json:"-"`
 }
 
-func (m *BinaryNodePb) Reset()                    { *m = BinaryNodePb{} }
-func (m *BinaryNodePb) String() string            { return proto.CompactTextString(m) }
-func (*BinaryNodePb) ProtoMessage()               {}
-func (*BinaryNodePb) Descriptor() ([]byte, []int) { return fileDescriptorNode, []int{2} }
+func (m *BinaryNodePb) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *BinaryNodePb) String() string            { _ = "STUB: not implemented"; return "" }
+func (*BinaryNodePb) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*BinaryNodePb) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
 // Boolean Node, n child args
 type BooleanNodePb struct {
@@ -105,10 +108,10 @@ type BooleanNodePb struct {
 	XXX_unrecognized []byte   `json:"-"`
 }
 
-func (m *BooleanNodePb) Reset()                    { *m = BooleanNodePb{} }
-func (m *BooleanNodePb) String() string            { return proto.CompactTextString(m) }
-func (*BooleanNodePb) ProtoMessage()               {}
-func (*BooleanNodePb) Descriptor() ([]byte, []int) { return fileDescriptorNode, []int{3} }
+func (m *BooleanNodePb) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *BooleanNodePb) String() string            { _ = "STUB: not implemented"; return "" }
+func (*BooleanNodePb) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*BooleanNodePb) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
 // Include Node, two child args
 type IncludeNodePb struct {
@@ -118,10 +121,10 @@ type IncludeNodePb struct {
 	XXX_unrecognized []byte         `json:"-"`
 }
 
-func (m *IncludeNodePb) Reset()                    { *m = IncludeNodePb{} }
-func (m *IncludeNodePb) String() string            { return proto.CompactTextString(m) }
-func (*IncludeNodePb) ProtoMessage()               {}
-func (*IncludeNodePb) Descriptor() ([]byte, []int) { return fileDescriptorNode, []int{4} }
+func (m *IncludeNodePb) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *IncludeNodePb) String() string            { _ = "STUB: not implemented"; return "" }
+func (*IncludeNodePb) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*IncludeNodePb) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
 // Unary Node, one child
 type UnaryNodePb struct {
@@ -131,10 +134,10 @@ type UnaryNodePb struct {
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *UnaryNodePb) Reset()                    { *m = UnaryNodePb{} }
-func (m *UnaryNodePb) String() string            { return proto.CompactTextString(m) }
-func (*UnaryNodePb) ProtoMessage()               {}
-func (*UnaryNodePb) Descriptor() ([]byte, []int) { return fileDescriptorNode, []int{5} }
+func (m *UnaryNodePb) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *UnaryNodePb) String() string            { _ = "STUB: not implemented"; return "" }
+func (*UnaryNodePb) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*UnaryNodePb) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
 // Func Node, args are children
 type FuncNodePb struct {
@@ -143,10 +146,10 @@ type FuncNodePb struct {
 	XXX_unrecognized []byte   `json:"-"`
 }
 
-func (m *FuncNodePb) Reset()                    { *m = FuncNodePb{} }
-func (m *FuncNodePb) String() string            { return proto.CompactTextString(m) }
-func (*FuncNodePb) ProtoMessage()               {}
-func (*FuncNodePb) Descriptor() ([]byte, []int) { return fileDescriptorNode, []int{6} }
+func (m *FuncNodePb) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *FuncNodePb) String() string            { _ = "STUB: not implemented"; return "" }
+func (*FuncNodePb) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*FuncNodePb) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
 // Tri Node, may hve children
 type TriNodePb struct {
@@ -155,10 +158,10 @@ type TriNodePb struct {
 	XXX_unrecognized []byte   `json:"-"`
 }
 
-func (m *TriNodePb) Reset()                    { *m = TriNodePb{} }
-func (m *TriNodePb) String() string            { return proto.CompactTextString(m) }
-func (*TriNodePb) ProtoMessage()               {}
-func (*TriNodePb) Descriptor() ([]byte, []int) { return fileDescriptorNode, []int{7} }
+func (m *TriNodePb) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *TriNodePb) String() string            { _ = "STUB: not implemented"; return "" }
+func (*TriNodePb) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*TriNodePb) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
 // Array Node
 type ArrayNodePb struct {
@@ -167,10 +170,10 @@ type ArrayNodePb struct {
 	XXX_unrecognized []byte   `json:"-"`
 }
 
-func (m *ArrayNodePb) Reset()                    { *m = ArrayNodePb{} }
-func (m *ArrayNodePb) String() string            { return proto.CompactTextString(m) }
-func (*ArrayNodePb) ProtoMessage()               {}
-func (*ArrayNodePb) Descriptor() ([]byte, []int) { return fileDescriptorNode, []int{8} }
+func (m *ArrayNodePb) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *ArrayNodePb) String() string            { _ = "STUB: not implemented"; return "" }
+func (*ArrayNodePb) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*ArrayNodePb) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
 // String literal, no children
 type StringNodePb struct {
@@ -180,10 +183,10 @@ type StringNodePb struct {
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *StringNodePb) Reset()                    { *m = StringNodePb{} }
-func (m *StringNodePb) String() string            { return proto.CompactTextString(m) }
-func (*StringNodePb) ProtoMessage()               {}
-func (*StringNodePb) Descriptor() ([]byte, []int) { return fileDescriptorNode, []int{9} }
+func (m *StringNodePb) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *StringNodePb) String() string            { _ = "STUB: not implemented"; return "" }
+func (*StringNodePb) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*StringNodePb) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
 // Identity
 type IdentityNodePb struct {
@@ -192,10 +195,10 @@ type IdentityNodePb struct {
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *IdentityNodePb) Reset()                    { *m = IdentityNodePb{} }
-func (m *IdentityNodePb) String() string            { return proto.CompactTextString(m) }
-func (*IdentityNodePb) ProtoMessage()               {}
-func (*IdentityNodePb) Descriptor() ([]byte, []int) { return fileDescriptorNode, []int{10} }
+func (m *IdentityNodePb) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *IdentityNodePb) String() string            { _ = "STUB: not implemented"; return "" }
+func (*IdentityNodePb) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*IdentityNodePb) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
 // Number Node
 type NumberNodePb struct {
@@ -207,10 +210,10 @@ type NumberNodePb struct {
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *NumberNodePb) Reset()                    { *m = NumberNodePb{} }
-func (m *NumberNodePb) String() string            { return proto.CompactTextString(m) }
-func (*NumberNodePb) ProtoMessage()               {}
-func (*NumberNodePb) Descriptor() ([]byte, []int) { return fileDescriptorNode, []int{11} }
+func (m *NumberNodePb) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *NumberNodePb) String() string            { _ = "STUB: not implemented"; return "" }
+func (*NumberNodePb) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*NumberNodePb) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
 // Value Node
 type ValueNodePb struct {
@@ -219,10 +222,10 @@ type ValueNodePb struct {
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *ValueNodePb) Reset()                    { *m = ValueNodePb{} }
-func (m *ValueNodePb) String() string            { return proto.CompactTextString(m) }
-func (*ValueNodePb) ProtoMessage()               {}
-func (*ValueNodePb) Descriptor() ([]byte, []int) { return fileDescriptorNode, []int{12} }
+func (m *ValueNodePb) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *ValueNodePb) String() string            { _ = "STUB: not implemented"; return "" }
+func (*ValueNodePb) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*ValueNodePb) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
 // NullNode
 type NullNodePb struct {
@@ -230,10 +233,10 @@ type NullNodePb struct {
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *NullNodePb) Reset()                    { *m = NullNodePb{} }
-func (m *NullNodePb) String() string            { return proto.CompactTextString(m) }
-func (*NullNodePb) ProtoMessage()               {}
-func (*NullNodePb) Descriptor() ([]byte, []int) { return fileDescriptorNode, []int{13} }
+func (m *NullNodePb) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *NullNodePb) String() string            { _ = "STUB: not implemented"; return "" }
+func (*NullNodePb) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*NullNodePb) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
 func init() {
 	proto.RegisterType((*ExprPb)(nil), "expr.ExprPb")
@@ -251,3137 +254,174 @@ func init() {
 	proto.RegisterType((*ValueNodePb)(nil), "expr.ValueNodePb")
 	proto.RegisterType((*NullNodePb)(nil), "expr.NullNodePb")
 }
-func (m *ExprPb) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
-}
+func (m *ExprPb) Marshal() (data []byte, err error) { _ = "STUB: not implemented"; return nil, nil }
 
-func (m *ExprPb) MarshalTo(data []byte) (int, error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	if m.Op != nil {
-		data[i] = 0x8
-		i++
-		i = encodeVarintNode(data, i, uint64(*m.Op))
-	}
-	if len(m.Args) > 0 {
-		for _, msg := range m.Args {
-			data[i] = 0x12
-			i++
-			i = encodeVarintNode(data, i, uint64(msg.Size()))
-			n, err := msg.MarshalTo(data[i:])
-			if err != nil {
-				return 0, err
-			}
-			i += n
-		}
-	}
-	if m.Ident != nil {
-		data[i] = 0x22
-		i++
-		i = encodeVarintNode(data, i, uint64(len(*m.Ident)))
-		i += copy(data[i:], *m.Ident)
-	}
-	if m.Val != nil {
-		data[i] = 0x2a
-		i++
-		i = encodeVarintNode(data, i, uint64(len(*m.Val)))
-		i += copy(data[i:], *m.Val)
-	}
-	if m.Ival != nil {
-		data[i] = 0x30
-		i++
-		i = encodeVarintNode(data, i, uint64(*m.Ival))
-	}
-	if m.Bval != nil {
-		data[i] = 0x38
-		i++
-		if *m.Bval {
-			data[i] = 1
-		} else {
-			data[i] = 0
-		}
-		i++
-	}
-	if m.Fval != nil {
-		data[i] = 0x41
-		i++
-		i = encodeFixed64Node(data, i, uint64(math.Float64bits(float64(*m.Fval))))
-	}
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
-}
+func (m *ExprPb) MarshalTo(data []byte) (int, error) { _ = "STUB: not implemented"; return 0, nil }
 
-func (m *NodePb) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
-}
+func (m *NodePb) Marshal() (data []byte, err error) { _ = "STUB: not implemented"; return nil, nil }
 
-func (m *NodePb) MarshalTo(data []byte) (int, error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	if m.Bn != nil {
-		data[i] = 0xa
-		i++
-		i = encodeVarintNode(data, i, uint64(m.Bn.Size()))
-		n1, err := m.Bn.MarshalTo(data[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n1
-	}
-	if m.Booln != nil {
-		data[i] = 0x12
-		i++
-		i = encodeVarintNode(data, i, uint64(m.Booln.Size()))
-		n2, err := m.Booln.MarshalTo(data[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n2
-	}
-	if m.Un != nil {
-		data[i] = 0x1a
-		i++
-		i = encodeVarintNode(data, i, uint64(m.Un.Size()))
-		n3, err := m.Un.MarshalTo(data[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n3
-	}
-	if m.Fn != nil {
-		data[i] = 0x22
-		i++
-		i = encodeVarintNode(data, i, uint64(m.Fn.Size()))
-		n4, err := m.Fn.MarshalTo(data[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n4
-	}
-	if m.Tn != nil {
-		data[i] = 0x2a
-		i++
-		i = encodeVarintNode(data, i, uint64(m.Tn.Size()))
-		n5, err := m.Tn.MarshalTo(data[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n5
-	}
-	if m.An != nil {
-		data[i] = 0x32
-		i++
-		i = encodeVarintNode(data, i, uint64(m.An.Size()))
-		n6, err := m.An.MarshalTo(data[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n6
-	}
-	if m.Nn != nil {
-		data[i] = 0x52
-		i++
-		i = encodeVarintNode(data, i, uint64(m.Nn.Size()))
-		n7, err := m.Nn.MarshalTo(data[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n7
-	}
-	if m.Vn != nil {
-		data[i] = 0x5a
-		i++
-		i = encodeVarintNode(data, i, uint64(m.Vn.Size()))
-		n8, err := m.Vn.MarshalTo(data[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n8
-	}
-	if m.In != nil {
-		data[i] = 0x62
-		i++
-		i = encodeVarintNode(data, i, uint64(m.In.Size()))
-		n9, err := m.In.MarshalTo(data[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n9
-	}
-	if m.Sn != nil {
-		data[i] = 0x6a
-		i++
-		i = encodeVarintNode(data, i, uint64(m.Sn.Size()))
-		n10, err := m.Sn.MarshalTo(data[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n10
-	}
-	if m.Incn != nil {
-		data[i] = 0x72
-		i++
-		i = encodeVarintNode(data, i, uint64(m.Incn.Size()))
-		n11, err := m.Incn.MarshalTo(data[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n11
-	}
-	if m.Niln != nil {
-		data[i] = 0x7a
-		i++
-		i = encodeVarintNode(data, i, uint64(m.Niln.Size()))
-		n12, err := m.Niln.MarshalTo(data[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n12
-	}
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
-}
+func (m *NodePb) MarshalTo(data []byte) (int, error) { _ = "STUB: not implemented"; return 0, nil }
 
 func (m *BinaryNodePb) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (m *BinaryNodePb) MarshalTo(data []byte) (int, error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	data[i] = 0x8
-	i++
-	i = encodeVarintNode(data, i, uint64(m.Op))
-	data[i] = 0x10
-	i++
-	if m.Paren {
-		data[i] = 1
-	} else {
-		data[i] = 0
-	}
-	i++
-	if len(m.Args) > 0 {
-		for _, msg := range m.Args {
-			data[i] = 0x1a
-			i++
-			i = encodeVarintNode(data, i, uint64(msg.Size()))
-			n, err := msg.MarshalTo(data[i:])
-			if err != nil {
-				return 0, err
-			}
-			i += n
-		}
-	}
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 func (m *BooleanNodePb) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (m *BooleanNodePb) MarshalTo(data []byte) (int, error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	data[i] = 0x8
-	i++
-	i = encodeVarintNode(data, i, uint64(m.Op))
-	if len(m.Args) > 0 {
-		for _, msg := range m.Args {
-			data[i] = 0x12
-			i++
-			i = encodeVarintNode(data, i, uint64(msg.Size()))
-			n, err := msg.MarshalTo(data[i:])
-			if err != nil {
-				return 0, err
-			}
-			i += n
-		}
-	}
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 func (m *IncludeNodePb) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (m *IncludeNodePb) MarshalTo(data []byte) (int, error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	data[i] = 0x8
-	i++
-	i = encodeVarintNode(data, i, uint64(m.Op))
-	data[i] = 0x10
-	i++
-	if m.Negated {
-		data[i] = 1
-	} else {
-		data[i] = 0
-	}
-	i++
-	data[i] = 0x1a
-	i++
-	i = encodeVarintNode(data, i, uint64(m.Identity.Size()))
-	n13, err := m.Identity.MarshalTo(data[i:])
-	if err != nil {
-		return 0, err
-	}
-	i += n13
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 func (m *UnaryNodePb) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func (m *UnaryNodePb) MarshalTo(data []byte) (int, error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	data[i] = 0x8
-	i++
-	i = encodeVarintNode(data, i, uint64(m.Op))
-	data[i] = 0x10
-	i++
-	if m.Paren {
-		data[i] = 1
-	} else {
-		data[i] = 0
-	}
-	i++
-	data[i] = 0x1a
-	i++
-	i = encodeVarintNode(data, i, uint64(m.Arg.Size()))
-	n14, err := m.Arg.MarshalTo(data[i:])
-	if err != nil {
-		return 0, err
-	}
-	i += n14
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
-}
+func (m *UnaryNodePb) MarshalTo(data []byte) (int, error) { _ = "STUB: not implemented"; return 0, nil }
 
-func (m *FuncNodePb) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
-}
+func (m *FuncNodePb) Marshal() (data []byte, err error) { _ = "STUB: not implemented"; return nil, nil }
 
-func (m *FuncNodePb) MarshalTo(data []byte) (int, error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	data[i] = 0xa
-	i++
-	i = encodeVarintNode(data, i, uint64(len(m.Name)))
-	i += copy(data[i:], m.Name)
-	if len(m.Args) > 0 {
-		for _, msg := range m.Args {
-			data[i] = 0x12
-			i++
-			i = encodeVarintNode(data, i, uint64(msg.Size()))
-			n, err := msg.MarshalTo(data[i:])
-			if err != nil {
-				return 0, err
-			}
-			i += n
-		}
-	}
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
-}
+func (m *FuncNodePb) MarshalTo(data []byte) (int, error) { _ = "STUB: not implemented"; return 0, nil }
 
-func (m *TriNodePb) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
-}
+func (m *TriNodePb) Marshal() (data []byte, err error) { _ = "STUB: not implemented"; return nil, nil }
 
-func (m *TriNodePb) MarshalTo(data []byte) (int, error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	data[i] = 0x8
-	i++
-	i = encodeVarintNode(data, i, uint64(m.Op))
-	if len(m.Args) > 0 {
-		for _, msg := range m.Args {
-			data[i] = 0x12
-			i++
-			i = encodeVarintNode(data, i, uint64(msg.Size()))
-			n, err := msg.MarshalTo(data[i:])
-			if err != nil {
-				return 0, err
-			}
-			i += n
-		}
-	}
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
-}
+func (m *TriNodePb) MarshalTo(data []byte) (int, error) { _ = "STUB: not implemented"; return 0, nil }
 
 func (m *ArrayNodePb) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func (m *ArrayNodePb) MarshalTo(data []byte) (int, error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	if m.Wrap == nil {
-		return 0, new(github_com_golang_protobuf_proto.RequiredNotSetError)
-	} else {
-		data[i] = 0x8
-		i++
-		i = encodeVarintNode(data, i, uint64(*m.Wrap))
-	}
-	if len(m.Args) > 0 {
-		for _, msg := range m.Args {
-			data[i] = 0x1a
-			i++
-			i = encodeVarintNode(data, i, uint64(msg.Size()))
-			n, err := msg.MarshalTo(data[i:])
-			if err != nil {
-				return 0, err
-			}
-			i += n
-		}
-	}
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
-}
+func (m *ArrayNodePb) MarshalTo(data []byte) (int, error) { _ = "STUB: not implemented"; return 0, nil }
 
 func (m *StringNodePb) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (m *StringNodePb) MarshalTo(data []byte) (int, error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	if m.Noquote != nil {
-		data[i] = 0x8
-		i++
-		if *m.Noquote {
-			data[i] = 1
-		} else {
-			data[i] = 0
-		}
-		i++
-	}
-	if m.Quote != nil {
-		data[i] = 0x10
-		i++
-		i = encodeVarintNode(data, i, uint64(*m.Quote))
-	}
-	data[i] = 0x1a
-	i++
-	i = encodeVarintNode(data, i, uint64(len(m.Text)))
-	i += copy(data[i:], m.Text)
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 func (m *IdentityNodePb) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (m *IdentityNodePb) MarshalTo(data []byte) (int, error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	if m.Quote != nil {
-		data[i] = 0x8
-		i++
-		i = encodeVarintNode(data, i, uint64(*m.Quote))
-	}
-	data[i] = 0x1a
-	i++
-	i = encodeVarintNode(data, i, uint64(len(m.Text)))
-	i += copy(data[i:], m.Text)
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 func (m *NumberNodePb) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (m *NumberNodePb) MarshalTo(data []byte) (int, error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	data[i] = 0x8
-	i++
-	if m.Isint {
-		data[i] = 1
-	} else {
-		data[i] = 0
-	}
-	i++
-	data[i] = 0x10
-	i++
-	if m.Isfloat {
-		data[i] = 1
-	} else {
-		data[i] = 0
-	}
-	i++
-	data[i] = 0x18
-	i++
-	i = encodeVarintNode(data, i, uint64(m.Iv))
-	data[i] = 0x21
-	i++
-	i = encodeFixed64Node(data, i, uint64(math.Float64bits(float64(m.Fv))))
-	data[i] = 0x2a
-	i++
-	i = encodeVarintNode(data, i, uint64(len(m.Text)))
-	i += copy(data[i:], m.Text)
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 func (m *ValueNodePb) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func (m *ValueNodePb) MarshalTo(data []byte) (int, error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	data[i] = 0x8
-	i++
-	i = encodeVarintNode(data, i, uint64(m.Valuetype))
-	if m.Value == nil {
-		return 0, new(github_com_golang_protobuf_proto.RequiredNotSetError)
-	} else {
-		data[i] = 0x12
-		i++
-		i = encodeVarintNode(data, i, uint64(len(m.Value)))
-		i += copy(data[i:], m.Value)
-	}
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
-}
+func (m *ValueNodePb) MarshalTo(data []byte) (int, error) { _ = "STUB: not implemented"; return 0, nil }
 
-func (m *NullNodePb) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
-}
+func (m *NullNodePb) Marshal() (data []byte, err error) { _ = "STUB: not implemented"; return nil, nil }
 
-func (m *NullNodePb) MarshalTo(data []byte) (int, error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	data[i] = 0x8
-	i++
-	i = encodeVarintNode(data, i, uint64(m.Niltype))
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
-}
+func (m *NullNodePb) MarshalTo(data []byte) (int, error) { _ = "STUB: not implemented"; return 0, nil }
 
-func encodeFixed64Node(data []byte, offset int, v uint64) int {
-	data[offset] = uint8(v)
-	data[offset+1] = uint8(v >> 8)
-	data[offset+2] = uint8(v >> 16)
-	data[offset+3] = uint8(v >> 24)
-	data[offset+4] = uint8(v >> 32)
-	data[offset+5] = uint8(v >> 40)
-	data[offset+6] = uint8(v >> 48)
-	data[offset+7] = uint8(v >> 56)
-	return offset + 8
-}
-func encodeFixed32Node(data []byte, offset int, v uint32) int {
-	data[offset] = uint8(v)
-	data[offset+1] = uint8(v >> 8)
-	data[offset+2] = uint8(v >> 16)
-	data[offset+3] = uint8(v >> 24)
-	return offset + 4
-}
-func encodeVarintNode(data []byte, offset int, v uint64) int {
-	for v >= 1<<7 {
-		data[offset] = uint8(v&0x7f | 0x80)
-		v >>= 7
-		offset++
-	}
-	data[offset] = uint8(v)
-	return offset + 1
-}
-func (m *ExprPb) Size() (n int) {
-	var l int
-	_ = l
-	if m.Op != nil {
-		n += 1 + sovNode(uint64(*m.Op))
-	}
-	if len(m.Args) > 0 {
-		for _, e := range m.Args {
-			l = e.Size()
-			n += 1 + l + sovNode(uint64(l))
-		}
-	}
-	if m.Ident != nil {
-		l = len(*m.Ident)
-		n += 1 + l + sovNode(uint64(l))
-	}
-	if m.Val != nil {
-		l = len(*m.Val)
-		n += 1 + l + sovNode(uint64(l))
-	}
-	if m.Ival != nil {
-		n += 1 + sovNode(uint64(*m.Ival))
-	}
-	if m.Bval != nil {
-		n += 2
-	}
-	if m.Fval != nil {
-		n += 9
-	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
-	return n
-}
+func encodeFixed64Node(data []byte, offset int, v uint64) int { _ = "STUB: not implemented"; return 0 }
 
-func (m *NodePb) Size() (n int) {
-	var l int
-	_ = l
-	if m.Bn != nil {
-		l = m.Bn.Size()
-		n += 1 + l + sovNode(uint64(l))
-	}
-	if m.Booln != nil {
-		l = m.Booln.Size()
-		n += 1 + l + sovNode(uint64(l))
-	}
-	if m.Un != nil {
-		l = m.Un.Size()
-		n += 1 + l + sovNode(uint64(l))
-	}
-	if m.Fn != nil {
-		l = m.Fn.Size()
-		n += 1 + l + sovNode(uint64(l))
-	}
-	if m.Tn != nil {
-		l = m.Tn.Size()
-		n += 1 + l + sovNode(uint64(l))
-	}
-	if m.An != nil {
-		l = m.An.Size()
-		n += 1 + l + sovNode(uint64(l))
-	}
-	if m.Nn != nil {
-		l = m.Nn.Size()
-		n += 1 + l + sovNode(uint64(l))
-	}
-	if m.Vn != nil {
-		l = m.Vn.Size()
-		n += 1 + l + sovNode(uint64(l))
-	}
-	if m.In != nil {
-		l = m.In.Size()
-		n += 1 + l + sovNode(uint64(l))
-	}
-	if m.Sn != nil {
-		l = m.Sn.Size()
-		n += 1 + l + sovNode(uint64(l))
-	}
-	if m.Incn != nil {
-		l = m.Incn.Size()
-		n += 1 + l + sovNode(uint64(l))
-	}
-	if m.Niln != nil {
-		l = m.Niln.Size()
-		n += 1 + l + sovNode(uint64(l))
-	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
-	return n
-}
+func encodeFixed32Node(data []byte, offset int, v uint32) int { _ = "STUB: not implemented"; return 0 }
 
-func (m *BinaryNodePb) Size() (n int) {
-	var l int
-	_ = l
-	n += 1 + sovNode(uint64(m.Op))
-	n += 2
-	if len(m.Args) > 0 {
-		for _, e := range m.Args {
-			l = e.Size()
-			n += 1 + l + sovNode(uint64(l))
-		}
-	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
-	return n
-}
+func encodeVarintNode(data []byte, offset int, v uint64) int { _ = "STUB: not implemented"; return 0 }
 
-func (m *BooleanNodePb) Size() (n int) {
-	var l int
-	_ = l
-	n += 1 + sovNode(uint64(m.Op))
-	if len(m.Args) > 0 {
-		for _, e := range m.Args {
-			l = e.Size()
-			n += 1 + l + sovNode(uint64(l))
-		}
-	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
-	return n
-}
+func (m *ExprPb) Size() (n int) { _ = "STUB: not implemented"; return 0 }
 
-func (m *IncludeNodePb) Size() (n int) {
-	var l int
-	_ = l
-	n += 1 + sovNode(uint64(m.Op))
-	n += 2
-	l = m.Identity.Size()
-	n += 1 + l + sovNode(uint64(l))
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
-	return n
-}
+func (m *NodePb) Size() (n int) { _ = "STUB: not implemented"; return 0 }
 
-func (m *UnaryNodePb) Size() (n int) {
-	var l int
-	_ = l
-	n += 1 + sovNode(uint64(m.Op))
-	n += 2
-	l = m.Arg.Size()
-	n += 1 + l + sovNode(uint64(l))
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
-	return n
-}
+func (m *BinaryNodePb) Size() (n int) { _ = "STUB: not implemented"; return 0 }
 
-func (m *FuncNodePb) Size() (n int) {
-	var l int
-	_ = l
-	l = len(m.Name)
-	n += 1 + l + sovNode(uint64(l))
-	if len(m.Args) > 0 {
-		for _, e := range m.Args {
-			l = e.Size()
-			n += 1 + l + sovNode(uint64(l))
-		}
-	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
-	return n
-}
+func (m *BooleanNodePb) Size() (n int) { _ = "STUB: not implemented"; return 0 }
 
-func (m *TriNodePb) Size() (n int) {
-	var l int
-	_ = l
-	n += 1 + sovNode(uint64(m.Op))
-	if len(m.Args) > 0 {
-		for _, e := range m.Args {
-			l = e.Size()
-			n += 1 + l + sovNode(uint64(l))
-		}
-	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
-	return n
-}
+func (m *IncludeNodePb) Size() (n int) { _ = "STUB: not implemented"; return 0 }
 
-func (m *ArrayNodePb) Size() (n int) {
-	var l int
-	_ = l
-	if m.Wrap != nil {
-		n += 1 + sovNode(uint64(*m.Wrap))
-	}
-	if len(m.Args) > 0 {
-		for _, e := range m.Args {
-			l = e.Size()
-			n += 1 + l + sovNode(uint64(l))
-		}
-	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
-	return n
-}
+func (m *UnaryNodePb) Size() (n int) { _ = "STUB: not implemented"; return 0 }
 
-func (m *StringNodePb) Size() (n int) {
-	var l int
-	_ = l
-	if m.Noquote != nil {
-		n += 2
-	}
-	if m.Quote != nil {
-		n += 1 + sovNode(uint64(*m.Quote))
-	}
-	l = len(m.Text)
-	n += 1 + l + sovNode(uint64(l))
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
-	return n
-}
+func (m *FuncNodePb) Size() (n int) { _ = "STUB: not implemented"; return 0 }
 
-func (m *IdentityNodePb) Size() (n int) {
-	var l int
-	_ = l
-	if m.Quote != nil {
-		n += 1 + sovNode(uint64(*m.Quote))
-	}
-	l = len(m.Text)
-	n += 1 + l + sovNode(uint64(l))
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
-	return n
-}
+func (m *TriNodePb) Size() (n int) { _ = "STUB: not implemented"; return 0 }
 
-func (m *NumberNodePb) Size() (n int) {
-	var l int
-	_ = l
-	n += 2
-	n += 2
-	n += 1 + sovNode(uint64(m.Iv))
-	n += 9
-	l = len(m.Text)
-	n += 1 + l + sovNode(uint64(l))
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
-	return n
-}
+func (m *ArrayNodePb) Size() (n int) { _ = "STUB: not implemented"; return 0 }
 
-func (m *ValueNodePb) Size() (n int) {
-	var l int
-	_ = l
-	n += 1 + sovNode(uint64(m.Valuetype))
-	if m.Value != nil {
-		l = len(m.Value)
-		n += 1 + l + sovNode(uint64(l))
-	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
-	return n
-}
+func (m *StringNodePb) Size() (n int) { _ = "STUB: not implemented"; return 0 }
 
-func (m *NullNodePb) Size() (n int) {
-	var l int
-	_ = l
-	n += 1 + sovNode(uint64(m.Niltype))
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
-	return n
-}
+func (m *IdentityNodePb) Size() (n int) { _ = "STUB: not implemented"; return 0 }
 
-func sovNode(x uint64) (n int) {
-	for {
-		n++
-		x >>= 7
-		if x == 0 {
-			break
-		}
-	}
-	return n
-}
-func sozNode(x uint64) (n int) {
-	return sovNode(uint64((x << 1) ^ uint64((int64(x) >> 63))))
-}
-func (m *ExprPb) Unmarshal(data []byte) error {
-	l := len(data)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowNode
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[iNdEx]
-			iNdEx++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: ExprPb: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: ExprPb: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Op", wireType)
-			}
-			var v int32
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				v |= (int32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Op = &v
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Args", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Args = append(m.Args, &ExprPb{})
-			if err := m.Args[len(m.Args)-1].Unmarshal(data[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 4:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Ident", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				stringLen |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			s := string(data[iNdEx:postIndex])
-			m.Ident = &s
-			iNdEx = postIndex
-		case 5:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Val", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				stringLen |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			s := string(data[iNdEx:postIndex])
-			m.Val = &s
-			iNdEx = postIndex
-		case 6:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Ival", wireType)
-			}
-			var v int64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				v |= (int64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Ival = &v
-		case 7:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Bval", wireType)
-			}
-			var v int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				v |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			b := bool(v != 0)
-			m.Bval = &b
-		case 8:
-			if wireType != 1 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Fval", wireType)
-			}
-			var v uint64
-			if (iNdEx + 8) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += 8
-			v = uint64(data[iNdEx-8])
-			v |= uint64(data[iNdEx-7]) << 8
-			v |= uint64(data[iNdEx-6]) << 16
-			v |= uint64(data[iNdEx-5]) << 24
-			v |= uint64(data[iNdEx-4]) << 32
-			v |= uint64(data[iNdEx-3]) << 40
-			v |= uint64(data[iNdEx-2]) << 48
-			v |= uint64(data[iNdEx-1]) << 56
-			v2 := float64(math.Float64frombits(v))
-			m.Fval = &v2
-		default:
-			iNdEx = preIndex
-			skippy, err := skipNode(data[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthNode
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[iNdEx:iNdEx+skippy]...)
-			iNdEx += skippy
-		}
-	}
+func (m *NumberNodePb) Size() (n int) { _ = "STUB: not implemented"; return 0 }
 
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *NodePb) Unmarshal(data []byte) error {
-	l := len(data)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowNode
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[iNdEx]
-			iNdEx++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: NodePb: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: NodePb: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Bn", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Bn == nil {
-				m.Bn = &BinaryNodePb{}
-			}
-			if err := m.Bn.Unmarshal(data[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Booln", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Booln == nil {
-				m.Booln = &BooleanNodePb{}
-			}
-			if err := m.Booln.Unmarshal(data[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Un", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Un == nil {
-				m.Un = &UnaryNodePb{}
-			}
-			if err := m.Un.Unmarshal(data[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 4:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Fn", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Fn == nil {
-				m.Fn = &FuncNodePb{}
-			}
-			if err := m.Fn.Unmarshal(data[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 5:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Tn", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Tn == nil {
-				m.Tn = &TriNodePb{}
-			}
-			if err := m.Tn.Unmarshal(data[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 6:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field An", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.An == nil {
-				m.An = &ArrayNodePb{}
-			}
-			if err := m.An.Unmarshal(data[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 10:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Nn", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Nn == nil {
-				m.Nn = &NumberNodePb{}
-			}
-			if err := m.Nn.Unmarshal(data[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 11:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Vn", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Vn == nil {
-				m.Vn = &ValueNodePb{}
-			}
-			if err := m.Vn.Unmarshal(data[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 12:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field In", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.In == nil {
-				m.In = &IdentityNodePb{}
-			}
-			if err := m.In.Unmarshal(data[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 13:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Sn", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Sn == nil {
-				m.Sn = &StringNodePb{}
-			}
-			if err := m.Sn.Unmarshal(data[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 14:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Incn", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Incn == nil {
-				m.Incn = &IncludeNodePb{}
-			}
-			if err := m.Incn.Unmarshal(data[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 15:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Niln", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Niln == nil {
-				m.Niln = &NullNodePb{}
-			}
-			if err := m.Niln.Unmarshal(data[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipNode(data[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthNode
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[iNdEx:iNdEx+skippy]...)
-			iNdEx += skippy
-		}
-	}
+func (m *ValueNodePb) Size() (n int) { _ = "STUB: not implemented"; return 0 }
 
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *BinaryNodePb) Unmarshal(data []byte) error {
-	var hasFields [1]uint64
-	l := len(data)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowNode
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[iNdEx]
-			iNdEx++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: BinaryNodePb: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: BinaryNodePb: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Op", wireType)
-			}
-			m.Op = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				m.Op |= (int32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			hasFields[0] |= uint64(0x00000001)
-		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Paren", wireType)
-			}
-			var v int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				v |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Paren = bool(v != 0)
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Args", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Args = append(m.Args, NodePb{})
-			if err := m.Args[len(m.Args)-1].Unmarshal(data[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipNode(data[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthNode
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[iNdEx:iNdEx+skippy]...)
-			iNdEx += skippy
-		}
-	}
-	if hasFields[0]&uint64(0x00000001) == 0 {
-		return new(github_com_golang_protobuf_proto.RequiredNotSetError)
-	}
+func (m *NullNodePb) Size() (n int) { _ = "STUB: not implemented"; return 0 }
 
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *BooleanNodePb) Unmarshal(data []byte) error {
-	var hasFields [1]uint64
-	l := len(data)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowNode
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[iNdEx]
-			iNdEx++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: BooleanNodePb: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: BooleanNodePb: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Op", wireType)
-			}
-			m.Op = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				m.Op |= (int32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			hasFields[0] |= uint64(0x00000001)
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Args", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Args = append(m.Args, NodePb{})
-			if err := m.Args[len(m.Args)-1].Unmarshal(data[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipNode(data[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthNode
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[iNdEx:iNdEx+skippy]...)
-			iNdEx += skippy
-		}
-	}
-	if hasFields[0]&uint64(0x00000001) == 0 {
-		return new(github_com_golang_protobuf_proto.RequiredNotSetError)
-	}
+func sovNode(x uint64) (n int) { _ = "STUB: not implemented"; return 0 }
 
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *IncludeNodePb) Unmarshal(data []byte) error {
-	var hasFields [1]uint64
-	l := len(data)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowNode
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[iNdEx]
-			iNdEx++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: IncludeNodePb: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: IncludeNodePb: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Op", wireType)
-			}
-			m.Op = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				m.Op |= (int32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			hasFields[0] |= uint64(0x00000001)
-		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Negated", wireType)
-			}
-			var v int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				v |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Negated = bool(v != 0)
-			hasFields[0] |= uint64(0x00000002)
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Identity", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if err := m.Identity.Unmarshal(data[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-			hasFields[0] |= uint64(0x00000004)
-		default:
-			iNdEx = preIndex
-			skippy, err := skipNode(data[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthNode
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[iNdEx:iNdEx+skippy]...)
-			iNdEx += skippy
-		}
-	}
-	if hasFields[0]&uint64(0x00000001) == 0 {
-		return new(github_com_golang_protobuf_proto.RequiredNotSetError)
-	}
-	if hasFields[0]&uint64(0x00000002) == 0 {
-		return new(github_com_golang_protobuf_proto.RequiredNotSetError)
-	}
-	if hasFields[0]&uint64(0x00000004) == 0 {
-		return new(github_com_golang_protobuf_proto.RequiredNotSetError)
-	}
+func sozNode(x uint64) (n int) { _ = "STUB: not implemented"; return 0 }
 
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *UnaryNodePb) Unmarshal(data []byte) error {
-	var hasFields [1]uint64
-	l := len(data)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowNode
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[iNdEx]
-			iNdEx++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: UnaryNodePb: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: UnaryNodePb: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Op", wireType)
-			}
-			m.Op = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				m.Op |= (int32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			hasFields[0] |= uint64(0x00000001)
-		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Paren", wireType)
-			}
-			var v int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				v |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Paren = bool(v != 0)
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Arg", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if err := m.Arg.Unmarshal(data[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-			hasFields[0] |= uint64(0x00000002)
-		default:
-			iNdEx = preIndex
-			skippy, err := skipNode(data[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthNode
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[iNdEx:iNdEx+skippy]...)
-			iNdEx += skippy
-		}
-	}
-	if hasFields[0]&uint64(0x00000001) == 0 {
-		return new(github_com_golang_protobuf_proto.RequiredNotSetError)
-	}
-	if hasFields[0]&uint64(0x00000002) == 0 {
-		return new(github_com_golang_protobuf_proto.RequiredNotSetError)
-	}
+func (m *ExprPb) Unmarshal(data []byte) error { _ = "STUB: not implemented"; return nil }
 
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *FuncNodePb) Unmarshal(data []byte) error {
-	var hasFields [1]uint64
-	l := len(data)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowNode
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[iNdEx]
-			iNdEx++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: FuncNodePb: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: FuncNodePb: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				stringLen |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Name = string(data[iNdEx:postIndex])
-			iNdEx = postIndex
-			hasFields[0] |= uint64(0x00000001)
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Args", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Args = append(m.Args, NodePb{})
-			if err := m.Args[len(m.Args)-1].Unmarshal(data[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipNode(data[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthNode
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[iNdEx:iNdEx+skippy]...)
-			iNdEx += skippy
-		}
-	}
-	if hasFields[0]&uint64(0x00000001) == 0 {
-		return new(github_com_golang_protobuf_proto.RequiredNotSetError)
-	}
+func (m *NodePb) Unmarshal(data []byte) error { _ = "STUB: not implemented"; return nil }
 
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *TriNodePb) Unmarshal(data []byte) error {
-	var hasFields [1]uint64
-	l := len(data)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowNode
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[iNdEx]
-			iNdEx++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: TriNodePb: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: TriNodePb: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Op", wireType)
-			}
-			m.Op = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				m.Op |= (int32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			hasFields[0] |= uint64(0x00000001)
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Args", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Args = append(m.Args, NodePb{})
-			if err := m.Args[len(m.Args)-1].Unmarshal(data[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipNode(data[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthNode
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[iNdEx:iNdEx+skippy]...)
-			iNdEx += skippy
-		}
-	}
-	if hasFields[0]&uint64(0x00000001) == 0 {
-		return new(github_com_golang_protobuf_proto.RequiredNotSetError)
-	}
+func (m *BinaryNodePb) Unmarshal(data []byte) error { _ = "STUB: not implemented"; return nil }
 
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *ArrayNodePb) Unmarshal(data []byte) error {
-	var hasFields [1]uint64
-	l := len(data)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowNode
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[iNdEx]
-			iNdEx++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: ArrayNodePb: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: ArrayNodePb: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Wrap", wireType)
-			}
-			var v int32
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				v |= (int32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Wrap = &v
-			hasFields[0] |= uint64(0x00000001)
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Args", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Args = append(m.Args, NodePb{})
-			if err := m.Args[len(m.Args)-1].Unmarshal(data[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipNode(data[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthNode
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[iNdEx:iNdEx+skippy]...)
-			iNdEx += skippy
-		}
-	}
-	if hasFields[0]&uint64(0x00000001) == 0 {
-		return new(github_com_golang_protobuf_proto.RequiredNotSetError)
-	}
+func (m *BooleanNodePb) Unmarshal(data []byte) error { _ = "STUB: not implemented"; return nil }
 
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *StringNodePb) Unmarshal(data []byte) error {
-	l := len(data)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowNode
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[iNdEx]
-			iNdEx++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: StringNodePb: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: StringNodePb: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Noquote", wireType)
-			}
-			var v int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				v |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			b := bool(v != 0)
-			m.Noquote = &b
-		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Quote", wireType)
-			}
-			var v int32
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				v |= (int32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Quote = &v
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Text", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				stringLen |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Text = string(data[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipNode(data[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthNode
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[iNdEx:iNdEx+skippy]...)
-			iNdEx += skippy
-		}
-	}
+func (m *IncludeNodePb) Unmarshal(data []byte) error { _ = "STUB: not implemented"; return nil }
 
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *IdentityNodePb) Unmarshal(data []byte) error {
-	l := len(data)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowNode
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[iNdEx]
-			iNdEx++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: IdentityNodePb: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: IdentityNodePb: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Quote", wireType)
-			}
-			var v int32
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				v |= (int32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Quote = &v
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Text", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				stringLen |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Text = string(data[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipNode(data[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthNode
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[iNdEx:iNdEx+skippy]...)
-			iNdEx += skippy
-		}
-	}
+func (m *UnaryNodePb) Unmarshal(data []byte) error { _ = "STUB: not implemented"; return nil }
 
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *NumberNodePb) Unmarshal(data []byte) error {
-	var hasFields [1]uint64
-	l := len(data)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowNode
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[iNdEx]
-			iNdEx++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: NumberNodePb: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: NumberNodePb: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Isint", wireType)
-			}
-			var v int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				v |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Isint = bool(v != 0)
-		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Isfloat", wireType)
-			}
-			var v int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				v |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Isfloat = bool(v != 0)
-		case 3:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Iv", wireType)
-			}
-			m.Iv = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				m.Iv |= (int64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			hasFields[0] |= uint64(0x00000001)
-		case 4:
-			if wireType != 1 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Fv", wireType)
-			}
-			var v uint64
-			if (iNdEx + 8) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += 8
-			v = uint64(data[iNdEx-8])
-			v |= uint64(data[iNdEx-7]) << 8
-			v |= uint64(data[iNdEx-6]) << 16
-			v |= uint64(data[iNdEx-5]) << 24
-			v |= uint64(data[iNdEx-4]) << 32
-			v |= uint64(data[iNdEx-3]) << 40
-			v |= uint64(data[iNdEx-2]) << 48
-			v |= uint64(data[iNdEx-1]) << 56
-			m.Fv = float64(math.Float64frombits(v))
-			hasFields[0] |= uint64(0x00000002)
-		case 5:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Text", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				stringLen |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Text = string(data[iNdEx:postIndex])
-			iNdEx = postIndex
-			hasFields[0] |= uint64(0x00000004)
-		default:
-			iNdEx = preIndex
-			skippy, err := skipNode(data[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthNode
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[iNdEx:iNdEx+skippy]...)
-			iNdEx += skippy
-		}
-	}
-	if hasFields[0]&uint64(0x00000001) == 0 {
-		return new(github_com_golang_protobuf_proto.RequiredNotSetError)
-	}
-	if hasFields[0]&uint64(0x00000002) == 0 {
-		return new(github_com_golang_protobuf_proto.RequiredNotSetError)
-	}
-	if hasFields[0]&uint64(0x00000004) == 0 {
-		return new(github_com_golang_protobuf_proto.RequiredNotSetError)
-	}
+func (m *FuncNodePb) Unmarshal(data []byte) error { _ = "STUB: not implemented"; return nil }
 
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *ValueNodePb) Unmarshal(data []byte) error {
-	var hasFields [1]uint64
-	l := len(data)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowNode
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[iNdEx]
-			iNdEx++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: ValueNodePb: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: ValueNodePb: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Valuetype", wireType)
-			}
-			m.Valuetype = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				m.Valuetype |= (int32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			hasFields[0] |= uint64(0x00000001)
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Value", wireType)
-			}
-			var byteLen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				byteLen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if byteLen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + byteLen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Value = append(m.Value[:0], data[iNdEx:postIndex]...)
-			if m.Value == nil {
-				m.Value = []byte{}
-			}
-			iNdEx = postIndex
-			hasFields[0] |= uint64(0x00000002)
-		default:
-			iNdEx = preIndex
-			skippy, err := skipNode(data[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthNode
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[iNdEx:iNdEx+skippy]...)
-			iNdEx += skippy
-		}
-	}
-	if hasFields[0]&uint64(0x00000001) == 0 {
-		return new(github_com_golang_protobuf_proto.RequiredNotSetError)
-	}
-	if hasFields[0]&uint64(0x00000002) == 0 {
-		return new(github_com_golang_protobuf_proto.RequiredNotSetError)
-	}
+func (m *TriNodePb) Unmarshal(data []byte) error { _ = "STUB: not implemented"; return nil }
 
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *NullNodePb) Unmarshal(data []byte) error {
-	l := len(data)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowNode
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[iNdEx]
-			iNdEx++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: NullNodePb: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: NullNodePb: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Niltype", wireType)
-			}
-			m.Niltype = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				m.Niltype |= (int32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipNode(data[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthNode
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[iNdEx:iNdEx+skippy]...)
-			iNdEx += skippy
-		}
-	}
+func (m *ArrayNodePb) Unmarshal(data []byte) error { _ = "STUB: not implemented"; return nil }
 
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func skipNode(data []byte) (n int, err error) {
-	l := len(data)
-	iNdEx := 0
-	for iNdEx < l {
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return 0, ErrIntOverflowNode
-			}
-			if iNdEx >= l {
-				return 0, io.ErrUnexpectedEOF
-			}
-			b := data[iNdEx]
-			iNdEx++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		wireType := int(wire & 0x7)
-		switch wireType {
-		case 0:
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return 0, ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return 0, io.ErrUnexpectedEOF
-				}
-				iNdEx++
-				if data[iNdEx-1] < 0x80 {
-					break
-				}
-			}
-			return iNdEx, nil
-		case 1:
-			iNdEx += 8
-			return iNdEx, nil
-		case 2:
-			var length int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return 0, ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return 0, io.ErrUnexpectedEOF
-				}
-				b := data[iNdEx]
-				iNdEx++
-				length |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			iNdEx += length
-			if length < 0 {
-				return 0, ErrInvalidLengthNode
-			}
-			return iNdEx, nil
-		case 3:
-			for {
-				var innerWire uint64
-				var start int = iNdEx
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return 0, ErrIntOverflowNode
-					}
-					if iNdEx >= l {
-						return 0, io.ErrUnexpectedEOF
-					}
-					b := data[iNdEx]
-					iNdEx++
-					innerWire |= (uint64(b) & 0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				innerWireType := int(innerWire & 0x7)
-				if innerWireType == 4 {
-					break
-				}
-				next, err := skipNode(data[start:])
-				if err != nil {
-					return 0, err
-				}
-				iNdEx = start + next
-			}
-			return iNdEx, nil
-		case 4:
-			return iNdEx, nil
-		case 5:
-			iNdEx += 4
-			return iNdEx, nil
-		default:
-			return 0, fmt.Errorf("proto: illegal wireType %d", wireType)
-		}
-	}
-	panic("unreachable")
-}
+func (m *StringNodePb) Unmarshal(data []byte) error { _ = "STUB: not implemented"; return nil }
+
+func (m *IdentityNodePb) Unmarshal(data []byte) error { _ = "STUB: not implemented"; return nil }
+
+func (m *NumberNodePb) Unmarshal(data []byte) error { _ = "STUB: not implemented"; return nil }
+
+func (m *ValueNodePb) Unmarshal(data []byte) error { _ = "STUB: not implemented"; return nil }
+
+func (m *NullNodePb) Unmarshal(data []byte) error { _ = "STUB: not implemented"; return nil }
+
+func skipNode(data []byte) (n int, err error) { _ = "STUB: not implemented"; return 0, nil }
 
 var (
 	ErrInvalidLengthNode = fmt.Errorf("proto: negative length found during unmarshaling")

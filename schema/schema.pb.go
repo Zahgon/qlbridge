@@ -5,9 +5,11 @@
 Package schema is a generated protocol buffer package.
 
 It is generated from these files:
+
 	schema.proto
 
 It has these top-level messages:
+
 	TablePartition
 	Partition
 	TablePb
@@ -16,9 +18,13 @@ It has these top-level messages:
 */
 package schema
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
+import (
+	fmt "fmt"
+
+	proto "github.com/golang/protobuf/proto"
+
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -41,31 +47,16 @@ type TablePartition struct {
 	Partitions []*Partition `protobuf:"bytes,3,rep,name=partitions" json:"partitions,omitempty"`
 }
 
-func (m *TablePartition) Reset()                    { *m = TablePartition{} }
-func (m *TablePartition) String() string            { return proto.CompactTextString(m) }
-func (*TablePartition) ProtoMessage()               {}
-func (*TablePartition) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
+func (m *TablePartition) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *TablePartition) String() string            { _ = "STUB: not implemented"; return "" }
+func (*TablePartition) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*TablePartition) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (m *TablePartition) GetTable() string {
-	if m != nil {
-		return m.Table
-	}
-	return ""
-}
+func (m *TablePartition) GetTable() string { _ = "STUB: not implemented"; return "" }
 
-func (m *TablePartition) GetKeys() []string {
-	if m != nil {
-		return m.Keys
-	}
-	return nil
-}
+func (m *TablePartition) GetKeys() []string { _ = "STUB: not implemented"; return nil }
 
-func (m *TablePartition) GetPartitions() []*Partition {
-	if m != nil {
-		return m.Partitions
-	}
-	return nil
-}
+func (m *TablePartition) GetPartitions() []*Partition { _ = "STUB: not implemented"; return nil }
 
 // Partition describes a range of data
 // the left-key is contained in this partition
@@ -76,31 +67,16 @@ type Partition struct {
 	Right string `protobuf:"bytes,3,opt,name=right" json:"right,omitempty"`
 }
 
-func (m *Partition) Reset()                    { *m = Partition{} }
-func (m *Partition) String() string            { return proto.CompactTextString(m) }
-func (*Partition) ProtoMessage()               {}
-func (*Partition) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
+func (m *Partition) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *Partition) String() string            { _ = "STUB: not implemented"; return "" }
+func (*Partition) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*Partition) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (m *Partition) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
+func (m *Partition) GetId() string { _ = "STUB: not implemented"; return "" }
 
-func (m *Partition) GetLeft() string {
-	if m != nil {
-		return m.Left
-	}
-	return ""
-}
+func (m *Partition) GetLeft() string { _ = "STUB: not implemented"; return "" }
 
-func (m *Partition) GetRight() string {
-	if m != nil {
-		return m.Right
-	}
-	return ""
-}
+func (m *Partition) GetRight() string { _ = "STUB: not implemented"; return "" }
 
 type TablePb struct {
 	// Name of table lowercased
@@ -123,73 +99,28 @@ type TablePb struct {
 	Fieldpbs []*FieldPb `protobuf:"bytes,9,rep,name=fieldpbs" json:"fieldpbs,omitempty"`
 }
 
-func (m *TablePb) Reset()                    { *m = TablePb{} }
-func (m *TablePb) String() string            { return proto.CompactTextString(m) }
-func (*TablePb) ProtoMessage()               {}
-func (*TablePb) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{2} }
+func (m *TablePb) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *TablePb) String() string            { _ = "STUB: not implemented"; return "" }
+func (*TablePb) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*TablePb) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (m *TablePb) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
+func (m *TablePb) GetName() string { _ = "STUB: not implemented"; return "" }
 
-func (m *TablePb) GetNameOriginal() string {
-	if m != nil {
-		return m.NameOriginal
-	}
-	return ""
-}
+func (m *TablePb) GetNameOriginal() string { _ = "STUB: not implemented"; return "" }
 
-func (m *TablePb) GetParent() string {
-	if m != nil {
-		return m.Parent
-	}
-	return ""
-}
+func (m *TablePb) GetParent() string { _ = "STUB: not implemented"; return "" }
 
-func (m *TablePb) GetCharset() uint32 {
-	if m != nil {
-		return m.Charset
-	}
-	return 0
-}
+func (m *TablePb) GetCharset() uint32 { _ = "STUB: not implemented"; return 0 }
 
-func (m *TablePb) GetPartition() *TablePartition {
-	if m != nil {
-		return m.Partition
-	}
-	return nil
-}
+func (m *TablePb) GetPartition() *TablePartition { _ = "STUB: not implemented"; return nil }
 
-func (m *TablePb) GetPartitionCt() uint32 {
-	if m != nil {
-		return m.PartitionCt
-	}
-	return 0
-}
+func (m *TablePb) GetPartitionCt() uint32 { _ = "STUB: not implemented"; return 0 }
 
-func (m *TablePb) GetIndexes() []*Index {
-	if m != nil {
-		return m.Indexes
-	}
-	return nil
-}
+func (m *TablePb) GetIndexes() []*Index { _ = "STUB: not implemented"; return nil }
 
-func (m *TablePb) GetContextJson() []byte {
-	if m != nil {
-		return m.ContextJson
-	}
-	return nil
-}
+func (m *TablePb) GetContextJson() []byte { _ = "STUB: not implemented"; return nil }
 
-func (m *TablePb) GetFieldpbs() []*FieldPb {
-	if m != nil {
-		return m.Fieldpbs
-	}
-	return nil
-}
+func (m *TablePb) GetFieldpbs() []*FieldPb { _ = "STUB: not implemented"; return nil }
 
 type FieldPb struct {
 	Name        string   `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
@@ -210,122 +141,42 @@ type FieldPb struct {
 	ContextJson []byte   `protobuf:"bytes,18,opt,name=contextJson,proto3" json:"contextJson,omitempty"`
 }
 
-func (m *FieldPb) Reset()                    { *m = FieldPb{} }
-func (m *FieldPb) String() string            { return proto.CompactTextString(m) }
-func (*FieldPb) ProtoMessage()               {}
-func (*FieldPb) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{3} }
+func (m *FieldPb) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *FieldPb) String() string            { _ = "STUB: not implemented"; return "" }
+func (*FieldPb) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*FieldPb) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (m *FieldPb) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
+func (m *FieldPb) GetName() string { _ = "STUB: not implemented"; return "" }
 
-func (m *FieldPb) GetDescription() string {
-	if m != nil {
-		return m.Description
-	}
-	return ""
-}
+func (m *FieldPb) GetDescription() string { _ = "STUB: not implemented"; return "" }
 
-func (m *FieldPb) GetKey() string {
-	if m != nil {
-		return m.Key
-	}
-	return ""
-}
+func (m *FieldPb) GetKey() string { _ = "STUB: not implemented"; return "" }
 
-func (m *FieldPb) GetExtra() string {
-	if m != nil {
-		return m.Extra
-	}
-	return ""
-}
+func (m *FieldPb) GetExtra() string { _ = "STUB: not implemented"; return "" }
 
-func (m *FieldPb) GetData() string {
-	if m != nil {
-		return m.Data
-	}
-	return ""
-}
+func (m *FieldPb) GetData() string { _ = "STUB: not implemented"; return "" }
 
-func (m *FieldPb) GetLength() uint32 {
-	if m != nil {
-		return m.Length
-	}
-	return 0
-}
+func (m *FieldPb) GetLength() uint32 { _ = "STUB: not implemented"; return 0 }
 
-func (m *FieldPb) GetType() uint32 {
-	if m != nil {
-		return m.Type
-	}
-	return 0
-}
+func (m *FieldPb) GetType() uint32 { _ = "STUB: not implemented"; return 0 }
 
-func (m *FieldPb) GetNativeType() uint32 {
-	if m != nil {
-		return m.NativeType
-	}
-	return 0
-}
+func (m *FieldPb) GetNativeType() uint32 { _ = "STUB: not implemented"; return 0 }
 
-func (m *FieldPb) GetDefLength() uint64 {
-	if m != nil {
-		return m.DefLength
-	}
-	return 0
-}
+func (m *FieldPb) GetDefLength() uint64 { _ = "STUB: not implemented"; return 0 }
 
-func (m *FieldPb) GetDefVal() []byte {
-	if m != nil {
-		return m.DefVal
-	}
-	return nil
-}
+func (m *FieldPb) GetDefVal() []byte { _ = "STUB: not implemented"; return nil }
 
-func (m *FieldPb) GetIndexed() bool {
-	if m != nil {
-		return m.Indexed
-	}
-	return false
-}
+func (m *FieldPb) GetIndexed() bool { _ = "STUB: not implemented"; return false }
 
-func (m *FieldPb) GetNoNulls() bool {
-	if m != nil {
-		return m.NoNulls
-	}
-	return false
-}
+func (m *FieldPb) GetNoNulls() bool { _ = "STUB: not implemented"; return false }
 
-func (m *FieldPb) GetCollation() string {
-	if m != nil {
-		return m.Collation
-	}
-	return ""
-}
+func (m *FieldPb) GetCollation() string { _ = "STUB: not implemented"; return "" }
 
-func (m *FieldPb) GetRoles() []string {
-	if m != nil {
-		return m.Roles
-	}
-	return nil
-}
+func (m *FieldPb) GetRoles() []string { _ = "STUB: not implemented"; return nil }
 
-func (m *FieldPb) GetIndexes() []*Index {
-	if m != nil {
-		return m.Indexes
-	}
-	return nil
-}
+func (m *FieldPb) GetIndexes() []*Index { _ = "STUB: not implemented"; return nil }
 
-func (m *FieldPb) GetContextJson() []byte {
-	if m != nil {
-		return m.ContextJson
-	}
-	return nil
-}
+func (m *FieldPb) GetContextJson() []byte { _ = "STUB: not implemented"; return nil }
 
 // Index a description of how field(s) should be indexed for a table.
 type Index struct {
@@ -336,45 +187,20 @@ type Index struct {
 	PartitionSize int32    `protobuf:"varint,5,opt,name=partitionSize" json:"partitionSize,omitempty"`
 }
 
-func (m *Index) Reset()                    { *m = Index{} }
-func (m *Index) String() string            { return proto.CompactTextString(m) }
-func (*Index) ProtoMessage()               {}
-func (*Index) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{4} }
+func (m *Index) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *Index) String() string            { _ = "STUB: not implemented"; return "" }
+func (*Index) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*Index) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (m *Index) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
+func (m *Index) GetName() string { _ = "STUB: not implemented"; return "" }
 
-func (m *Index) GetFields() []string {
-	if m != nil {
-		return m.Fields
-	}
-	return nil
-}
+func (m *Index) GetFields() []string { _ = "STUB: not implemented"; return nil }
 
-func (m *Index) GetPrimaryKey() bool {
-	if m != nil {
-		return m.PrimaryKey
-	}
-	return false
-}
+func (m *Index) GetPrimaryKey() bool { _ = "STUB: not implemented"; return false }
 
-func (m *Index) GetHashPartition() []string {
-	if m != nil {
-		return m.HashPartition
-	}
-	return nil
-}
+func (m *Index) GetHashPartition() []string { _ = "STUB: not implemented"; return nil }
 
-func (m *Index) GetPartitionSize() int32 {
-	if m != nil {
-		return m.PartitionSize
-	}
-	return 0
-}
+func (m *Index) GetPartitionSize() int32 { _ = "STUB: not implemented"; return 0 }
 
 func init() {
 	proto.RegisterType((*TablePartition)(nil), "schema.TablePartition")

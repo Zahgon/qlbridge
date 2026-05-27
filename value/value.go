@@ -7,9 +7,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"math"
-	"reflect"
-	"strconv"
-	"strings"
 	"time"
 )
 
@@ -73,76 +70,13 @@ const (
 	JsonType           ValueType = 51
 )
 
-func (m ValueType) String() string {
-	switch m {
-	case NilType:
-		return "nil"
-	case ErrorType:
-		return "error"
-	case UnknownType:
-		return "unknown"
-	case ValueInterfaceType:
-		return "value"
-	case NumberType:
-		return "number"
-	case IntType:
-		return "int"
-	case BoolType:
-		return "bool"
-	case TimeType:
-		return "time"
-	case ByteSliceType:
-		return "[]byte"
-	case StringType:
-		return "string"
-	case StringsType:
-		return "[]string"
-	case MapValueType:
-		return "map[string]value"
-	case MapIntType:
-		return "map[string]int"
-	case MapStringType:
-		return "map[string]string"
-	case MapNumberType:
-		return "map[string]number"
-	case MapTimeType:
-		return "map[string]time"
-	case MapBoolType:
-		return "map[string]bool"
-	case SliceValueType:
-		return "[]value"
-	case StructType:
-		return "struct"
-	case JsonType:
-		return "json"
-	default:
-		return "invalid"
-	}
-}
+func (m ValueType) String() string { _ = "STUB: not implemented"; return "" }
 
-func (m ValueType) IsMap() bool {
-	switch m {
-	case MapValueType, MapIntType, MapStringType, MapNumberType, MapTimeType, MapBoolType:
-		return true
-	}
-	return false
-}
+func (m ValueType) IsMap() bool { _ = "STUB: not implemented"; return false }
 
-func (m ValueType) IsSlice() bool {
-	switch m {
-	case StringsType, SliceValueType:
-		return true
-	}
-	return false
-}
+func (m ValueType) IsSlice() bool { _ = "STUB: not implemented"; return false }
 
-func (m ValueType) IsNumeric() bool {
-	switch m {
-	case NumberType, IntType:
-		return true
-	}
-	return false
-}
+func (m ValueType) IsNumeric() bool { _ = "STUB: not implemented"; return false }
 
 type emptyStruct struct{}
 
@@ -235,732 +169,351 @@ type (
 )
 
 // ValueFromString Given a string, convert to valuetype
-func ValueFromString(vt string) ValueType {
-	switch vt {
-	case "nil", "null":
-		return NilType
-	case "error":
-		return ErrorType
-	case "unknown":
-		return UnknownType
-	case "value":
-		return ValueInterfaceType
-	case "number":
-		return NumberType
-	case "int":
-		return IntType
-	case "bool":
-		return BoolType
-	case "time":
-		return TimeType
-	case "[]byte":
-		return ByteSliceType
-	case "string":
-		return StringType
-	case "[]string":
-		return StringsType
-	case "map[string]value":
-		return MapValueType
-	case "map[string]int":
-		return MapIntType
-	case "map[string]string":
-		return MapStringType
-	case "map[string]number":
-		return MapNumberType
-	case "map[string]bool":
-		return MapBoolType
-	case "map[string]time":
-		return MapTimeType
-	case "[]value":
-		return SliceValueType
-	case "struct":
-		return StructType
-	case "json":
-		return JsonType
-	default:
-		return UnknownType
-	}
-}
+func ValueFromString(vt string) ValueType { _ = "STUB: not implemented"; return *new(ValueType) }
 
 // NewValue creates a new Value type from a native Go value.
 //
 // Defaults to StructValue for unknown types.
-func NewValue(goVal interface{}) Value {
+func NewValue(goVal interface{}) Value { _ = "STUB: not implemented"; return *new(Value) }
 
-	switch val := goVal.(type) {
-	case nil:
-		return NilValueVal
-	case Value:
-		return val
-	case float64:
-		return NewNumberValue(val)
-	case float32:
-		return NewNumberValue(float64(val))
-	case *float64:
-		if val == nil {
-			return NewNumberNil()
-		}
-		return NewNumberValue(*val)
-	case *float32:
-		if val == nil {
-			return NewNumberNil()
-		}
-		return NewNumberValue(float64(*val))
-	case int8:
-		return NewIntValue(int64(val))
-	case *int8:
-		if val != nil {
-			return NewIntValue(int64(*val))
-		}
-		return NewIntValue(0)
-	case int16:
-		return NewIntValue(int64(val))
-	case *int16:
-		if val != nil {
-			return NewIntValue(int64(*val))
-		}
-		return NewIntValue(0)
-	case int:
-		return NewIntValue(int64(val))
-	case *int:
-		if val != nil {
-			return NewIntValue(int64(*val))
-		}
-		return NewIntValue(0)
-	case int32:
-		return NewIntValue(int64(val))
-	case *int32:
-		if val != nil {
-			return NewIntValue(int64(*val))
-		}
-		return NewIntValue(0)
-	case int64:
-		return NewIntValue(int64(val))
-	case *int64:
-		if val != nil {
-			return NewIntValue(int64(*val))
-		}
-		return NewIntValue(0)
-	case uint8:
-		return NewIntValue(int64(val))
-	case *uint8:
-		if val != nil {
-			return NewIntValue(int64(*val))
-		}
-		return NewIntValue(0)
-	case uint32:
-		return NewIntValue(int64(val))
-	case *uint32:
-		if val != nil {
-			return NewIntValue(int64(*val))
-		}
-		return NewIntValue(0)
-	case uint64:
-		return NewIntValue(int64(val))
-	case *uint64:
-		if val != nil {
-			return NewIntValue(int64(*val))
-		}
-		return NewIntValue(0)
-	case string:
-		// should we return Nil?
-		// if val == "null" || val == "NULL" {}
-		return NewStringValue(val)
-	case json.RawMessage:
-		return NewJsonValue(val)
-	case bool:
-		return NewBoolValue(val)
-	case time.Time:
-		return NewTimeValue(val)
-	case *time.Time:
-		return NewTimeValue(*val)
-	case map[string]interface{}:
-		return NewMapValue(val)
-	case map[string]string:
-		return NewMapStringValue(val)
-	case map[string]float64:
-		return NewMapNumberValue(val)
-	case map[string]int64:
-		return NewMapIntValue(val)
-	case map[string]bool:
-		return NewMapBoolValue(val)
-	case map[string]int:
-		nm := make(map[string]int64, len(val))
-		for k, v := range val {
-			nm[k] = int64(v)
-		}
-		return NewMapIntValue(nm)
-	case map[string]time.Time:
-		return NewMapTimeValue(val)
-	case []string:
-		return NewStringsValue(val)
-	// case []uint8:
-	// 	return NewByteSliceValue([]byte(val))
-	case []byte:
-		return NewByteSliceValue(val)
-	case []time.Time:
-		vals := make([]Value, len(val))
-		for i, v := range val {
-			vals[i] = NewValue(v)
-		}
-		return NewSliceValues(vals)
-	case []interface{}:
-		if len(val) > 0 {
-			switch val[0].(type) {
-			case string:
-				vals := make([]string, len(val))
-				for i, v := range val {
-					if sv, ok := v.(string); ok {
-						vals[i] = sv
-					} else {
-						vs := make([]Value, len(val))
-						for i, v := range val {
-							vs[i] = NewValue(v)
-						}
-						return NewSliceValues(vs)
-					}
-				}
-				return NewStringsValue(vals)
-			}
-		}
-		vals := make([]Value, len(val))
-		for i, v := range val {
-			vals[i] = NewValue(v)
-		}
-		return NewSliceValues(vals)
-	default:
-		if err, isErr := val.(error); isErr {
-			return NewErrorValue(err)
-		}
-		rv := reflect.ValueOf(goVal)
-		switch rv.Kind() {
-		case reflect.Slice:
-			vals := make([]Value, rv.Len())
-			for i := 0; i < rv.Len(); i++ {
-				e := rv.Index(i).Interface()
-				vals[i] = NewValue(e)
-			}
-			return NewSliceValues(vals)
-		}
-		return NewStructValue(val)
-	}
+// should we return Nil?
+// if val == "null" || val == "NULL" {}
+
+// case []uint8:
+// 	return NewByteSliceValue([]byte(val))
+
+func NewNumberValue(v float64) NumberValue { _ = "STUB: not implemented"; return *new(NumberValue) }
+
+func NewNumberNil() NumberValue { _ = "STUB: not implemented"; return *new(NumberValue) }
+
+func (m NumberValue) Nil() bool                    { _ = "STUB: not implemented"; return false }
+func (m NumberValue) Err() bool                    { _ = "STUB: not implemented"; return false }
+func (m NumberValue) Type() ValueType              { _ = "STUB: not implemented"; return *new(ValueType) }
+func (m NumberValue) Value() interface{}           { _ = "STUB: not implemented"; return nil }
+func (m NumberValue) Val() float64                 { _ = "STUB: not implemented"; return 0 }
+func (m NumberValue) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
+func (m NumberValue) ToString() string             { _ = "STUB: not implemented"; return "" }
+func (m NumberValue) Float() float64               { _ = "STUB: not implemented"; return 0 }
+func (m NumberValue) Int() int64                   { _ = "STUB: not implemented"; return 0 }
+
+func NewIntValue(v int64) IntValue { _ = "STUB: not implemented"; return *new(IntValue) }
+
+func NewIntNil() IntValue { _ = "STUB: not implemented"; return *new(IntValue) }
+
+func (m IntValue) Nil() bool                    { _ = "STUB: not implemented"; return false }
+func (m IntValue) Err() bool                    { _ = "STUB: not implemented"; return false }
+func (m IntValue) Type() ValueType              { _ = "STUB: not implemented"; return *new(ValueType) }
+func (m IntValue) Value() interface{}           { _ = "STUB: not implemented"; return nil }
+func (m IntValue) Val() int64                   { _ = "STUB: not implemented"; return 0 }
+func (m IntValue) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
+func (m IntValue) NumberValue() NumberValue     { _ = "STUB: not implemented"; return *new(NumberValue) }
+func (m IntValue) ToString() string             { _ = "STUB: not implemented"; return "" }
+
+func (m IntValue) Float() float64 { _ = "STUB: not implemented"; return 0 }
+func (m IntValue) Int() int64     { _ = "STUB: not implemented"; return 0 }
+
+func NewBoolValue(v bool) BoolValue { _ = "STUB: not implemented"; return *new(BoolValue) }
+
+func (m BoolValue) Nil() bool                    { _ = "STUB: not implemented"; return false }
+func (m BoolValue) Err() bool                    { _ = "STUB: not implemented"; return false }
+func (m BoolValue) Type() ValueType              { _ = "STUB: not implemented"; return *new(ValueType) }
+func (m BoolValue) Value() interface{}           { _ = "STUB: not implemented"; return nil }
+func (m BoolValue) Val() bool                    { _ = "STUB: not implemented"; return false }
+func (m BoolValue) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
+func (m BoolValue) ToString() string             { _ = "STUB: not implemented"; return "" }
+
+func NewStringValue(v string) StringValue { _ = "STUB: not implemented"; return *new(StringValue) }
+
+func (m StringValue) Nil() bool                    { _ = "STUB: not implemented"; return false }
+func (m StringValue) Err() bool                    { _ = "STUB: not implemented"; return false }
+func (m StringValue) Type() ValueType              { _ = "STUB: not implemented"; return *new(ValueType) }
+func (m StringValue) Value() interface{}           { _ = "STUB: not implemented"; return nil }
+func (m StringValue) Val() string                  { _ = "STUB: not implemented"; return "" }
+func (m StringValue) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
+func (m StringValue) NumberValue() NumberValue     { _ = "STUB: not implemented"; return *new(NumberValue) }
+
+func (m StringValue) StringsValue() StringsValue {
+	_ = "STUB: not implemented"
+	return *new(StringsValue)
 }
+func (m StringValue) ToString() string { _ = "STUB: not implemented"; return "" }
 
-func NewNumberValue(v float64) NumberValue {
-	return NumberValue{v: v}
-}
-func NewNumberNil() NumberValue {
-	v := NumberValue{v: math.NaN()}
-	return v
-}
-func (m NumberValue) Nil() bool                    { return math.IsNaN(m.v) }
-func (m NumberValue) Err() bool                    { return math.IsNaN(m.v) }
-func (m NumberValue) Type() ValueType              { return NumberType }
-func (m NumberValue) Value() interface{}           { return m.v }
-func (m NumberValue) Val() float64                 { return m.v }
-func (m NumberValue) MarshalJSON() ([]byte, error) { return marshalFloat(float64(m.v)) }
-func (m NumberValue) ToString() string             { return fmt.Sprintf("%v", m.v) }
-func (m NumberValue) Float() float64               { return m.v }
-func (m NumberValue) Int() int64                   { return int64(m.v) }
+func (m StringValue) IntValue() IntValue { _ = "STUB: not implemented"; return *new(IntValue) }
 
-func NewIntValue(v int64) IntValue {
-	return IntValue{v: v}
-}
+func NewStringsValue(v []string) StringsValue { _ = "STUB: not implemented"; return *new(StringsValue) }
 
-func NewIntNil() IntValue {
-	v := IntValue{v: math.MinInt32}
-	return v
-}
-
-func (m IntValue) Nil() bool                    { return m.v == math.MinInt32 }
-func (m IntValue) Err() bool                    { return m.v == math.MinInt32 }
-func (m IntValue) Type() ValueType              { return IntType }
-func (m IntValue) Value() interface{}           { return m.v }
-func (m IntValue) Val() int64                   { return m.v }
-func (m IntValue) MarshalJSON() ([]byte, error) { return marshalFloat(float64(m.v)) }
-func (m IntValue) NumberValue() NumberValue     { return NewNumberValue(float64(m.v)) }
-func (m IntValue) ToString() string {
-	if m.v == math.MinInt32 {
-		return ""
-	}
-	return strconv.FormatInt(m.v, 10)
-}
-func (m IntValue) Float() float64 { return float64(m.v) }
-func (m IntValue) Int() int64     { return m.v }
-
-func NewBoolValue(v bool) BoolValue {
-	if v {
-		return BoolValueTrue
-	}
-	return BoolValueFalse
-}
-
-func (m BoolValue) Nil() bool                    { return false }
-func (m BoolValue) Err() bool                    { return false }
-func (m BoolValue) Type() ValueType              { return BoolType }
-func (m BoolValue) Value() interface{}           { return m.v }
-func (m BoolValue) Val() bool                    { return m.v }
-func (m BoolValue) MarshalJSON() ([]byte, error) { return json.Marshal(m.v) }
-func (m BoolValue) ToString() string             { return strconv.FormatBool(m.v) }
-
-func NewStringValue(v string) StringValue {
-	return StringValue{v: v}
-}
-
-func (m StringValue) Nil() bool                    { return len(m.v) == 0 }
-func (m StringValue) Err() bool                    { return false }
-func (m StringValue) Type() ValueType              { return StringType }
-func (m StringValue) Value() interface{}           { return m.v }
-func (m StringValue) Val() string                  { return m.v }
-func (m StringValue) MarshalJSON() ([]byte, error) { return json.Marshal(m.v) }
-func (m StringValue) NumberValue() NumberValue {
-	fv, _ := StringToFloat64(m.v)
-	return NewNumberValue(fv)
-}
-func (m StringValue) StringsValue() StringsValue { return NewStringsValue([]string{m.v}) }
-func (m StringValue) ToString() string           { return m.v }
-
-func (m StringValue) IntValue() IntValue {
-	iv, _ := ValueToInt64(m)
-	return NewIntValue(iv)
-}
-
-func NewStringsValue(v []string) StringsValue {
-	return StringsValue{v: v}
-}
-
-func (m StringsValue) Nil() bool                    { return len(m.v) == 0 }
-func (m StringsValue) Err() bool                    { return false }
-func (m StringsValue) Type() ValueType              { return StringsType }
-func (m StringsValue) Value() interface{}           { return m.v }
-func (m StringsValue) Val() []string                { return m.v }
-func (m *StringsValue) Append(sv string)            { m.v = append(m.v, sv) }
-func (m StringsValue) MarshalJSON() ([]byte, error) { return json.Marshal(m.v) }
-func (m StringsValue) Len() int                     { return len(m.v) }
+func (m StringsValue) Nil() bool                    { _ = "STUB: not implemented"; return false }
+func (m StringsValue) Err() bool                    { _ = "STUB: not implemented"; return false }
+func (m StringsValue) Type() ValueType              { _ = "STUB: not implemented"; return *new(ValueType) }
+func (m StringsValue) Value() interface{}           { _ = "STUB: not implemented"; return nil }
+func (m StringsValue) Val() []string                { _ = "STUB: not implemented"; return nil }
+func (m *StringsValue) Append(sv string)            { _ = "STUB: not implemented"; return }
+func (m StringsValue) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
+func (m StringsValue) Len() int                     { _ = "STUB: not implemented"; return 0 }
 func (m StringsValue) NumberValue() NumberValue {
-	if len(m.v) > 0 {
-		if fv, err := strconv.ParseFloat(m.v[0], 64); err == nil {
-			return NewNumberValue(fv)
-		}
-	}
-	return NumberNaNValue
+	_ = "STUB: not implemented"
+	return *new(NumberValue)
 }
+
 func (m StringsValue) IntValue() IntValue {
+	_ = "STUB: not implemented"
 	// Im not confident this is valid?   array first element?
-	if len(m.v) > 0 {
-		iv, _ := convertStringToInt64(0, m.v[0])
-		return NewIntValue(iv)
-	}
-	return NewIntValue(0)
+	return *new(IntValue)
 }
-func (m StringsValue) ToString() string  { return strings.Join(m.v, ",") }
-func (m StringsValue) Strings() []string { return m.v }
-func (m StringsValue) Set() map[string]struct{} {
-	setvals := make(map[string]struct{})
-	for _, sv := range m.v {
-		setvals[sv] = EmptyStruct
-	}
-	return setvals
-}
-func (m StringsValue) SliceValue() []Value {
-	vs := make([]Value, len(m.v))
-	for i, v := range m.v {
-		vs[i] = NewStringValue(v)
-	}
-	return vs
-}
+
+func (m StringsValue) ToString() string         { _ = "STUB: not implemented"; return "" }
+func (m StringsValue) Strings() []string        { _ = "STUB: not implemented"; return nil }
+func (m StringsValue) Set() map[string]struct{} { _ = "STUB: not implemented"; return nil }
+
+func (m StringsValue) SliceValue() []Value { _ = "STUB: not implemented"; return nil }
 
 func NewByteSliceValue(v []byte) ByteSliceValue {
-	return ByteSliceValue{v: v}
+	_ = "STUB: not implemented"
+	return *new(ByteSliceValue)
 }
 
-func (m ByteSliceValue) Nil() bool                    { return len(m.v) == 0 }
-func (m ByteSliceValue) Err() bool                    { return false }
-func (m ByteSliceValue) Type() ValueType              { return ByteSliceType }
-func (m ByteSliceValue) Value() interface{}           { return m.v }
-func (m ByteSliceValue) Val() []byte                  { return m.v }
-func (m ByteSliceValue) ToString() string             { return string(m.v) }
-func (m ByteSliceValue) MarshalJSON() ([]byte, error) { return json.Marshal(m.v) }
-func (m ByteSliceValue) Len() int                     { return len(m.v) }
+func (m ByteSliceValue) Nil() bool                    { _ = "STUB: not implemented"; return false }
+func (m ByteSliceValue) Err() bool                    { _ = "STUB: not implemented"; return false }
+func (m ByteSliceValue) Type() ValueType              { _ = "STUB: not implemented"; return *new(ValueType) }
+func (m ByteSliceValue) Value() interface{}           { _ = "STUB: not implemented"; return nil }
+func (m ByteSliceValue) Val() []byte                  { _ = "STUB: not implemented"; return nil }
+func (m ByteSliceValue) ToString() string             { _ = "STUB: not implemented"; return "" }
+func (m ByteSliceValue) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
+func (m ByteSliceValue) Len() int                     { _ = "STUB: not implemented"; return 0 }
 
-func NewSliceValues(v []Value) SliceValue {
-	return SliceValue{v: v}
-}
+func NewSliceValues(v []Value) SliceValue { _ = "STUB: not implemented"; return *new(SliceValue) }
+
 func NewSliceValuesNative(iv []interface{}) SliceValue {
-	vs := make([]Value, len(iv))
-	for i, v := range iv {
-		vs[i] = NewValue(v)
-	}
-	return SliceValue{v: vs}
+	_ = "STUB: not implemented"
+	return *new(SliceValue)
 }
 
-func (m SliceValue) Nil() bool          { return len(m.v) == 0 }
-func (m SliceValue) Err() bool          { return false }
-func (m SliceValue) Type() ValueType    { return SliceValueType }
-func (m SliceValue) Value() interface{} { return m.v }
-func (m SliceValue) Val() []Value       { return m.v }
-func (m SliceValue) ToString() string {
-	sv := make([]string, len(m.Val()))
-	for i, val := range m.v {
-		sv[i] = val.ToString()
-	}
-	return strings.Join(sv, ",")
-}
+func (m SliceValue) Nil() bool          { _ = "STUB: not implemented"; return false }
+func (m SliceValue) Err() bool          { _ = "STUB: not implemented"; return false }
+func (m SliceValue) Type() ValueType    { _ = "STUB: not implemented"; return *new(ValueType) }
+func (m SliceValue) Value() interface{} { _ = "STUB: not implemented"; return nil }
+func (m SliceValue) Val() []Value       { _ = "STUB: not implemented"; return nil }
+func (m SliceValue) ToString() string   { _ = "STUB: not implemented"; return "" }
 
-func (m *SliceValue) Append(v Value)              { m.v = append(m.v, v) }
-func (m SliceValue) MarshalJSON() ([]byte, error) { return json.Marshal(m.v) }
-func (m SliceValue) Len() int                     { return len(m.v) }
-func (m SliceValue) SliceValue() []Value          { return m.v }
-func (m SliceValue) Values() []interface{} {
-	vals := make([]interface{}, len(m.v))
-	for i, v := range m.v {
-		vals[i] = v.Value()
-	}
-	return vals
-}
+func (m *SliceValue) Append(v Value)              { _ = "STUB: not implemented"; return }
+func (m SliceValue) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
+func (m SliceValue) Len() int                     { _ = "STUB: not implemented"; return 0 }
+func (m SliceValue) SliceValue() []Value          { _ = "STUB: not implemented"; return nil }
+func (m SliceValue) Values() []interface{}        { _ = "STUB: not implemented"; return nil }
 
 func NewMapValue(v map[string]interface{}) MapValue {
-	mv := make(map[string]Value)
-	for n, val := range v {
-		mv[n] = NewValue(val)
-	}
-	return MapValue{v: mv}
+	_ = "STUB: not implemented"
+	return *new(MapValue)
 }
 
-func (m MapValue) Nil() bool                    { return len(m.v) == 0 }
-func (m MapValue) Err() bool                    { return false }
-func (m MapValue) Type() ValueType              { return MapValueType }
-func (m MapValue) Value() interface{}           { return m.v }
-func (m MapValue) Val() map[string]Value        { return m.v }
-func (m MapValue) MarshalJSON() ([]byte, error) { return json.Marshal(m.v) }
-func (m MapValue) ToString() string             { return fmt.Sprintf("%v", m.v) }
-func (m MapValue) Len() int                     { return len(m.v) }
-func (m MapValue) MapInt() map[string]int64 {
-	mv := make(map[string]int64, len(m.v))
-	for n, v := range m.v {
-		intVal, ok := ValueToInt64(v)
-		if ok {
-			mv[n] = intVal
-		}
-	}
-	return mv
-}
-func (m MapValue) MapFloat() map[string]float64 {
-	mv := make(map[string]float64, len(m.v))
-	for n, v := range m.v {
-		fv, _ := ValueToFloat64(v)
-		if !math.IsNaN(fv) {
-			mv[n] = fv
-		}
-	}
-	return mv
-}
-func (m MapValue) MapString() map[string]string {
-	mv := make(map[string]string, len(m.v))
-	for n, v := range m.v {
-		mv[n] = v.ToString()
-	}
-	return mv
-}
-func (m MapValue) MapValue() MapValue {
-	return m
-}
-func (m MapValue) MapTime() MapTimeValue {
-	mv := make(map[string]time.Time, len(m.v))
-	for k, v := range m.v {
-		t, ok := ValueToTime(v)
-		if ok && !t.IsZero() {
-			mv[k] = t
-		}
-	}
-	return NewMapTimeValue(mv)
-}
+func (m MapValue) Nil() bool                    { _ = "STUB: not implemented"; return false }
+func (m MapValue) Err() bool                    { _ = "STUB: not implemented"; return false }
+func (m MapValue) Type() ValueType              { _ = "STUB: not implemented"; return *new(ValueType) }
+func (m MapValue) Value() interface{}           { _ = "STUB: not implemented"; return nil }
+func (m MapValue) Val() map[string]Value        { _ = "STUB: not implemented"; return nil }
+func (m MapValue) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
+func (m MapValue) ToString() string             { _ = "STUB: not implemented"; return "" }
+func (m MapValue) Len() int                     { _ = "STUB: not implemented"; return 0 }
+func (m MapValue) MapInt() map[string]int64     { _ = "STUB: not implemented"; return nil }
+
+func (m MapValue) MapFloat() map[string]float64 { _ = "STUB: not implemented"; return nil }
+
+func (m MapValue) MapString() map[string]string { _ = "STUB: not implemented"; return nil }
+
+func (m MapValue) MapValue() MapValue { _ = "STUB: not implemented"; return *new(MapValue) }
+
+func (m MapValue) MapTime() MapTimeValue { _ = "STUB: not implemented"; return *new(MapTimeValue) }
+
 func (m MapValue) Get(key string) (Value, bool) {
-	v, ok := m.v[key]
-	return v, ok
-}
-func NewMapStringValue(v map[string]string) MapStringValue {
-	return MapStringValue{v: v}
+	_ = "STUB: not implemented"
+	return *new(Value), false
 }
 
-func (m MapStringValue) Nil() bool                    { return len(m.v) == 0 }
-func (m MapStringValue) Err() bool                    { return false }
-func (m MapStringValue) Type() ValueType              { return MapStringType }
-func (m MapStringValue) Value() interface{}           { return m.v }
-func (m MapStringValue) Val() map[string]string       { return m.v }
-func (m MapStringValue) MarshalJSON() ([]byte, error) { return json.Marshal(m.v) }
-func (m MapStringValue) ToString() string             { return fmt.Sprintf("%v", m.v) }
-func (m MapStringValue) Len() int                     { return len(m.v) }
+func NewMapStringValue(v map[string]string) MapStringValue {
+	_ = "STUB: not implemented"
+	return *new(MapStringValue)
+}
+
+func (m MapStringValue) Nil() bool                    { _ = "STUB: not implemented"; return false }
+func (m MapStringValue) Err() bool                    { _ = "STUB: not implemented"; return false }
+func (m MapStringValue) Type() ValueType              { _ = "STUB: not implemented"; return *new(ValueType) }
+func (m MapStringValue) Value() interface{}           { _ = "STUB: not implemented"; return nil }
+func (m MapStringValue) Val() map[string]string       { _ = "STUB: not implemented"; return nil }
+func (m MapStringValue) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
+func (m MapStringValue) ToString() string             { _ = "STUB: not implemented"; return "" }
+func (m MapStringValue) Len() int                     { _ = "STUB: not implemented"; return 0 }
 func (m MapStringValue) MapBool() MapBoolValue {
-	mb := make(map[string]bool)
-	for n, sv := range m.Val() {
-		b, err := strconv.ParseBool(sv)
-		if err == nil {
-			mb[n] = b
-		}
-	}
-	return NewMapBoolValue(mb)
+	_ = "STUB: not implemented"
+	return *new(MapBoolValue)
 }
-func (m MapStringValue) MapInt() MapIntValue {
-	mi := make(map[string]int64)
-	for n, sv := range m.Val() {
-		iv, err := strconv.ParseInt(sv, 10, 64)
-		if err == nil {
-			mi[n] = iv
-		}
-	}
-	return NewMapIntValue(mi)
-}
+
+func (m MapStringValue) MapInt() MapIntValue { _ = "STUB: not implemented"; return *new(MapIntValue) }
+
 func (m MapStringValue) MapNumber() MapNumberValue {
-	mn := make(map[string]float64)
-	for n, sv := range m.Val() {
-		fv, err := strconv.ParseFloat(sv, 64)
-		if err == nil {
-			mn[n] = fv
-		}
-	}
-	return NewMapNumberValue(mn)
+	_ = "STUB: not implemented"
+	return *new(MapNumberValue)
 }
-func (m MapStringValue) MapValue() MapValue {
-	mv := make(map[string]Value)
-	for n, val := range m.v {
-		mv[n] = NewStringValue(val)
-	}
-	return MapValue{v: mv}
-}
+
+func (m MapStringValue) MapValue() MapValue { _ = "STUB: not implemented"; return *new(MapValue) }
+
 func (m MapStringValue) Get(key string) (Value, bool) {
-	v, ok := m.v[key]
-	if ok {
-		return NewStringValue(v), ok
-	}
-	return nil, ok
+	_ = "STUB: not implemented"
+	return *new(Value), false
 }
-func (m MapStringValue) SliceValue() []Value {
-	vs := make([]Value, 0, len(m.v))
-	for k := range m.v {
-		vs = append(vs, NewStringValue(k))
-	}
-	return vs
-}
+
+func (m MapStringValue) SliceValue() []Value { _ = "STUB: not implemented"; return nil }
 
 func NewMapIntValue(v map[string]int64) MapIntValue {
-	return MapIntValue{v: v}
+	_ = "STUB: not implemented"
+	return *new(MapIntValue)
 }
 
-func (m MapIntValue) Nil() bool                    { return len(m.v) == 0 }
-func (m MapIntValue) Err() bool                    { return false }
-func (m MapIntValue) Type() ValueType              { return MapIntType }
-func (m MapIntValue) Value() interface{}           { return m.v }
-func (m MapIntValue) Val() map[string]int64        { return m.v }
-func (m MapIntValue) MarshalJSON() ([]byte, error) { return json.Marshal(m.v) }
-func (m MapIntValue) ToString() string             { return fmt.Sprintf("%v", m.v) }
-func (m MapIntValue) Len() int                     { return len(m.v) }
-func (m MapIntValue) MapInt() map[string]int64     { return m.v }
-func (m MapIntValue) MapFloat() map[string]float64 {
-	mv := make(map[string]float64, len(m.v))
-	for n, iv := range m.v {
-		mv[n] = float64(iv)
-	}
-	return mv
-}
-func (m MapIntValue) MapValue() MapValue {
-	mv := make(map[string]Value)
-	for n, val := range m.v {
-		mv[n] = NewIntValue(val)
-	}
-	return MapValue{v: mv}
-}
+func (m MapIntValue) Nil() bool                    { _ = "STUB: not implemented"; return false }
+func (m MapIntValue) Err() bool                    { _ = "STUB: not implemented"; return false }
+func (m MapIntValue) Type() ValueType              { _ = "STUB: not implemented"; return *new(ValueType) }
+func (m MapIntValue) Value() interface{}           { _ = "STUB: not implemented"; return nil }
+func (m MapIntValue) Val() map[string]int64        { _ = "STUB: not implemented"; return nil }
+func (m MapIntValue) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
+func (m MapIntValue) ToString() string             { _ = "STUB: not implemented"; return "" }
+func (m MapIntValue) Len() int                     { _ = "STUB: not implemented"; return 0 }
+func (m MapIntValue) MapInt() map[string]int64     { _ = "STUB: not implemented"; return nil }
+func (m MapIntValue) MapFloat() map[string]float64 { _ = "STUB: not implemented"; return nil }
+
+func (m MapIntValue) MapValue() MapValue { _ = "STUB: not implemented"; return *new(MapValue) }
+
 func (m MapIntValue) Get(key string) (Value, bool) {
-	v, ok := m.v[key]
-	if ok {
-		return NewIntValue(v), ok
-	}
-	return nil, ok
+	_ = "STUB: not implemented"
+	return *new(Value), false
 }
-func (m MapIntValue) SliceValue() []Value {
-	vs := make([]Value, 0, len(m.v))
-	for k := range m.v {
-		vs = append(vs, NewStringValue(k))
-	}
-	return vs
-}
+
+func (m MapIntValue) SliceValue() []Value { _ = "STUB: not implemented"; return nil }
 
 func NewMapNumberValue(v map[string]float64) MapNumberValue {
-	return MapNumberValue{v: v}
+	_ = "STUB: not implemented"
+	return *new(MapNumberValue)
 }
 
-func (m MapNumberValue) Nil() bool                    { return len(m.v) == 0 }
-func (m MapNumberValue) Err() bool                    { return false }
-func (m MapNumberValue) Type() ValueType              { return MapNumberType }
-func (m MapNumberValue) Value() interface{}           { return m.v }
-func (m MapNumberValue) Val() map[string]float64      { return m.v }
-func (m MapNumberValue) MarshalJSON() ([]byte, error) { return json.Marshal(m.v) }
-func (m MapNumberValue) ToString() string             { return fmt.Sprintf("%v", m.v) }
-func (m MapNumberValue) Len() int                     { return len(m.v) }
-func (m MapNumberValue) MapInt() map[string]int64 {
-	mv := make(map[string]int64, len(m.v))
-	for n, v := range m.v {
-		mv[n] = int64(v)
-	}
-	return mv
-}
-func (m MapNumberValue) MapValue() MapValue {
-	mv := make(map[string]Value)
-	for n, val := range m.v {
-		mv[n] = NewNumberValue(val)
-	}
-	return MapValue{v: mv}
-}
+func (m MapNumberValue) Nil() bool                    { _ = "STUB: not implemented"; return false }
+func (m MapNumberValue) Err() bool                    { _ = "STUB: not implemented"; return false }
+func (m MapNumberValue) Type() ValueType              { _ = "STUB: not implemented"; return *new(ValueType) }
+func (m MapNumberValue) Value() interface{}           { _ = "STUB: not implemented"; return nil }
+func (m MapNumberValue) Val() map[string]float64      { _ = "STUB: not implemented"; return nil }
+func (m MapNumberValue) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
+func (m MapNumberValue) ToString() string             { _ = "STUB: not implemented"; return "" }
+func (m MapNumberValue) Len() int                     { _ = "STUB: not implemented"; return 0 }
+func (m MapNumberValue) MapInt() map[string]int64     { _ = "STUB: not implemented"; return nil }
+
+func (m MapNumberValue) MapValue() MapValue { _ = "STUB: not implemented"; return *new(MapValue) }
+
 func (m MapNumberValue) Get(key string) (Value, bool) {
-	v, ok := m.v[key]
-	if ok {
-		return NewNumberValue(v), ok
-	}
-	return nil, ok
+	_ = "STUB: not implemented"
+	return *new(Value), false
 }
-func (m MapNumberValue) SliceValue() []Value {
-	vs := make([]Value, 0, len(m.v))
-	for k := range m.v {
-		vs = append(vs, NewStringValue(k))
-	}
-	return vs
-}
+
+func (m MapNumberValue) SliceValue() []Value { _ = "STUB: not implemented"; return nil }
 
 func NewMapTimeValue(v map[string]time.Time) MapTimeValue {
-	return MapTimeValue{v: v}
+	_ = "STUB: not implemented"
+	return *new(MapTimeValue)
 }
 
-func (m MapTimeValue) Nil() bool                    { return len(m.v) == 0 }
-func (m MapTimeValue) Err() bool                    { return false }
-func (m MapTimeValue) Type() ValueType              { return MapTimeType }
-func (m MapTimeValue) Value() interface{}           { return m.v }
-func (m MapTimeValue) Val() map[string]time.Time    { return m.v }
-func (m MapTimeValue) MarshalJSON() ([]byte, error) { return json.Marshal(m.v) }
-func (m MapTimeValue) ToString() string             { return fmt.Sprintf("%v", m.v) }
-func (m MapTimeValue) Len() int                     { return len(m.v) }
-func (m MapTimeValue) MapInt() map[string]int64 {
-	mv := make(map[string]int64, len(m.v))
-	for n, v := range m.v {
-		mv[n] = v.UnixNano()
-	}
-	return mv
-}
-func (m MapTimeValue) MapValue() MapValue {
-	mv := make(map[string]Value)
-	for n, val := range m.v {
-		mv[n] = NewTimeValue(val)
-	}
-	return MapValue{v: mv}
-}
+func (m MapTimeValue) Nil() bool                    { _ = "STUB: not implemented"; return false }
+func (m MapTimeValue) Err() bool                    { _ = "STUB: not implemented"; return false }
+func (m MapTimeValue) Type() ValueType              { _ = "STUB: not implemented"; return *new(ValueType) }
+func (m MapTimeValue) Value() interface{}           { _ = "STUB: not implemented"; return nil }
+func (m MapTimeValue) Val() map[string]time.Time    { _ = "STUB: not implemented"; return nil }
+func (m MapTimeValue) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
+func (m MapTimeValue) ToString() string             { _ = "STUB: not implemented"; return "" }
+func (m MapTimeValue) Len() int                     { _ = "STUB: not implemented"; return 0 }
+func (m MapTimeValue) MapInt() map[string]int64     { _ = "STUB: not implemented"; return nil }
+
+func (m MapTimeValue) MapValue() MapValue { _ = "STUB: not implemented"; return *new(MapValue) }
+
 func (m MapTimeValue) Get(key string) (Value, bool) {
-	v, ok := m.v[key]
-	if ok {
-		return NewTimeValue(v), ok
-	}
-	return nil, ok
+	_ = "STUB: not implemented"
+	return *new(Value), false
 }
 
 func NewMapBoolValue(v map[string]bool) MapBoolValue {
-	return MapBoolValue{v: v}
+	_ = "STUB: not implemented"
+	return *new(MapBoolValue)
 }
 
-func (m MapBoolValue) Nil() bool                    { return len(m.v) == 0 }
-func (m MapBoolValue) Err() bool                    { return false }
-func (m MapBoolValue) Type() ValueType              { return MapBoolType }
-func (m MapBoolValue) Value() interface{}           { return m.v }
-func (m MapBoolValue) Val() map[string]bool         { return m.v }
-func (m MapBoolValue) MarshalJSON() ([]byte, error) { return json.Marshal(m.v) }
-func (m MapBoolValue) ToString() string             { return fmt.Sprintf("%v", m.v) }
-func (m MapBoolValue) Len() int                     { return len(m.v) }
-func (m MapBoolValue) MapValue() MapValue {
-	mv := make(map[string]Value)
-	for n, val := range m.v {
-		mv[n] = NewBoolValue(val)
-	}
-	return MapValue{v: mv}
-}
+func (m MapBoolValue) Nil() bool                    { _ = "STUB: not implemented"; return false }
+func (m MapBoolValue) Err() bool                    { _ = "STUB: not implemented"; return false }
+func (m MapBoolValue) Type() ValueType              { _ = "STUB: not implemented"; return *new(ValueType) }
+func (m MapBoolValue) Value() interface{}           { _ = "STUB: not implemented"; return nil }
+func (m MapBoolValue) Val() map[string]bool         { _ = "STUB: not implemented"; return nil }
+func (m MapBoolValue) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
+func (m MapBoolValue) ToString() string             { _ = "STUB: not implemented"; return "" }
+func (m MapBoolValue) Len() int                     { _ = "STUB: not implemented"; return 0 }
+func (m MapBoolValue) MapValue() MapValue           { _ = "STUB: not implemented"; return *new(MapValue) }
+
 func (m MapBoolValue) Get(key string) (Value, bool) {
-	v, ok := m.v[key]
-	if ok {
-		return NewBoolValue(v), ok
-	}
-	return nil, ok
-}
-func (m MapBoolValue) SliceValue() []Value {
-	vs := make([]Value, 0, len(m.v))
-	for k := range m.v {
-		vs = append(vs, NewStringValue(k))
-	}
-	return vs
+	_ = "STUB: not implemented"
+	return *new(Value), false
 }
 
-func NewStructValue(v interface{}) StructValue {
-	return StructValue{v: v}
-}
+func (m MapBoolValue) SliceValue() []Value { _ = "STUB: not implemented"; return nil }
 
-func (m StructValue) Nil() bool                    { return m.v == nil }
-func (m StructValue) Err() bool                    { return false }
-func (m StructValue) Type() ValueType              { return StructType }
-func (m StructValue) Value() interface{}           { return m.v }
-func (m StructValue) Val() interface{}             { return m.v }
-func (m StructValue) MarshalJSON() ([]byte, error) { return json.Marshal(m.v) }
-func (m StructValue) ToString() string             { return fmt.Sprintf("%v", m.v) }
+func NewStructValue(v interface{}) StructValue { _ = "STUB: not implemented"; return *new(StructValue) }
 
-func NewJsonValue(v json.RawMessage) JsonValue {
-	return JsonValue{v: v}
-}
+func (m StructValue) Nil() bool                    { _ = "STUB: not implemented"; return false }
+func (m StructValue) Err() bool                    { _ = "STUB: not implemented"; return false }
+func (m StructValue) Type() ValueType              { _ = "STUB: not implemented"; return *new(ValueType) }
+func (m StructValue) Value() interface{}           { _ = "STUB: not implemented"; return nil }
+func (m StructValue) Val() interface{}             { _ = "STUB: not implemented"; return nil }
+func (m StructValue) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
+func (m StructValue) ToString() string             { _ = "STUB: not implemented"; return "" }
 
-func (m JsonValue) Nil() bool                    { return m.v == nil }
-func (m JsonValue) Err() bool                    { return false }
-func (m JsonValue) Type() ValueType              { return JsonType }
-func (m JsonValue) Value() interface{}           { return m.v }
-func (m JsonValue) Val() interface{}             { return m.v }
-func (m JsonValue) MarshalJSON() ([]byte, error) { return []byte(m.v), nil }
-func (m JsonValue) ToString() string             { return string(m.v) }
+func NewJsonValue(v json.RawMessage) JsonValue { _ = "STUB: not implemented"; return *new(JsonValue) }
 
-func NewTimeValue(v time.Time) TimeValue {
-	return TimeValue{v: v}
-}
+func (m JsonValue) Nil() bool                    { _ = "STUB: not implemented"; return false }
+func (m JsonValue) Err() bool                    { _ = "STUB: not implemented"; return false }
+func (m JsonValue) Type() ValueType              { _ = "STUB: not implemented"; return *new(ValueType) }
+func (m JsonValue) Value() interface{}           { _ = "STUB: not implemented"; return nil }
+func (m JsonValue) Val() interface{}             { _ = "STUB: not implemented"; return nil }
+func (m JsonValue) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
+func (m JsonValue) ToString() string             { _ = "STUB: not implemented"; return "" }
 
-func (m TimeValue) Nil() bool                    { return m.v.IsZero() }
-func (m TimeValue) Err() bool                    { return false }
-func (m TimeValue) Type() ValueType              { return TimeType }
-func (m TimeValue) Value() interface{}           { return m.v }
-func (m TimeValue) Val() time.Time               { return m.v }
-func (m TimeValue) MarshalJSON() ([]byte, error) { return json.Marshal(m.v) }
-func (m TimeValue) ToString() string             { return strconv.FormatInt(m.Int(), 10) }
-func (m TimeValue) Float() float64               { return float64(m.v.In(time.UTC).UnixNano() / 1e6) }
-func (m TimeValue) Int() int64                   { return m.v.In(time.UTC).UnixNano() / 1e6 }
-func (m TimeValue) Time() time.Time              { return m.v }
+func NewTimeValue(v time.Time) TimeValue { _ = "STUB: not implemented"; return *new(TimeValue) }
 
-func NewErrorValue(v error) ErrorValue {
-	return ErrorValue{v: v}
-}
+func (m TimeValue) Nil() bool                    { _ = "STUB: not implemented"; return false }
+func (m TimeValue) Err() bool                    { _ = "STUB: not implemented"; return false }
+func (m TimeValue) Type() ValueType              { _ = "STUB: not implemented"; return *new(ValueType) }
+func (m TimeValue) Value() interface{}           { _ = "STUB: not implemented"; return nil }
+func (m TimeValue) Val() time.Time               { _ = "STUB: not implemented"; return *new(time.Time) }
+func (m TimeValue) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
+func (m TimeValue) ToString() string             { _ = "STUB: not implemented"; return "" }
+func (m TimeValue) Float() float64               { _ = "STUB: not implemented"; return 0 }
+func (m TimeValue) Int() int64                   { _ = "STUB: not implemented"; return 0 }
+func (m TimeValue) Time() time.Time              { _ = "STUB: not implemented"; return *new(time.Time) }
+
+func NewErrorValue(v error) ErrorValue { _ = "STUB: not implemented"; return *new(ErrorValue) }
 
 func NewErrorValuef(v string, args ...interface{}) ErrorValue {
-	return ErrorValue{v: fmt.Errorf(v, args...)}
+	_ = "STUB: not implemented"
+	return *new(ErrorValue)
 }
 
-func (m ErrorValue) Nil() bool                    { return false }
-func (m ErrorValue) Err() bool                    { return true }
-func (m ErrorValue) Type() ValueType              { return ErrorType }
-func (m ErrorValue) Value() interface{}           { return m.v }
-func (m ErrorValue) Val() error                   { return m.v }
-func (m ErrorValue) MarshalJSON() ([]byte, error) { return json.Marshal(m.v) }
-func (m ErrorValue) ToString() string             { return m.v.Error() }
+func (m ErrorValue) Nil() bool                    { _ = "STUB: not implemented"; return false }
+func (m ErrorValue) Err() bool                    { _ = "STUB: not implemented"; return false }
+func (m ErrorValue) Type() ValueType              { _ = "STUB: not implemented"; return *new(ValueType) }
+func (m ErrorValue) Value() interface{}           { _ = "STUB: not implemented"; return nil }
+func (m ErrorValue) Val() error                   { _ = "STUB: not implemented"; return nil }
+func (m ErrorValue) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
+func (m ErrorValue) ToString() string             { _ = "STUB: not implemented"; return "" }
 
 // ErrorValues implement Go's error interface so they can easily cross the
 // VM/Go boundary.
-func (m ErrorValue) Error() string { return m.v.Error() }
+func (m ErrorValue) Error() string { _ = "STUB: not implemented"; return "" }
 
-func NewNilValue() NilValue {
-	return NilValue{}
-}
+func NewNilValue() NilValue { _ = "STUB: not implemented"; return *new(NilValue) }
 
-func (m NilValue) Nil() bool                    { return true }
-func (m NilValue) Err() bool                    { return false }
-func (m NilValue) Type() ValueType              { return NilType }
-func (m NilValue) Value() interface{}           { return nil }
-func (m NilValue) Val() interface{}             { return nil }
-func (m NilValue) MarshalJSON() ([]byte, error) { return []byte("null"), nil }
-func (m NilValue) ToString() string             { return "" }
+func (m NilValue) Nil() bool                    { _ = "STUB: not implemented"; return false }
+func (m NilValue) Err() bool                    { _ = "STUB: not implemented"; return false }
+func (m NilValue) Type() ValueType              { _ = "STUB: not implemented"; return *new(ValueType) }
+func (m NilValue) Value() interface{}           { _ = "STUB: not implemented"; return nil }
+func (m NilValue) Val() interface{}             { _ = "STUB: not implemented"; return nil }
+func (m NilValue) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
+func (m NilValue) ToString() string             { _ = "STUB: not implemented"; return "" }

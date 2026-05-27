@@ -1,9 +1,7 @@
 package influxql
 
 import (
-	u "github.com/araddon/gou"
 	"github.com/araddon/qlbridge/lex"
-	"strings"
 )
 
 var (
@@ -39,74 +37,28 @@ func init() {
 }
 
 // Handle influx columns
-//  SELECT
-//       valuect(item) AS stuff SHORTDESC "stuff" KIND INT
+//
+//	SELECT
+//	     valuect(item) AS stuff SHORTDESC "stuff" KIND INT
 //
 // Examples:
 //
-//  (colx = y OR colb = b)
-//  cola = 'a5'p
-//  cola != "a5", colb = "a6"
-//  REPLACE(cola,"stuff") != "hello"
-//  FirstName = REPLACE(LOWER(name," "))
-//  cola IN (1,2,3)
-//  cola LIKE "abc"
-//  eq(name,"bob") AND age > 5
-//
+//	(colx = y OR colb = b)
+//	cola = 'a5'p
+//	cola != "a5", colb = "a6"
+//	REPLACE(cola,"stuff") != "hello"
+//	FirstName = REPLACE(LOWER(name," "))
+//	cola IN (1,2,3)
+//	cola LIKE "abc"
+//	eq(name,"bob") AND age > 5
 func LexColumnsInflux(l *lex.Lexer) lex.StateFn {
-
-	l.SkipWhiteSpaces()
-
-	keyWord := strings.ToLower(l.PeekWord())
-
-	u.Debugf("LexColumnsInflux  r= '%v'", string(keyWord))
-
-	switch keyWord {
-	case "if":
-		l.ConsumeWord("if")
-		l.Emit(lex.TokenIf)
-		l.Push("LexColumnsInflux", LexColumnsInflux)
-		return lex.LexColumns
-	case "shortdesc":
-		l.ConsumeWord("shortdesc")
-		l.Emit(TokenShortDesc)
-		l.Push("LexColumnsInflux", LexColumnsInflux)
-		l.Push("lexIdentifier", lex.LexValue)
-		return nil
-
-	case "longdesc":
-		l.ConsumeWord("longdesc")
-		l.Emit(TokenLongDesc)
-		l.Push("LexColumnsInflux", LexColumnsInflux)
-		l.Push("lexIdentifier", lex.LexValue)
-		return nil
-
-	case "kind":
-		l.ConsumeWord("kind")
-		l.Emit(TokenKind)
-		l.Push("LexColumnsInflux", lex.LexColumns)
-		l.Push("lexIdentifier", lex.LexIdentifier)
-		return nil
-
-	}
-	return lex.LexSelectClause
+	_ = "STUB: not implemented"
+	return *new(lex.StateFn)
 }
 
 // lex value
 //
-//    SIMPLE_NAME_VALUE | TABLE_NAME_VALUE | REGEX_VALUE
-func LexInfluxName(l *lex.Lexer) lex.StateFn {
+//	SIMPLE_NAME_VALUE | TABLE_NAME_VALUE | REGEX_VALUE
+func LexInfluxName(l *lex.Lexer) lex.StateFn { _ = "STUB: not implemented"; return *new(lex.StateFn) }
 
-	l.SkipWhiteSpaces()
-	firstChar := l.Peek()
-	u.Debugf("LexInfluxName:  %v", string(firstChar))
-
-	switch firstChar {
-	case '"':
-		return lex.LexValue(l)
-	case '/':
-		// a regex
-		return lex.LexRegex(l)
-	}
-	return lex.LexIdentifier
-}
+// a regex

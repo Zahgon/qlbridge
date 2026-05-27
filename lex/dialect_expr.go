@@ -34,6 +34,4 @@ var (
 )
 
 // NewExpressionLexer creates a new lexer for the input string using Expression Dialect.
-func NewExpressionLexer(input string) *Lexer {
-	return NewLexer(input, ExpressionDialect)
-}
+func NewExpressionLexer(input string) *Lexer { _ = "STUB: not implemented"; return nil }

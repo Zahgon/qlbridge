@@ -1,374 +1,229 @@
 package builtins
 
 import (
-	"fmt"
-	"strings"
-
 	"github.com/araddon/qlbridge/expr"
 	"github.com/araddon/qlbridge/value"
 )
 
 // Contains does first arg string contain 2nd arg?
 //
-//     contains("alabama","red") => false
-//
+//	contains("alabama","red") => false
 type Contains struct{}
 
 // Type is Bool
-func (m *Contains) Type() value.ValueType { return value.BoolType }
+func (m *Contains) Type() value.ValueType { _ = "STUB: not implemented"; return *new(value.ValueType) }
 func (m *Contains) Validate(n *expr.FuncNode) (expr.EvaluatorFunc, error) {
-	if len(n.Args) != 2 {
-		return nil, fmt.Errorf("Expected 2 args for contains(str_value, contains_this) but got %s", n)
-	}
-	return containsEval, nil
+	_ = "STUB: not implemented"
+	return *new(expr.EvaluatorFunc), nil
 }
 
 func containsEval(ctx expr.EvalContext, args []value.Value) (value.Value, bool) {
-	left, leftOk := value.ValueToString(args[0])
-	right, rightOk := value.ValueToString(args[1])
-
-	if !leftOk {
-		// TODO:  this should be false, false?
-		//        need to ensure doesn't break downstream
-		return value.BoolValueFalse, true
-	}
-	if !rightOk {
-		return value.BoolValueFalse, true
-	}
-	if left == "" || right == "" {
-		return value.BoolValueFalse, false
-	}
-	if strings.Contains(left, right) {
-		return value.BoolValueTrue, true
-	}
-	return value.BoolValueFalse, true
+	_ = "STUB: not implemented"
+	return *new(value.Value), false
 }
+
+// TODO:  this should be false, false?
+//        need to ensure doesn't break downstream
 
 // LowerCase take a string and lowercase it. must be able to convert to string.
 //
-//    string.lowercase("HELLO") => "hello", true
+//	string.lowercase("HELLO") => "hello", true
 type LowerCase struct{}
 
 // Type string
-func (m *LowerCase) Type() value.ValueType { return value.StringType }
+func (m *LowerCase) Type() value.ValueType { _ = "STUB: not implemented"; return *new(value.ValueType) }
 
 func (m *LowerCase) Validate(n *expr.FuncNode) (expr.EvaluatorFunc, error) {
-	if len(n.Args) != 1 {
-		return nil, fmt.Errorf("Expected 1 arg for string.lowercase(arg) but got %s", n)
-	}
-	return lowerCaseEval, nil
+	_ = "STUB: not implemented"
+	return *new(expr.EvaluatorFunc), nil
 }
+
 func lowerCaseEval(ctx expr.EvalContext, args []value.Value) (value.Value, bool) {
-	val, ok := value.ValueToString(args[0])
-	if !ok {
-		return value.EmptyStringValue, false
-	}
-	return value.NewStringValue(strings.ToLower(val)), true
+	_ = "STUB: not implemented"
+	return *new(value.Value), false
 }
 
 // UpperCase take a string and uppercase it. must be able to convert to string.
 //
-//    string.uppercase("hello") => "HELLO", true
+//	string.uppercase("hello") => "HELLO", true
 type UpperCase struct{}
 
 // Type string
-func (m *UpperCase) Type() value.ValueType { return value.StringType }
+func (m *UpperCase) Type() value.ValueType { _ = "STUB: not implemented"; return *new(value.ValueType) }
 
 func (m *UpperCase) Validate(n *expr.FuncNode) (expr.EvaluatorFunc, error) {
-	if len(n.Args) != 1 {
-		return nil, fmt.Errorf("Expected 1 arg for string.uppercase(arg) but got %s", n)
-	}
-	return upperCaseEval, nil
+	_ = "STUB: not implemented"
+	return *new(expr.EvaluatorFunc), nil
 }
+
 func upperCaseEval(ctx expr.EvalContext, args []value.Value) (value.Value, bool) {
-	val, ok := value.ValueToString(args[0])
-	if !ok {
-		return value.EmptyStringValue, false
-	}
-	return value.NewStringValue(strings.ToUpper(val)), true
+	_ = "STUB: not implemented"
+	return *new(value.Value), false
 }
 
 // TitleCase take a string and uppercase it. must be able to convert to string.
 //
-//    string.uppercase("hello") => "HELLO", true
+//	string.uppercase("hello") => "HELLO", true
 type TitleCase struct{}
 
 // Type string
-func (m *TitleCase) Type() value.ValueType { return value.StringType }
+func (m *TitleCase) Type() value.ValueType { _ = "STUB: not implemented"; return *new(value.ValueType) }
 
 func (m *TitleCase) Validate(n *expr.FuncNode) (expr.EvaluatorFunc, error) {
-	if len(n.Args) != 1 {
-		return nil, fmt.Errorf("Expected 1 arg for string.titlecase(arg) but got %s", n)
-	}
-	return titleCaseEval, nil
+	_ = "STUB: not implemented"
+	return *new(expr.EvaluatorFunc), nil
 }
+
 func titleCaseEval(ctx expr.EvalContext, args []value.Value) (value.Value, bool) {
-	val, ok := value.ValueToString(args[0])
-	if !ok {
-		return value.EmptyStringValue, false
-	}
-	return value.NewStringValue(strings.Title(val)), true
+	_ = "STUB: not implemented"
+	return *new(value.Value), false
 }
 
 // Split a string with given separator
 //
-//     split("apples,oranges", ",") => []string{"apples","oranges"}
-//
+//	split("apples,oranges", ",") => []string{"apples","oranges"}
 type Split struct{}
 
 // Type is Strings
-func (m *Split) Type() value.ValueType { return value.StringsType }
+func (m *Split) Type() value.ValueType { _ = "STUB: not implemented"; return *new(value.ValueType) }
 func (m *Split) Validate(n *expr.FuncNode) (expr.EvaluatorFunc, error) {
-	if len(n.Args) != 2 {
-		return nil, fmt.Errorf(`Expected 2 args for split("apples,oranges",",") but got %s`, n)
-	}
-	return splitEval, nil
+	_ = "STUB: not implemented"
+	return *new(expr.EvaluatorFunc), nil
 }
 
 func splitEval(ctx expr.EvalContext, vals []value.Value) (value.Value, bool) {
-
-	sv, ok := value.ValueToString(vals[0])
-	splitBy, splitByOk := value.ValueToString(vals[1])
-	if !ok || !splitByOk {
-		return value.NewStringsValue(make([]string, 0)), false
-	}
-	if sv == "" {
-		return value.NewStringsValue(make([]string, 0)), false
-	}
-	if splitBy == "" {
-		return value.NewStringsValue(make([]string, 0)), false
-	}
-	return value.NewStringsValue(strings.Split(sv, splitBy)), true
+	_ = "STUB: not implemented"
+	return *new(value.Value), false
 }
 
 // StringIndex a string, removing leading/trailing whitespace
 //
-//    string.index("apples, oranges ", ",") => 6
-//    string.index("apples, oranges ", "X") => -1, false
-//
+//	string.index("apples, oranges ", ",") => 6
+//	string.index("apples, oranges ", "X") => -1, false
 type StringIndex struct{}
 
-func (m *StringIndex) Type() value.ValueType { return value.IntType }
-func (m *StringIndex) Validate(n *expr.FuncNode) (expr.EvaluatorFunc, error) {
-	if len(n.Args) != 2 {
-		return nil, fmt.Errorf(`Expected 2 args for string.index(arg, ",") but got %s`, n)
-	}
-	return stringIndexEval, nil
+func (m *StringIndex) Type() value.ValueType {
+	_ = "STUB: not implemented"
+	return *new(value.ValueType)
 }
-func stringIndexEval(ctx expr.EvalContext, vals []value.Value) (value.Value, bool) {
-	if vals[0] == nil || vals[0].Err() || vals[0].Nil() {
-		return nil, false
-	}
-	retVal := strings.Index(vals[0].ToString(), vals[1].ToString())
-	if retVal >= 0 {
-		return value.NewIntValue(int64(retVal)), true
-	}
+func (m *StringIndex) Validate(n *expr.FuncNode) (expr.EvaluatorFunc, error) {
+	_ = "STUB: not implemented"
+	return *new(expr.EvaluatorFunc), nil
+}
 
-	return nil, false
+func stringIndexEval(ctx expr.EvalContext, vals []value.Value) (value.Value, bool) {
+	_ = "STUB: not implemented"
+	return *new(value.Value), false
 }
 
 // SubString from a given string, use integers to describe the start, [stop]
 // of substring to extract.
 //
-//    string.substr("apples, oranges ", 0, 3) => "app", true
-//    string.substr("apple", 3)               => "le", true
-//    string.substr("apple", 30, 500)         => nil, false
-//
+//	string.substr("apples, oranges ", 0, 3) => "app", true
+//	string.substr("apple", 3)               => "le", true
+//	string.substr("apple", 30, 500)         => nil, false
 type SubString struct{}
 
-func (m *SubString) Type() value.ValueType { return value.StringType }
+func (m *SubString) Type() value.ValueType { _ = "STUB: not implemented"; return *new(value.ValueType) }
 func (m *SubString) Validate(n *expr.FuncNode) (expr.EvaluatorFunc, error) {
-	if len(n.Args) < 2 || len(n.Args) > 3 {
-		return nil, fmt.Errorf("Expected 2 OR 3 args for string.substr(field, start, [end]) but got %s", n)
-	}
-	return subStringEval, nil
+	_ = "STUB: not implemented"
+	return *new(expr.EvaluatorFunc), nil
 }
+
 func subStringEval(ctx expr.EvalContext, vals []value.Value) (value.Value, bool) {
-
-	if vals[0] == nil || vals[0].Err() || vals[0].Nil() {
-		return nil, false
-	}
-	if vals[1] == nil || vals[1].Err() || vals[1].Nil() {
-		return nil, false
-	}
-
-	inputStr := vals[0].ToString()
-
-	idx, ok := value.ValueToInt(vals[1])
-	if !ok || idx < 0 {
-		return nil, false
-	}
-	if len(inputStr) < idx {
-		return nil, false
-	}
-
-	if len(vals) == 3 {
-		idx2, ok := value.ValueToInt(vals[2])
-		if !ok || idx2 < 0 {
-			return nil, false
-		}
-		if len(inputStr) < idx2 {
-			return nil, false
-		}
-		return value.NewStringValue(inputStr[idx:idx2]), true
-	}
-
-	return value.NewStringValue(inputStr[idx:]), true
+	_ = "STUB: not implemented"
+	return *new(value.Value), false
 }
 
 // Strip a string, removing leading/trailing whitespace
 //
-//    strip(split("apples, oranges ",",")) => {"apples", "oranges"}
-//    strip("apples ")                     => "apples"
-//
+//	strip(split("apples, oranges ",",")) => {"apples", "oranges"}
+//	strip("apples ")                     => "apples"
 type Strip struct{}
 
 // type is Unknown (string, or []string)
-func (m *Strip) Type() value.ValueType { return value.UnknownType }
+func (m *Strip) Type() value.ValueType { _ = "STUB: not implemented"; return *new(value.ValueType) }
 func (m *Strip) Validate(n *expr.FuncNode) (expr.EvaluatorFunc, error) {
-	if len(n.Args) != 1 {
-		return nil, fmt.Errorf(`Expected 1 args for Strip(arg) but got %s`, n)
-	}
-	return stripEval, nil
+	_ = "STUB: not implemented"
+	return *new(expr.EvaluatorFunc), nil
 }
-func stripEval(ctx expr.EvalContext, vals []value.Value) (value.Value, bool) {
 
-	switch val := vals[0].(type) {
-	case value.StringValue:
-		sv := strings.Trim(val.ToString(), " \n\t\r")
-		return value.NewStringValue(sv), true
-	case value.StringsValue:
-		svs := make([]string, val.Len())
-		for i, sv := range val.Val() {
-			svs[i] = strings.Trim(sv, " \n\t\r")
-		}
-		return value.NewStringsValue(svs), true
-	}
-	return nil, false
+func stripEval(ctx expr.EvalContext, vals []value.Value) (value.Value, bool) {
+	_ = "STUB: not implemented"
+	return *new(value.Value), false
 }
 
 // Replace a string(s).  Replace occurences of 2nd arg In first with 3rd.
 // 3rd arg "what to replace with" is optional
 //
-//     replace("/blog/index.html", "/blog","")  =>  /index.html
-//     replace("/blog/index.html", "/blog")  =>  /index.html
-//     replace("/blog/index.html", "/blog/archive/","/blog")  =>  /blog/index.html
-//     replace(item, "M")
-//
+//	replace("/blog/index.html", "/blog","")  =>  /index.html
+//	replace("/blog/index.html", "/blog")  =>  /index.html
+//	replace("/blog/index.html", "/blog/archive/","/blog")  =>  /blog/index.html
+//	replace(item, "M")
 type Replace struct{}
 
-func (m *Replace) Type() value.ValueType { return value.StringType }
+func (m *Replace) Type() value.ValueType { _ = "STUB: not implemented"; return *new(value.ValueType) }
 func (m *Replace) Validate(n *expr.FuncNode) (expr.EvaluatorFunc, error) {
-	if len(n.Args) < 2 || len(n.Args) > 3 {
-		return nil, fmt.Errorf(`Expected 2 or 3 args for Replace("apples","ap") but got %s`, n)
-	}
-	return replaceEval, nil
+	_ = "STUB: not implemented"
+	return *new(expr.EvaluatorFunc), nil
 }
 
 func replaceEval(ctx expr.EvalContext, vals []value.Value) (value.Value, bool) {
-	val1 := vals[0].ToString()
-	arg := vals[1]
-	replaceWith := ""
-	if len(vals) == 3 {
-		replaceWith = vals[2].ToString()
-	}
-	val1 = strings.Replace(val1, arg.ToString(), replaceWith, -1)
-	return value.NewStringValue(val1), true
+	_ = "STUB: not implemented"
+	return *new(value.Value), false
 }
 
 // Join items together (string concatenation)
 //
-//   join("apples","oranges",",")   => "apples,oranges"
-//   join(["apples","oranges"],",") => "apples,oranges"
-//   join("apples","oranges","")    => "applesoranges"
-//
+//	join("apples","oranges",",")   => "apples,oranges"
+//	join(["apples","oranges"],",") => "apples,oranges"
+//	join("apples","oranges","")    => "applesoranges"
 type Join struct{}
 
 // Type is string
-func (m *Join) Type() value.ValueType { return value.StringType }
+func (m *Join) Type() value.ValueType { _ = "STUB: not implemented"; return *new(value.ValueType) }
 func (m *Join) Validate(n *expr.FuncNode) (expr.EvaluatorFunc, error) {
-	if len(n.Args) < 2 {
-		return nil, fmt.Errorf(`Expected 2 or more args for Join("apples","ap") but got %s`, n)
-	}
-	return joinEval, nil
+	_ = "STUB: not implemented"
+	return *new(expr.EvaluatorFunc), nil
 }
 
 func joinEval(ctx expr.EvalContext, vals []value.Value) (value.Value, bool) {
-	sep, ok := value.ValueToString(vals[len(vals)-1])
-	if !ok {
-		return value.EmptyStringValue, false
-	}
-	args := make([]string, 0)
-	for i := 0; i < len(vals)-1; i++ {
-		switch valTyped := vals[i].(type) {
-		case value.SliceValue:
-			svals := make([]string, len(valTyped.Val()))
-			for i, sv := range valTyped.Val() {
-				svals[i] = sv.ToString()
-			}
-			args = append(args, svals...)
-		case value.StringsValue:
-			svals := make([]string, len(valTyped.Val()))
-			for i, sv := range valTyped.Val() {
-				svals[i] = sv
-			}
-			args = append(args, svals...)
-		case value.StringValue, value.NumberValue, value.IntValue:
-			val := valTyped.ToString()
-			if val == "" {
-				continue
-			}
-			args = append(args, val)
-		}
-	}
-	if len(args) == 0 {
-		return value.EmptyStringValue, false
-	}
-	return value.NewStringValue(strings.Join(args, sep)), true
+	_ = "STUB: not implemented"
+	return *new(value.Value), false
 }
 
 // HasPrefix string evaluation to see if string begins with
 //
-//   hasprefix("apples","ap")   => true
-//   hasprefix("apples","o")   => false
-//
+//	hasprefix("apples","ap")   => true
+//	hasprefix("apples","o")   => false
 type HasPrefix struct{}
 
 // Type bool
-func (m *HasPrefix) Type() value.ValueType { return value.BoolType }
+func (m *HasPrefix) Type() value.ValueType { _ = "STUB: not implemented"; return *new(value.ValueType) }
 func (m *HasPrefix) Validate(n *expr.FuncNode) (expr.EvaluatorFunc, error) {
-	if len(n.Args) != 2 {
-		return nil, fmt.Errorf(`Expected 2 args for HasPrefix("apples","ap") but got %s`, n)
-	}
-	return hasPrefixEval, nil
+	_ = "STUB: not implemented"
+	return *new(expr.EvaluatorFunc), nil
 }
+
 func hasPrefixEval(ctx expr.EvalContext, vals []value.Value) (value.Value, bool) {
-	prefixStr := vals[1].ToString()
-	if len(prefixStr) == 0 {
-		return value.BoolValueFalse, false
-	}
-	return value.NewBoolValue(strings.HasPrefix(vals[0].ToString(), prefixStr)), true
+	_ = "STUB: not implemented"
+	return *new(value.Value), false
 }
 
 // HasSuffix string evaluation to see if string ends with
 //
-//   hassuffix("apples","es")   => true
-//   hassuffix("apples","e")   => false
-//
+//	hassuffix("apples","es")   => true
+//	hassuffix("apples","e")   => false
 type HasSuffix struct{}
 
 // Type bool
-func (m *HasSuffix) Type() value.ValueType { return value.BoolType }
+func (m *HasSuffix) Type() value.ValueType { _ = "STUB: not implemented"; return *new(value.ValueType) }
 func (m *HasSuffix) Validate(n *expr.FuncNode) (expr.EvaluatorFunc, error) {
-	if len(n.Args) != 2 {
-		return nil, fmt.Errorf(`Expected 2 args for HasSuffix("apples","es") but got %s`, n)
-	}
-	return hasSuffixEval, nil
+	_ = "STUB: not implemented"
+	return *new(expr.EvaluatorFunc), nil
 }
+
 func hasSuffixEval(ctx expr.EvalContext, vals []value.Value) (value.Value, bool) {
-	suffixStr := vals[1].ToString()
-	if suffixStr == "" {
-		return value.BoolValueFalse, false
-	}
-	return value.NewBoolValue(strings.HasSuffix(vals[0].ToString(), suffixStr)), true
+	_ = "STUB: not implemented"
+	return *new(value.Value), false
 }
